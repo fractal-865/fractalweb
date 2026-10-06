@@ -5,7 +5,7 @@
     <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-10 mb-11">
       <div>
         <a href="#inicio" aria-label="Fractal Host, ir al inicio">
-          <img src="/logo.webp" alt="Fractal Host" width="148" height="44" class="h-[44px] w-auto object-contain">
+          <img src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/logo.webp`} alt="Fractal Host" width="148" height="44" class="h-[44px] w-auto object-contain">
         </a>
         <p class="mt-4 text-[.88rem] max-w-[300px]">Patagonia conectada. Servicio de hosting, creación de sitios web y correo corporativo con trato humano, desde Punta Arenas para todo Chile.</p>
       </div>
@@ -17,7 +17,7 @@
           <li><a class="hover:text-cyt" href="#correo">Correo corporativo</a></li>
           <li><a class="hover:text-cyt" href="#mantencion">Mantención y seguridad web</a></li>
           <li><a class="hover:text-cyt" href="http://fractalhost.cl/cotizador.html" target="_blank" rel="noopener noreferrer">Cotizador de sitios web y mantención</a></li>
-          <li><a class="hover:text-cyt" href="/migraciones.html">Migración de sitio y correos</a></li>
+          <li><a class="hover:text-cyt" href="https://fractalhost.cl/migraciones.html">Migración de sitio y correos</a></li>
         </ul>
       </nav>
       <nav aria-label="Clientes">

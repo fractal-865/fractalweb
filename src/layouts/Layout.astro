@@ -20,8 +20,8 @@ const canonical = 'https://fractalhost.cl/';
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href={canonical} />
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-    <link rel="icon" type="image/webp" href="/logo.webp" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/sitemap.xml`} />
+    <link rel="icon" type="image/webp" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/logo.webp`} />
     <link rel="preload" as="image" href="https://fractalhost.cl/fondo-fractal-host.webp" />
     <meta name="geo.region" content="CL-MA" />
     <meta name="geo.placename" content="Punta Arenas" />
