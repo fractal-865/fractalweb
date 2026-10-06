@@ -1289,9 +1289,10 @@ function codigoLocalRespaldo(){
 async function enviarCorreo(fd){
   try{
     const resp = await fetch('cotizacion-enviar.php', {method:'POST', body: fd});
-    if(resp.status === 404) return {ok:false, msg:'no encontré cotizacion-enviar.php en el hosting'};
+    if(resp.status === 404 || resp.status === 405) return {ok:false, msg:'este hosting no ejecuta PHP (falta cotizacion-enviar.php)'};
     if(!resp.ok) return {ok:false, msg:'HTTP ' + resp.status};
     const txt = (await resp.text()).trim();
+    if(txt.charAt(0) === '<') return {ok:false, msg:'el hosting no procesa PHP (devolvió texto, no JSON)'};
     try{
       const datos = JSON.parse(txt);
       return (datos && typeof datos === 'object') ? datos : {ok:false, msg:'Respuesta no válida'};
