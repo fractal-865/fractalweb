@@ -17,6 +17,11 @@ pnpm-debug.log*
 .env
 .env.production
 
+# backend con clave SMTP — NUNCA subirlo al repositorio (es público)
+# existe en local, se copia a dist/ en cada build, pero no va a GitHub
+public/cotizador/cotizacion-enviar.php
+public/cotizador/codigos-cotizacion.json
+
 # macOS-specific files
 .DS_Store
 

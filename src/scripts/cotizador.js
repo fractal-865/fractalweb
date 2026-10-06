@@ -1288,11 +1288,18 @@ function codigoLocalRespaldo(){
 
 async function enviarCorreo(fd){
   try{
-    const resp = await fetch('enviar.php', {method:'POST', body: fd});
-    const txt = await resp.text();
-    return JSON.parse(txt);
+    const resp = await fetch('cotizacion-enviar.php', {method:'POST', body: fd});
+    if(resp.status === 404) return {ok:false, msg:'no encontré cotizacion-enviar.php en el hosting'};
+    if(!resp.ok) return {ok:false, msg:'HTTP ' + resp.status};
+    const txt = (await resp.text()).trim();
+    try{
+      const datos = JSON.parse(txt);
+      return (datos && typeof datos === 'object') ? datos : {ok:false, msg:'Respuesta no válida'};
+    }catch(e){
+      return {ok:false, msg:'Respuesta no válida del servidor'};
+    }
   }catch(err){
-    return {ok:false};
+    return {ok:false, msg:'sin backend PHP en este hosting'};
   }
 }
 
@@ -1304,7 +1311,7 @@ async function enviarSolicitud(){
 
   const honeypot = $('fh_website').value.trim();
 
-  let codigo, envioOk = false;
+  let codigo, envioOk = false, motivo = '';
   if(honeypot === ''){
     const fd = new FormData();
     fd.append('nombre', d.nombre);
@@ -1327,7 +1334,10 @@ async function enviarSolicitud(){
 
     const respuesta = await enviarCorreo(fd);
     if(respuesta && respuesta.ok && respuesta.codigo){ codigo = respuesta.codigo; envioOk = true; }
-    else codigo = codigoLocalRespaldo();
+    else {
+      codigo = (respuesta && respuesta.codigo) ? respuesta.codigo : codigoLocalRespaldo();
+      motivo = (respuesta && respuesta.msg) ? respuesta.msg : '';
+    }
   } else {
     codigo = codigoLocalRespaldo();
     envioOk = true;
@@ -1342,7 +1352,8 @@ async function enviarSolicitud(){
   $('resCodigo').textContent = codigo;
   $('estadoEnvio').innerHTML = envioOk
     ? `Te enviamos una copia por correo a <strong>${d.mail}</strong> con tu código (revisa spam si no lo ves). Nosotros también la recibimos. Te respondemos en menos de 24 h hábiles.`
-    : `Tu solicitud quedó lista con este código. Envíala por WhatsApp con un clic (botón abajo) y te respondemos en menos de 24 h hábiles.`;
+    : `Tu solicitud quedó lista con este código. Envíala por WhatsApp con un clic (botón abajo) y te respondemos en menos de 24 h hábiles.`
+      + (motivo ? `<span class="block mt-2 text-[11px] text-mut dark:text-mutd">Copia automática no disponible: ${motivo}.</span>` : '');
 
   let lineas = [
     'Hola Fractal Host, soy ' + (nombreLimpio || '(cliente)') + ' y acabo de cotizar en su sitio web.',
