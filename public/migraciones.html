@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist de Migración — Fractal Host</title>
+
+<!-- Tipografías oficiales (fontsource) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/orbitron@5/600.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/orbitron@5/700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/orbitron@5/800.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/poppins@5/300.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/poppins@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/poppins@5/500.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/poppins@5/600.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/poppins@5/700.css">
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          fh: {
+            cyan: '#00D2FF', turq: '#00D6C2', blue: '#2563EB',
+            navy: '#0B1220', navy2: '#111A2B', ice: '#E6F0F7'
+          }
+        },
+        fontFamily: {
+          display: ['Orbitron', 'sans-serif'],
+          body: ['Poppins', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  html{scroll-behavior:smooth}
+  body{background:#0B1220}
+  .grad-text{
+    background:linear-gradient(135deg,#00D2FF 0%,#2563EB 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+  }
+  .card-neon{
+    background:#111A2B;border:1px solid rgba(0,210,255,.18);
+    transition:border-color .3s ease, box-shadow .3s ease;
+  }
+  .card-neon:hover{border-color:rgba(0,210,255,.45);box-shadow:0 8px 34px rgba(0,210,255,.07)}
+  .glow-cyan{box-shadow:0 0 26px rgba(0,210,255,.20)}
+
+  /* barra de progreso */
+  .progress-fill{
+    background:linear-gradient(90deg,#00D2FF,#00D6C2 50%,#2563EB);
+    transition:width .6s cubic-bezier(.22,1,.36,1);
+    position:relative;overflow:hidden;
+  }
+  .progress-fill::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
+    transform:translateX(-100%);
+    animation:shimmer 2.4s ease-in-out infinite;
+  }
+  @keyframes shimmer{to{transform:translateX(100%)}}
+
+  /* checkbox */
+  .fh-check{display:flex;align-items:flex-start;gap:12px;cursor:pointer;user-select:none;position:relative}
+  .fh-check input{position:absolute;opacity:0;pointer-events:none}
+  .cbx{
+    flex:0 0 auto;width:26px;height:26px;border-radius:8px;
+    border:2px solid rgba(0,210,255,.45);
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(0,210,255,.04);
+    transition:all .25s ease;
+  }
+  .cbx svg{width:15px;height:15px;stroke:#0B1220;stroke-width:3.5;fill:none;
+    stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .3s ease .05s}
+  .fh-check input:checked ~ .cbx{
+    background:linear-gradient(135deg,#00D2FF,#2563EB);
+    border-color:transparent;box-shadow:0 0 16px rgba(0,210,255,.4);
+    animation:popCheck .35s ease;
+  }
+  .fh-check input:checked ~ .cbx svg{stroke-dashoffset:0}
+  .fh-check input:focus-visible ~ .cbx{outline:2px solid #00D2FF;outline-offset:2px}
+  @keyframes popCheck{0%{transform:scale(1)}45%{transform:scale(1.22)}100%{transform:scale(1)}}
+
+  /* tarjetas siempre desplegadas */
+  .acc-body{max-height:none;overflow:visible}
+
+  /* pills */
+  .pill{font-size:.66rem;font-weight:600;letter-spacing:.08em;padding:4px 12px;border-radius:999px;white-space:nowrap}
+  .pill-pending{color:#8fa2b8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)}
+  .pill-done{color:#00D6C2;background:rgba(0,214,194,.1);border:1px solid rgba(0,214,194,.45)}
+
+  /* campos */
+  .fh-input{
+    background:#0B1220;border:1px solid rgba(0,210,255,.3);border-radius:12px;
+    padding:12px 14px;color:#E6F0F7;font-family:'Poppins',sans-serif;font-size:.9rem;
+    width:100%;color-scheme:dark;
+    transition:border-color .25s ease, box-shadow .25s ease;
+  }
+  .fh-input:focus{outline:none;border-color:#00D2FF;box-shadow:0 0 0 3px rgba(0,210,255,.15)}
+  textarea.fh-input{font-size:.8rem;line-height:1.8;resize:vertical;min-height:220px}
+  textarea.fh-input.short{min-height:90px}
+  select.fh-input{appearance:none;
+    background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300D2FF' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;cursor:pointer}
+
+  /* botones copiar */
+  .copy-btn{
+    font-family:'Poppins';font-weight:600;font-size:.8rem;
+    color:#0B1220;background:linear-gradient(135deg,#00D2FF,#2563EB);
+    padding:10px 20px;border-radius:10px;border:none;cursor:pointer;
+    box-shadow:0 0 18px rgba(0,210,255,.25);
+    transition:transform .2s ease, opacity .2s ease;
+  }
+  .copy-btn:hover{transform:translateY(-2px)}
+  .copy-btn.copied{background:linear-gradient(135deg,#00D6C2,#00D2FF)}
+  .copy-mini{
+    font-family:'Poppins';font-weight:600;font-size:.72rem;
+    color:#00D2FF;background:rgba(0,210,255,.08);
+    border:1px solid rgba(0,210,255,.4);
+    padding:7px 14px;border-radius:8px;cursor:pointer;
+    transition:all .2s ease;
+    text-decoration:none;display:inline-block;
+  }
+  .copy-mini:hover{background:rgba(0,210,255,.16)}
+  .copy-mini.copied{color:#00D6C2;border-color:rgba(0,214,194,.6);background:rgba(0,214,194,.1)}
+
+  /* chips seleccionables */
+  .chip-toggle{
+    border:1px solid rgba(0,210,255,.3);color:#8fa2b8;
+    padding:8px 16px;border-radius:999px;font-size:.8rem;cursor:pointer;
+    background:rgba(0,210,255,.04);
+    transition:all .2s ease;
+    font-family:'Poppins',sans-serif;
+  }
+  .chip-toggle:hover{border-color:rgba(0,210,255,.7);color:#E6F0F7}
+  .chip-toggle.on{
+    background:linear-gradient(135deg,#00D2FF,#2563EB);
+    color:#0B1220;font-weight:600;border-color:transparent;
+    box-shadow:0 0 14px rgba(0,210,255,.35);
+  }
+
+  /* filas de planes */
+  .plan-row{
+    background:#111A2B;border:1px solid rgba(0,210,255,.15);border-radius:14px;
+    padding:14px 16px;cursor:pointer;
+    display:flex;align-items:center;gap:14px;
+    transition:all .25s ease;
+  }
+  .plan-row:hover{border-color:rgba(0,210,255,.5)}
+  .plan-row.selected{
+    border-color:transparent;
+    background:linear-gradient(#111A2B,#111A2B) padding-box,
+               linear-gradient(135deg,#00D2FF,#00D6C2 50%,#2563EB) border-box;
+    border:1px solid transparent;
+    box-shadow:0 0 24px rgba(0,210,255,.14);
+  }
+  .plan-radio{
+    flex:0 0 auto;width:20px;height:20px;border-radius:999px;
+    border:2px solid rgba(0,210,255,.4);position:relative;
+    transition:all .2s ease;
+  }
+  .plan-row.selected .plan-radio{border-color:#00D6C2}
+  .plan-row.selected .plan-radio::after{
+    content:"";position:absolute;inset:3px;border-radius:999px;
+    background:linear-gradient(135deg,#00D2FF,#00D6C2);
+    box-shadow:0 0 10px rgba(0,214,194,.6);
+  }
+  .rec-badge{
+    font-size:.58rem;font-weight:700;letter-spacing:.1em;
+    color:#0B1220;background:linear-gradient(135deg,#00D6C2,#00D2FF);
+    padding:2px 10px;border-radius:999px;margin-left:8px;white-space:nowrap;
+  }
+
+  /* slider */
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:999px;
+    background:linear-gradient(90deg,#00D2FF,#2563EB);outline:none;cursor:pointer;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:999px;
+    background:#E6F0F7;border:3px solid #00D2FF;
+    box-shadow:0 0 14px rgba(0,210,255,.6);cursor:pointer;
+    transition:transform .2s ease;
+  }
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+  input[type=range]::-moz-range-thumb{
+    width:22px;height:22px;border-radius:999px;
+    background:#E6F0F7;border:3px solid #00D2FF;
+    box-shadow:0 0 14px rgba(0,210,255,.6);cursor:pointer;
+  }
+
+  /* panel de éxito */
+  #successPanel{
+    opacity:0;transform:scale(.94) translateY(12px);pointer-events:none;
+    transition:opacity .5s ease,transform .5s cubic-bezier(.22,1,.36,1);
+  }
+  #successPanel.on{opacity:1;transform:scale(1) translateY(0);pointer-events:auto}
+  @keyframes pulseRing{
+    0%{box-shadow:0 0 0 0 rgba(0,214,194,.5)}
+    100%{box-shadow:0 0 0 22px rgba(0,214,194,0)}
+  }
+  .ready-badge{animation:pulseRing 1.6s ease-out infinite}
+
+  .confetti{position:fixed;top:-14px;width:9px;height:14px;z-index:999;pointer-events:none;
+    animation:confettiFall linear forwards}
+  @keyframes confettiFall{to{transform:translateY(105vh) rotate(720deg);opacity:.9}}
+
+  /* ===== resumen estilo videojuego ===== */
+  .lvl-node{
+    width:46px;height:46px;border-radius:12px;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Orbitron',sans-serif;font-weight:700;font-size:.95rem;
+    background:#111A2B;border:2px solid rgba(0,210,255,.3);color:#8fa2b8;
+    transition:all .3s ease;
+  }
+  .lvl-node.done{
+    border-color:transparent;color:#0B1220;
+    background:linear-gradient(135deg,#00D2FF,#00D6C2);
+    box-shadow:0 0 20px rgba(0,214,194,.45);
+  }
+  .lvl-stem{
+    flex:1;width:2px;min-height:20px;margin:4px 0;
+    background:repeating-linear-gradient(180deg,rgba(0,210,255,.45) 0 6px,transparent 6px 12px);
+  }
+  .lvl-card{
+    background:#111A2B;border:1px solid rgba(0,210,255,.15);border-radius:16px;
+    padding:18px 20px;opacity:.55;
+    transition:opacity .3s ease,border-color .3s ease,box-shadow .3s ease;
+  }
+  .lvl-card.done{
+    opacity:1;border-color:rgba(0,214,194,.5);
+    box-shadow:0 0 26px rgba(0,214,194,.10);
+  }
+  @keyframes trophyFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .trophy-float{animation:trophyFloat 3s ease-in-out infinite;display:inline-block}
+
+  /* barra inferior fija */
+  .bottom-chip{
+    flex:0 0 auto;
+    padding:5px 12px;border-radius:999px;
+    border:1px solid rgba(0,210,255,.3);background:rgba(0,210,255,.06);
+    color:#cfe3f2;font-size:.7rem;white-space:nowrap;
+    animation:chipIn .3s ease;
+  }
+  @keyframes chipIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+
+<body class="font-body text-fh-ice antialiased">
+
+<!-- ══════════════════════════════════════════════════════════
+     MENÚ FIJO (sticky) + BARRA DE PROGRESO FIJA SUPERIOR
+═══════════════════════════════════════════════════════════ -->
+<header class="sticky top-0 z-50 bg-fh-navy/85 backdrop-blur-md border-b border-fh-cyan/15">
+  <div class="max-w-5xl mx-auto px-4 md:px-6 h-16 flex items-center gap-4">
+    <a href="#checklist" class="flex items-center gap-2 shrink-0">
+      <span class="font-display font-extrabold text-2xl grad-text leading-none">∞</span>
+      <span class="font-display font-bold text-xs md:text-sm tracking-[.18em] hidden sm:inline">FRACTAL HOST</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-6 text-xs text-slate-400 ml-6">
+      <a href="#accesos" class="hover:text-fh-cyan transition">Accesos</a>
+      <a href="#planes" class="hover:text-fh-cyan transition">Planes</a>
+      <a href="#dns" class="hover:text-fh-cyan transition">DNS y correos</a>
+      <a href="#resumen" class="hover:text-fh-cyan transition">Resumen 🎮</a>
+    </nav>
+
+    <div class="ml-auto flex items-center gap-3 shrink-0">
+      <span class="text-[10px] uppercase tracking-widest text-slate-500 hidden sm:inline">Avance</span>
+      <div class="w-20 md:w-28 h-1.5 rounded-full bg-white/10 overflow-hidden">
+        <div id="barMini" class="progress-fill h-full rounded-full" style="width:0%"></div>
+      </div>
+      <span class="font-display font-bold text-sm md:text-base grad-text w-12 text-right"><span id="pctMini">0</span>%</span>
+    </div>
+  </div>
+  <div class="h-[3px] bg-white/5">
+    <div id="barMiniWide" class="progress-fill h-full" style="width:0%"></div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECCIÓN CHECKLIST DE MIGRACIÓN
+═══════════════════════════════════════════════════════════ -->
+<section id="checklist" class="pt-16 md:pt-20 pb-36 scroll-mt-20">
+  <div class="max-w-3xl mx-auto px-6">
+
+    <!-- encabezado -->
+    <div class="text-center">
+      <span class="font-display text-[11px] tracking-[.25em] uppercase text-fh-turq">Guía de migración cPanel → cPanel</span>
+      <h1 class="font-display font-bold text-2xl md:text-4xl mt-3">Checklist de tu migración</h1>
+      <p class="text-slate-400 mt-4 text-sm md:text-base max-w-xl mx-auto">
+        Completa tus datos y el checklist <span class="text-fh-cyan font-semibold">se irá marcando solo</span>.
+        Cuando la barra llegue al <span class="text-fh-cyan font-semibold">100%</span>, tu migración puede comenzar.
+        Abajo verás un resumen en vivo de todo lo que vayas completando.
+      </p>
+    </div>
+
+    <!-- barra de progreso grande -->
+    <div class="mt-10">
+      <div class="flex items-end justify-between mb-3">
+        <span id="statusText" class="text-sm text-slate-300">Partamos con tus datos 👇</span>
+        <span class="font-display font-bold text-3xl md:text-4xl grad-text"><span id="pctBig">0</span>%</span>
+      </div>
+      <div class="h-4 rounded-full bg-white/5 border border-fh-cyan/20 overflow-hidden">
+        <div id="barBig" class="progress-fill h-full rounded-full" style="width:0%"></div>
+      </div>
+      <p class="text-[11px] text-slate-500 mt-2">💾 Tu avance y tus datos quedan guardados automáticamente en este navegador.</p>
+    </div>
+
+    <!-- ════════════ 1 · TU PARTE (todo siempre desplegado) ════════════ -->
+    <div id="accesos" class="mt-12 scroll-mt-24">
+      <h2 class="font-display text-sm tracking-widest text-fh-cyan mb-5">🧑‍💼 TU PARTE <span class="text-slate-500 font-body text-xs tracking-normal">(estos pasos se marcan solos al completar los datos)</span></h2>
+      <div class="space-y-4">
+
+        <!-- Encargado -->
+        <div class="card-neon rounded-2xl overflow-hidden">
+          <div class="flex items-center gap-4 p-5 md:p-6 pb-0">
+            <label class="fh-check" onclick="event.stopPropagation()">
+              <input type="checkbox" data-key="k0" disabled>
+              <span class="cbx"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+            </label>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-display text-sm md:text-base font-semibold flex flex-wrap items-center gap-3">
+                Encargado de la migración
+                <span class="pill pill-pending" data-pill>PENDIENTE</span>
+              </h3>
+              <p class="text-xs md:text-sm text-slate-400 mt-1.5">Cuéntanos quién será la persona con quien coordinaremos todo el proceso.</p>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="px-5 md:px-6 pb-6 pt-5">
+              <div class="grid sm:grid-cols-3 gap-4">
+                <div>
+                  <label for="encName" class="text-xs text-slate-400 block mb-2">👤 Nombre del encargado</label>
+                  <input type="text" id="encName" class="fh-input" placeholder="ej: María González">
+                </div>
+                <div>
+                  <label for="encMail" class="text-xs text-slate-400 block mb-2">✉️ Correo de contacto</label>
+                  <input type="email" id="encMail" class="fh-input" placeholder="ej: maria@tuempresa.cl">
+                </div>
+                <div>
+                  <label for="encPhone" class="text-xs text-slate-400 block mb-2">📱 Teléfono / WhatsApp</label>
+                  <input type="tel" id="encPhone" class="fh-input" placeholder="ej: +56 9 1234 5678">
+                </div>
+              </div>
+
+              <p class="text-xs text-slate-400 mt-5 mb-3">📣 ¿Cómo prefieres que te avisemos los avances de la migración?</p>
+              <div id="channelGroup" class="flex flex-wrap gap-2">
+                <button type="button" class="chip-toggle" data-channel="WhatsApp">📱 WhatsApp</button>
+                <button type="button" class="chip-toggle" data-channel="Correo">✉️ Correo</button>
+                <button type="button" class="chip-toggle" data-channel="Teléfono">📞 Teléfono</button>
+              </div>
+
+              <p class="text-[11px] text-slate-500 mt-4">✓ Este paso se marca solo cuando completes el nombre, un correo válido, un teléfono y elijas tu canal de aviso.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acceso hosting de origen -->
+        <div class="card-neon rounded-2xl overflow-hidden">
+          <div class="flex items-center gap-4 p-5 md:p-6 pb-0">
+            <label class="fh-check" onclick="event.stopPropagation()">
+              <input type="checkbox" data-key="k1" disabled>
+              <span class="cbx"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+            </label>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-display text-sm md:text-base font-semibold flex flex-wrap items-center gap-3">
+                Acceso al hosting de origen
+                <span class="pill pill-pending" data-pill>PENDIENTE</span>
+              </h3>
+              <p class="text-xs md:text-sm text-slate-400 mt-1.5">Los datos de tu panel actual (cPanel, Plesk, etc.). Primero elige cómo nos los enviarás.</p>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="px-5 md:px-6 pb-6 pt-5">
+
+              <p class="text-xs text-slate-400 mb-3">¿Cómo nos entregarás estos datos?</p>
+              <div class="flex flex-wrap gap-2 mb-5" id="modeHostGroup">
+                <button type="button" class="chip-toggle mode-btn on" data-target="host" data-mode="aqui">✍️ Completar aquí</button>
+                <button type="button" class="chip-toggle mode-btn" data-target="host" data-mode="correo">📧 Los enviaré por correo</button>
+              </div>
+
+              <!-- modo: completar aquí -->
+              <div id="hostAqui">
+                <textarea id="txtHosting" class="fh-input" spellcheck="false"></textarea>
+                <p class="text-[11px] text-slate-500 mt-2">
+                  <span id="countHosting" class="font-semibold">0</span> / 3 caracteres añadidos —
+                  <span id="stateHosting">completa tus datos y se marcará solo ✓</span>
+                </p>
+                <div class="flex flex-wrap items-center gap-3 mt-3">
+                  <button class="copy-mini" data-copyblock="txtHosting">📋 Copiar este bloque</button>
+                  <span class="text-[11px] text-slate-500">Puedes pegarlo luego en un bloc de notas o enviarlo por WhatsApp.</span>
+                </div>
+              </div>
+
+              <!-- modo: correo -->
+              <div id="hostCorreo" class="hidden">
+                <div class="rounded-xl p-5" style="background:rgba(0,210,255,.05);border:1px solid rgba(0,210,255,.2)">
+                  <p class="text-sm text-slate-300">Copia este mensaje, pégalo en tu correo y envíalo a <strong class="text-fh-cyan">hola@fractalhost.cl</strong> con tus datos:</p>
+                  <div class="flex flex-wrap items-center gap-3 mt-4">
+                    <button class="copy-btn !text-xs !px-5 !py-2.5" id="copyMailHost">📋 Copiar mensaje</button>
+                    <a class="copy-mini" id="mailtoHost" href="#">✉️ Abrir mi correo</a>
+                  </div>
+                </div>
+                <label class="fh-check card-neon rounded-xl p-4 mt-4">
+                  <input type="checkbox" id="sentHost">
+                  <span class="cbx"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+                  <span class="text-sm">Ya envié el correo con mis datos de acceso ✓</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acceso dominio / DNS -->
+        <div class="card-neon rounded-2xl overflow-hidden">
+          <div class="flex items-center gap-4 p-5 md:p-6 pb-0">
+            <label class="fh-check" onclick="event.stopPropagation()">
+              <input type="checkbox" data-key="k2" disabled>
+              <span class="cbx"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+            </label>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-display text-sm md:text-base font-semibold flex flex-wrap items-center gap-3">
+                Acceso al dominio (para el cambio de DNS)
+                <span class="pill pill-pending" data-pill>PENDIENTE</span>
+              </h3>
+              <p class="text-xs md:text-sm text-slate-400 mt-1.5">Los datos de donde está registrado tu dominio (NIC Chile u otro). Primero elige cómo nos los enviarás.</p>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="px-5 md:px-6 pb-6 pt-5">
+
+              <p class="text-xs text-slate-400 mb-3">¿Cómo nos entregarás estos datos?</p>
+              <div class="flex flex-wrap gap-2 mb-5" id="modeDomGroup">
+                <button type="button" class="chip-toggle mode-btn on" data-target="dom" data-mode="aqui">✍️ Completar aquí</button>
+                <button type="button" class="chip-toggle mode-btn" data-target="dom" data-mode="correo">📧 Los enviaré por correo</button>
+              </div>
+
+              <!-- modo: completar aquí -->
+              <div id="domAqui">
+                <textarea id="txtDominio" class="fh-input" spellcheck="false"></textarea>
+                <p class="text-[11px] text-slate-500 mt-2">
+                  <span id="countDominio" class="font-semibold">0</span> / 3 caracteres añadidos —
+                  <span id="stateDominio">completa tus datos y se marcará solo ✓</span>
+                </p>
+                <div class="flex flex-wrap items-center gap-3 mt-3">
+                  <button class="copy-mini" data-copyblock="txtDominio">📋 Copiar este bloque</button>
+                  <span class="text-[11px] text-slate-500">Con esto nosotros gestionamos el cambio de DNS por ti.</span>
+                </div>
+              </div>
+
+              <!-- modo: correo -->
+              <div id="domCorreo" class="hidden">
+                <div class="rounded-xl p-5" style="background:rgba(0,210,255,.05);border:1px solid rgba(0,210,255,.2)">
+                  <p class="text-sm text-slate-300">Copia este mensaje, pégalo en tu correo y envíalo a <strong class="text-fh-cyan">hola@fractalhost.cl</strong> con tus datos:</p>
+                  <div class="flex flex-wrap items-center gap-3 mt-4">
+                    <button class="copy-btn !text-xs !px-5 !py-2.5" id="copyMailDom">📋 Copiar mensaje</button>
+                    <a class="copy-mini" id="mailtoDom" href="#">✉️ Abrir mi correo</a>
+                  </div>
+                </div>
+                <label class="fh-check card-neon rounded-xl p-4 mt-4">
+                  <input type="checkbox" id="sentDom">
+                  <span class="cbx"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+                  <span class="text-sm">Ya envié el correo con mis datos de acceso ✓</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Agendamiento -->
+        <div id="agenda" class="card-neon rounded-2xl overflow-hidden scroll-mt-24">
+          <div class="flex items-center gap-4 p-5 md:p-6 pb-0">
+            <label class="fh-check" onclick="event.stopPropagation()">
+              <input type="checkbox" data-key="k3" disabled>
+              <span class="cbx"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+            </label>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-display text-sm md:text-base font-semibold flex flex-wrap items-center gap-3">
+                Día y horario acordados
+                <span class="pill pill-pending" data-pill>PENDIENTE</span>
+              </h3>
+              <p class="text-xs md:text-sm text-slate-400 mt-1.5">Elige el momento de tu migración. Ideal: un día y hora de poca actividad para tu negocio.</p>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="px-5 md:px-6 pb-6 pt-5">
+              <div class="grid sm:grid-cols-3 gap-4">
+                <div>
+                  <label class="text-xs text-slate-400 block mb-2">📅 Día de la migración</label>
+                  <input type="date" id="migDate" class="fh-input">
+                </div>
+                <div>
+                  <label class="text-xs text-slate-400 block mb-2">🗓 Día de la semana</label>
+                  <div id="weekdayBox" class="fh-input capitalize flex items-center text-slate-500">—</div>
+                </div>
+                <div>
+                  <label for="migTime" class="text-xs text-slate-400 block mb-2">🕒 Hora (bloques de 30 min)</label>
+                  <select id="migTime" class="fh-input">
+                    <option value="">— Selecciona hora —</option>
+                  </select>
+                </div>
+              </div>
+
+              <div id="schedConfirm" class="hidden mt-5 rounded-xl p-5 text-center"
+                   style="background:rgba(0,214,194,.08);border:1px solid rgba(0,214,194,.4)">
+                <p class="text-xs uppercase tracking-widest text-fh-turq font-semibold">Tu migración quedó agendada</p>
+                <p id="schedText" class="font-display font-semibold text-base md:text-lg mt-2 capitalize"></p>
+                <a id="waSchedule" href="#" target="_blank" rel="noopener"
+                   class="inline-block mt-4 text-xs font-semibold text-fh-navy bg-gradient-to-r from-fh-turq to-fh-cyan px-5 py-2.5 rounded-lg glow-cyan hover:opacity-90 transition">
+                  ✅ Confirmar por WhatsApp
+                </a>
+              </div>
+              <p id="schedHint" class="text-xs text-slate-500 mt-4">✓ Este paso se marca solo cuando elijas el día y la hora.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuración de correos -->
+        <div class="card-neon rounded-2xl overflow-hidden">
+          <div class="flex items-center gap-4 p-5 md:p-6 pb-0">
+            <label class="fh-check" onclick="event.stopPropagation()">
+              <input type="checkbox" data-key="k7" disabled>
+              <span class="cbx"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+            </label>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-display text-sm md:text-base font-semibold flex flex-wrap items-center gap-3">
+                ¿Cómo lees tus correos hoy?
+                <span class="pill pill-pending" data-pill>PENDIENTE</span>
+              </h3>
+              <p class="text-xs md:text-sm text-slate-400 mt-1.5">Así dejamos tus cuentas funcionando igual después de la migración.</p>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="px-5 md:px-6 pb-6 pt-5">
+              <p class="text-xs text-slate-400 mb-3">Protocolo de tus cuentas (elige una):</p>
+              <div id="protoGroup" class="flex flex-wrap gap-2">
+                <button type="button" class="chip-toggle" data-proto="POP3">POP3</button>
+                <button type="button" class="chip-toggle" data-proto="IMAP">IMAP</button>
+                <button type="button" class="chip-toggle" data-proto="Webmail">Webmail</button>
+                <button type="button" class="chip-toggle" data-proto="No estoy seguro">No estoy seguro</button>
+              </div>
+              <p class="text-xs text-slate-400 mt-5 mb-3">¿Desde dónde los revisas? (elige todas las que uses):</p>
+              <div id="appGroup" class="flex flex-wrap gap-2">
+                <button type="button" class="chip-toggle" data-app="Outlook">Outlook</button>
+                <button type="button" class="chip-toggle" data-app="Gmail">Gmail</button>
+                <button type="button" class="chip-toggle" data-app="Correo del celular">Correo del celular</button>
+                <button type="button" class="chip-toggle" data-app="Webmail">Webmail</button>
+                <button type="button" class="chip-toggle" data-app="Otro">Otro</button>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-4">✓ Este paso se marca solo cuando elijas el protocolo y al menos una aplicación. Si no sabes qué es POP3 o IMAP, marca “No estoy seguro” y nosotros lo revisamos por ti.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visita técnica: descarga de correos -->
+        <div class="card-neon rounded-2xl overflow-hidden">
+          <div class="flex items-center gap-4 p-5 md:p-6 pb-0">
+            <label class="fh-check" onclick="event.stopPropagation()">
+              <input type="checkbox" data-key="k8" disabled>
+              <span class="cbx"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+            </label>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-display text-sm md:text-base font-semibold flex flex-wrap items-center gap-3">
+                Visita técnica: descarga de correos
+                <span class="pill pill-pending" data-pill>PENDIENTE</span>
+              </h3>
+              <p class="text-xs md:text-sm text-slate-400 mt-1.5">Solo si tu servidor ocupa mucho espacio y hay que descargar correos antes de migrar.</p>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="px-5 md:px-6 pb-6 pt-5">
+              <div class="rounded-xl p-4 mb-5 text-sm text-slate-300" style="background:rgba(0,210,255,.05);border:1px solid rgba(0,210,255,.2)">
+                💡 Cuando una cuenta ocupa mucho espacio, a veces conviene <strong class="text-fh-ice">descargar los correos a un computador</strong> antes de la migración,
+                para que todo viaje liviano y seguro. Ese trabajo <strong class="text-fh-ice">lo hace en terreno una persona de nuestro equipo</strong>:
+                vamos hasta tu oficina, descargamos los correos y dejamos todo listo.
+              </div>
+
+              <p class="text-xs text-slate-400 mb-3">¿Necesitas esta visita?</p>
+              <div id="visitaGroup" class="flex flex-wrap gap-2 mb-5">
+                <button type="button" class="chip-toggle" data-visita="si">🧑‍🔧 Sí, necesito la visita</button>
+                <button type="button" class="chip-toggle" data-visita="no">✅ No la necesito</button>
+              </div>
+
+              <!-- opción: no la necesito -->
+              <div id="visitaNo" class="hidden">
+                <div class="rounded-xl p-4 text-sm text-fh-turq" style="background:rgba(0,214,194,.07);border:1px solid rgba(0,214,194,.35)">
+                  Perfecto. Este paso quedó listo automáticamente ✓ — si más adelante vemos que hace falta, lo coordinamos nosotros.
+                </div>
+              </div>
+
+              <!-- opción: sí la necesito -->
+              <div id="visitaSi" class="hidden">
+                <p class="text-xs text-slate-400 mb-3">📆 Agenda el día y la hora en que te visitamos:</p>
+                <div class="grid sm:grid-cols-3 gap-4">
+                  <div>
+                    <label class="text-xs text-slate-400 block mb-2">📅 Día de la visita</label>
+                    <input type="date" id="visDate" class="fh-input">
+                  </div>
+                  <div>
+                    <label class="text-xs text-slate-400 block mb-2">🗓 Día de la semana</label>
+                    <div id="visWeekdayBox" class="fh-input capitalize flex items-center text-slate-500">—</div>
+                  </div>
+                  <div>
+                    <label for="visTime" class="text-xs text-slate-400 block mb-2">🕒 Hora (bloques de 30 min)</label>
+                    <select id="visTime" class="fh-input">
+                      <option value="">— Selecciona hora —</option>
+                    </select>
+                  </div>
+                </div>
+
+                <p class="text-xs text-slate-400 mt-5 mb-3">📋 Datos que nuestro técnico necesita antes de ir:</p>
+                <div class="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label for="visCuentas" class="text-xs text-slate-400 block mb-2">📧 Cantidad de cuentas de correo a descargar</label>
+                    <input type="number" id="visCuentas" class="fh-input" min="1" placeholder="ej: 5">
+                  </div>
+                  <div>
+                    <label for="visCiudad" class="text-xs text-slate-400 block mb-2">🏙 Ciudad</label>
+                    <input type="text" id="visCiudad" class="fh-input" placeholder="ej: Punta Arenas">
+                  </div>
+                  <div class="sm:col-span-2">
+                    <label for="visDir" class="text-xs text-slate-400 block mb-2">📍 Dirección de la visita</label>
+                    <input type="text" id="visDir" class="fh-input" placeholder="ej: Av. Colón 1234, oficina 3">
+                  </div>
+                  <div class="sm:col-span-2">
+                    <label for="visRef" class="text-xs text-slate-400 block mb-2">📝 Referencias para nuestro técnico</label>
+                    <textarea id="visRef" class="fh-input short" placeholder="ej: dónde estacionar, quién lo recibirá, si hay que subir escaleras, si el computador usa Outlook…"></textarea>
+                  </div>
+                </div>
+
+                <p class="text-[11px] text-slate-500 mt-4">✓ Este paso se marca solo cuando completes la fecha, la hora, la cantidad de cuentas y la dirección.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════ 2 · PLANES DE HOSTING ════════════ -->
+    <div id="planes" class="mt-12 scroll-mt-24">
+      <h2 class="font-display text-sm tracking-widest text-fh-cyan mb-5">🧭 TU PLAN DE HOSTING</h2>
+
+      <div class="card-neon rounded-2xl overflow-hidden">
+        <div class="flex items-center gap-4 p-5 md:p-6 pb-0">
+          <label class="fh-check" onclick="event.stopPropagation()">
+            <input type="checkbox" data-key="k6" disabled>
+            <span class="cbx"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+          </label>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-display text-sm md:text-base font-semibold flex flex-wrap items-center gap-3">
+              Elige el plan donde quedará tu cuenta
+              <span class="pill pill-pending" data-pill>PENDIENTE</span>
+            </h3>
+            <p class="text-xs md:text-sm text-slate-400 mt-1.5">Mueve la barra según cuánto espacio ocupas hoy y marca el plan que quieres contratar.</p>
+          </div>
+        </div>
+        <div class="acc-body">
+          <div class="px-5 md:px-6 pb-6 pt-5">
+
+            <!-- slider de espacio -->
+            <div class="rounded-xl p-5 mb-5" style="background:rgba(0,210,255,.05);border:1px solid rgba(0,210,255,.2)">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                <label for="spaceRange" class="text-sm font-medium">💾 ¿Cuánto espacio ocupa tu servidor actual?</label>
+                <span class="font-display font-bold text-sm grad-text"><span id="spaceVal">1.000</span> MB <span class="text-slate-500 font-body font-normal text-xs">≈ <span id="spaceGb">1,0</span> GB</span></span>
+              </div>
+              <input type="range" id="spaceRange" min="100" max="10000" step="100" value="1000">
+              <div class="flex justify-between text-[10px] text-slate-500 mt-2">
+                <span>100 MB</span><span>2,5 GB</span><span>5 GB</span><span>7,5 GB</span><span>10 GB</span>
+              </div>
+            </div>
+
+            <!-- lista de planes -->
+            <div class="hidden sm:grid grid-cols-[1.5fr_1fr_1fr_auto] gap-3 px-4 pb-2 text-[10px] uppercase tracking-widest text-slate-500">
+              <span>Plan</span><span>Espacio</span><span>Correos</span><span class="text-right">Precio anual</span>
+            </div>
+            <div id="plansList" class="space-y-2"></div>
+
+            <p id="bigPlanHint" class="hidden text-xs text-fh-turq mt-3">Si tu cuenta ocupa más de 90 GB, escríbenos y armamos un plan a tu medida.</p>
+            <p class="text-[11px] text-slate-500 mt-4">Valores anuales en CLP (valor líquido, sin retención · +15,25% en boleta de honorarios). ✦ Te sugerimos un plan con un margen de espacio para que crezcas tranquilo.</p>
+
+            <div class="mt-5">
+              <a href="https://fractalhost.cl/" target="_blank" rel="noopener"
+                 class="flex items-center gap-3 rounded-xl p-4 transition hover:-translate-y-0.5"
+                 style="background:linear-gradient(135deg,rgba(0,210,255,.10),rgba(37,99,235,.10));border:1px solid rgba(0,210,255,.35)">
+                <span class="text-xl">🔍</span>
+                <span class="flex-1 text-xs md:text-sm text-slate-300">¿Quieres ver el detalle completo de cada plan (transferencia, bases de datos, precios bienales y trienales)?</span>
+                <span class="font-display text-[11px] font-bold text-fh-cyan whitespace-nowrap">Nuestros Planes de Hosting ↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════ 3 · NUESTRA PARTE ════════════ -->
+    <div class="mt-12">
+      <h2 class="font-display text-sm tracking-widest text-fh-turq mb-5">🛠 NUESTRA PARTE <span class="text-slate-500 font-body text-xs tracking-normal">(la dejamos lista por ti)</span></h2>
+      <div class="space-y-3">
+        <label class="fh-check card-neon rounded-xl p-4 md:p-5 items-center">
+          <input type="checkbox" data-key="f1">
+          <span class="cbx"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+          <span class="text-sm">Tu cuenta nueva ya está creada en nuestro servidor cPanel.</span>
+          <span class="pill pill-pending ml-auto" data-pill>PENDIENTE</span>
+        </label>
+        <label class="fh-check card-neon rounded-xl p-4 md:p-5 items-center">
+          <input type="checkbox" data-key="f2">
+          <span class="cbx"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+          <span class="text-sm">Espacio disponible y sistema de respaldos verificados.</span>
+          <span class="pill pill-pending ml-auto" data-pill>PENDIENTE</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ════════════ 4 · DNS Y CORREOS ════════════ -->
+    <div id="dns" class="mt-12 scroll-mt-24">
+      <h2 class="font-display text-sm tracking-widest text-fh-cyan mb-5">🌐 LA MIGRACIÓN Y EL CAMBIO DE DNS</h2>
+      <div class="space-y-4">
+
+        <!-- Cambio DNS -->
+        <div class="card-neon rounded-2xl p-5 md:p-6">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="text-2xl">🔀</span>
+            <h3 class="font-display text-sm md:text-base font-semibold flex-1">Nosotros nos encargamos del cambio de DNS</h3>
+            <span id="dnsPill" class="pill pill-pending">POR DEFINIR</span>
+          </div>
+          <p class="text-sm text-slate-400 mt-3">
+            Tú no tienes que tocar nada. El día acordado, nuestro equipo apuntará tu dominio a
+            <span class="text-fh-cyan">ns1.fractalhost.cl</span> y <span class="text-fh-cyan">ns2.fractalhost.cl</span>,
+            y monitorearemos el proceso de principio a fin.
+          </p>
+          <p id="dnsWhen" class="text-sm mt-3 text-slate-500 italic">
+            📆 Fecha de ejecución: aún por definir — <a href="#agenda" class="text-fh-cyan underline underline-offset-2">elige tu día y hora</a>.
+          </p>
+        </div>
+
+        <!-- Propagación (siempre desplegado) -->
+        <div class="card-neon rounded-2xl overflow-hidden">
+          <div class="flex items-center gap-4 p-5 md:p-6 pb-0">
+            <span class="text-2xl">📧</span>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-display text-sm md:text-base font-semibold flex flex-wrap items-center gap-3">
+                Propagación de DNS y tus correos: ¿qué esperar?
+                <span class="pill pill-pending" data-pill>PENDIENTE</span>
+              </h3>
+              <p class="text-xs md:text-sm text-slate-400 mt-1.5">Léelo con calma: así sabrás exactamente qué pasa después del cambio.</p>
+            </div>
+          </div>
+          <div class="acc-body">
+            <div class="px-5 md:px-6 pb-6 pt-4 space-y-4 text-sm text-slate-400">
+              <p>Una vez que cambiamos el DNS, la actualización se va <strong class="text-fh-ice">propagando por internet</strong>:
+              puede tardar desde unos minutos hasta un par de horas (en casos aislados, hasta 48 h).</p>
+
+              <p>📬 Durante ese período es <strong class="text-fh-ice">completamente normal que algunos correos entrantes
+              sigan llegando al servidor antiguo</strong>. No es un error: es parte del proceso.</p>
+
+              <p>🛡️ <strong class="text-fh-ice">¿Cómo lo manejamos nosotros?</strong> Mientras tu cuenta antigua siga activa,
+              nosotros todavía tenemos acceso a ella: si algún correo llega durante la transición,
+              <strong class="text-fh-ice">ingresamos de forma manual vía webmail</strong> para revisarlo,
+              de modo que ningún mensaje quede sin ver.</p>
+
+              <label class="fh-check card-neon rounded-xl p-4 mt-2">
+                <input type="checkbox" data-key="k5">
+                <span class="cbx"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+                <span class="text-sm">Leí y entendí cómo funciona la propagación y el manejo de correos.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════ 5 · RESUMEN FINAL + COPIAR TODO ════════════ -->
+    <div class="mt-12">
+      <div class="rounded-2xl p-6 md:p-8 text-center glow-cyan" style="background:#111A2B;border:1px solid rgba(0,210,255,.4)">
+        <span class="text-3xl">🧾</span>
+        <h3 class="font-display font-semibold text-base md:text-lg mt-3">Resumen final de tu migración</h3>
+        <p class="text-sm text-slate-400 mt-2 max-w-md mx-auto">
+          Con un solo botón copias <strong class="text-fh-ice">todo lo que completaste</strong>: encargado, accesos, agendamiento, plan, correos y visita técnica.
+          Después lo pegas donde quieras (bloc de notas, WhatsApp o correo).
+        </p>
+        <button id="copyAllBtn" class="copy-btn mt-5 !px-8 !py-3.5 !text-sm">📋 Copiar todo el contenido</button>
+        <p class="text-[11px] text-slate-500 mt-3">Envíalo a hola@fractalhost.cl o por WhatsApp al +56 9 5413 2014.</p>
+      </div>
+    </div>
+
+    <!-- reiniciar -->
+    <div class="text-center mt-8">
+      <button id="resetBtn" class="text-xs text-slate-500 hover:text-fh-cyan transition underline underline-offset-4">↺ Reiniciar checklist</button>
+    </div>
+
+    <!-- panel de éxito -->
+    <div id="successPanel" class="mt-10 rounded-2xl p-8 md:p-10 text-center glow-cyan" style="background:#111A2B;border:1px solid rgba(0,214,194,.6)">
+      <div class="ready-badge w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-fh-cyan to-fh-turq flex items-center justify-center">
+        <svg class="w-8 h-8 text-fh-navy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>
+      </div>
+      <h3 class="font-display font-bold text-xl md:text-2xl mt-6">¡Checklist completo! 🎉</h3>
+      <p class="text-slate-300 text-sm md:text-base mt-3 max-w-md mx-auto">
+        Ya está todo lo necesario para producir tu migración<span id="successSched" class="hidden">, agendada para <strong id="successSchedText" class="text-fh-turq capitalize"></strong></span>.
+        Avísanos para dar el vamos. Respondemos en <strong class="text-fh-ice">2 a 3 horas</strong> en horario de oficina.
+      </p>
+      <a id="waReady" href="#" target="_blank" rel="noopener"
+         class="inline-block mt-6 font-display text-sm tracking-wide px-8 py-4 rounded-xl text-fh-navy font-bold bg-gradient-to-r from-fh-turq to-fh-cyan glow-cyan hover:opacity-90 transition">
+        🚀 Avisar que estamos listos
+      </a>
+    </div>
+
+    <!-- ════════════ 6 · RESUMEN FINAL ESTILO VIDEOJUEGO ════════════ -->
+    <div id="resumen" class="mt-16 scroll-mt-24">
+      <div class="text-center mb-8">
+        <span class="font-display text-[11px] tracking-[.25em] uppercase text-fh-turq">Vista paso a paso</span>
+        <h2 class="font-display font-bold text-xl md:text-3xl mt-3">🎮 Tu misión de migración</h2>
+        <p class="text-slate-400 mt-3 text-sm max-w-xl mx-auto">
+          Cada nivel se desbloquea con los datos que vas completando. Llega al nivel final y tu migración estará lista para partir.
+        </p>
+      </div>
+
+      <!-- barra XP -->
+      <div class="card-neon rounded-2xl p-5 md:p-6 flex flex-wrap items-center gap-4 mb-8">
+        <span class="text-3xl">🕹️</span>
+        <div class="flex-1 min-w-[160px]">
+          <p class="font-display text-sm font-semibold tracking-wide">TU PROGRESO DE JUEGO</p>
+          <p class="text-xs text-slate-400 mt-1">Rango actual: <span id="rangoTxt" class="text-fh-turq font-semibold">Recluta</span></p>
+          <div class="h-2 rounded-full bg-white/5 overflow-hidden mt-2">
+            <div id="xpBar" class="progress-fill h-full rounded-full" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="text-right shrink-0">
+          <p class="font-display font-bold text-2xl md:text-3xl grad-text"><span id="xpTxt">0</span> XP</p>
+          <p class="text-[10px] text-slate-500 uppercase tracking-widest">de 100</p>
+        </div>
+      </div>
+
+      <!-- mapa de niveles -->
+      <div id="gameMap"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     BARRA INFERIOR FIJA · RESUMEN EN VIVO
+═══════════════════════════════════════════════════════════ -->
+<div class="fixed bottom-0 left-0 right-0 z-40 bg-fh-navy/90 backdrop-blur-md border-t border-fh-cyan/20">
+  <div class="max-w-5xl mx-auto px-4 py-2.5 flex items-center gap-4 overflow-x-auto">
+    <div class="flex items-center gap-2 shrink-0">
+      <span class="font-display font-bold text-sm grad-text w-11"><span id="pctBottom">0</span>%</span>
+      <div class="w-14 h-1.5 rounded-full bg-white/10 overflow-hidden">
+        <div id="barBottom" class="progress-fill h-full rounded-full" style="width:0%"></div>
+      </div>
+    </div>
+    <span class="text-[10px] uppercase tracking-widest text-slate-500 shrink-0 hidden sm:inline">Resumen en vivo ·</span>
+    <div id="summaryChips" class="flex items-center gap-2">
+      <span class="text-[11px] text-slate-500 whitespace-nowrap">Empieza a completar tus datos arriba 👆</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var STORAGE_KEY = 'fh-migracion-checklist-v8';
+  var MIN_ADDED = 3;
+
+  /* ---------- plantillas ---------- */
+  var TEMPLATE_HOSTING =
+    '=== ACCESOS AL HOSTING DE ORIGEN ===\n\n' +
+    '• Tipo de panel (cPanel / Plesk / otro):\n' +
+    '• URL de acceso al panel: https://\n' +
+    '• Usuario:\n' +
+    '• Contraseña:\n' +
+    '• Dominio de la cuenta:\n\n' +
+    'Observaciones:';
+
+  var TEMPLATE_DOMINIO =
+    '=== ACCESOS AL DOMINIO (DNS) ===\n\n' +
+    '• Registrador (NIC Chile / otro):\n' +
+    '• Dominio:\n' +
+    '• Usuario:\n' +
+    '• Contraseña:\n\n' +
+    'Observaciones:';
+
+  /* ---------- planes ---------- */
+  var PLANS = [
+    { name:'Starter 1', gb:1.5,  mails:'3',          price:'$39.990'  },
+    { name:'Starter 2', gb:2.5,  mails:'5',          price:'$49.990'  },
+    { name:'Starter 3', gb:4,    mails:'12',         price:'$69.990'  },
+    { name:'Pro 1',     gb:8,    mails:'20',         price:'$86.990'  },
+    { name:'Pro 2',     gb:15,   mails:'Ilimitados', price:'$109.990' },
+    { name:'Pro 3',     gb:30,   mails:'Ilimitados', price:'$139.990' },
+    { name:'Master 1',  gb:50,   mails:'Ilimitados', price:'$179.990' },
+    { name:'Master 2',  gb:70,   mails:'Ilimitados', price:'$219.990' },
+    { name:'Master 3',  gb:90,   mails:'Ilimitados', price:'$259.990' }
+  ];
+
+  /* ---------- elementos ---------- */
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('input[data-key]'));
+  var barBig = document.getElementById('barBig');
+  var barMini = document.getElementById('barMini');
+  var barMiniWide = document.getElementById('barMiniWide');
+  var barBottom = document.getElementById('barBottom');
+  var pctBig = document.getElementById('pctBig');
+  var pctMini = document.getElementById('pctMini');
+  var pctBottom = document.getElementById('pctBottom');
+  var statusEl = document.getElementById('statusText');
+  var successPanel = document.getElementById('successPanel');
+  var migDate = document.getElementById('migDate');
+  var migTime = document.getElementById('migTime');
+  var weekdayBox = document.getElementById('weekdayBox');
+  var txtHosting = document.getElementById('txtHosting');
+  var txtDominio = document.getElementById('txtDominio');
+  var encName = document.getElementById('encName');
+  var encMail = document.getElementById('encMail');
+  var encPhone = document.getElementById('encPhone');
+  var sentHost = document.getElementById('sentHost');
+  var sentDom = document.getElementById('sentDom');
+  var spaceRange = document.getElementById('spaceRange');
+  var spaceVal = document.getElementById('spaceVal');
+  var spaceGb = document.getElementById('spaceGb');
+  var plansList = document.getElementById('plansList');
+  var bigPlanHint = document.getElementById('bigPlanHint');
+  var summaryChips = document.getElementById('summaryChips');
+  var visDate = document.getElementById('visDate');
+  var visTime = document.getElementById('visTime');
+  var visWeekdayBox = document.getElementById('visWeekdayBox');
+  var visCuentas = document.getElementById('visCuentas');
+  var visDir = document.getElementById('visDir');
+  var visCiudad = document.getElementById('visCiudad');
+  var visRef = document.getElementById('visRef');
+
+  var selectedPlan = null;
+  var selectedProto = null;
+  var selectedApps = [];
+  var selectedChannel = null;
+  var modeHost = 'aqui';
+  var modeDom = 'aqui';
+  var visitaNeed = null;
+
+  /* ---------- horas cada 30 min (10:00 → 00:00) ---------- */
+  function fillTimeOptions(sel){
+    function label(h, m){
+      var hh12 = h % 12; if(hh12 === 0) hh12 = 12;
+      var ampm = h < 12 ? 'AM' : 'PM';
+      var mm = m === 0 ? '00' : '30';
+      return hh12 + ':' + mm + ' ' + ampm;
+    }
+    for(var h = 10; h <= 23; h++){
+      [0, 30].forEach(function(m){
+        var v = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+        var opt = document.createElement('option');
+        opt.value = v;
+        opt.textContent = v + ' hrs (' + label(h, m) + ')';
+        sel.appendChild(opt);
+      });
+    }
+    var last = document.createElement('option');
+    last.value = '00:00';
+    last.textContent = '00:00 hrs (12:00 AM · medianoche)';
+    sel.appendChild(last);
+  }
+  fillTimeOptions(migTime);
+  fillTimeOptions(visTime);
+
+  /* fecha mínima: hoy */
+  (function(){
+    var now = new Date();
+    var m = String(now.getMonth() + 1).padStart(2, '0');
+    var d = String(now.getDate()).padStart(2, '0');
+    var minVal = now.getFullYear() + '-' + m + '-' + d;
+    migDate.min = minVal;
+    visDate.min = minVal;
+  })();
+
+  /* ---------- persistencia ---------- */
+  function loadState(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    }catch(e){ return null; }
+  }
+  function saveState(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        date: migDate.value,
+        time: migTime.value,
+        hosting: txtHosting.value,
+        dominio: txtDominio.value,
+        name: encName.value,
+        mail: encMail.value,
+        phone: encPhone.value,
+        channel: selectedChannel,
+        modeHost: modeHost,
+        modeDom: modeDom,
+        sentHost: sentHost.checked,
+        sentDom: sentDom.checked,
+        space: spaceRange.value,
+        plan: selectedPlan,
+        proto: selectedProto,
+        apps: selectedApps,
+        visita: visitaNeed,
+        visDate: visDate.value,
+        visTime: visTime.value,
+        visCuentas: visCuentas.value,
+        visDir: visDir.value,
+        visCiudad: visCiudad.value,
+        visRef: visRef.value
+      }));
+    }catch(e){}
+  }
+
+  /* ---------- progreso ---------- */
+  var wasFull = false;
+
+  function statusFor(pct){
+    if(pct === 100) return '¡Todo listo para migrar! 🚀';
+    if(pct >= 75)   return '¡Casi ahí! Ya falta muy poco.';
+    if(pct >= 50)   return 'Vamos muy bien, sigue así.';
+    if(pct > 0)     return 'Buen comienzo. Paso a paso.';
+    return 'Partamos con tus datos 👇';
+  }
+
+  function rangoFor(pct){
+    if(pct === 100) return 'Leyenda Patagona 🏆';
+    if(pct >= 75)   return 'Maestro del Sur';
+    if(pct >= 50)   return 'Técnico';
+    if(pct >= 25)   return 'Aprendiz';
+    return 'Recluta';
+  }
+
+  function updatePill(box){
+    var scope = box.closest('.card-neon') || box.closest('label.fh-check');
+    if(!scope) return;
+    var pill = scope.querySelector('[data-pill]');
+    if(!pill) return;
+    var keepMl = pill.classList.contains('ml-auto');
+    if(box.checked){
+      pill.className = 'pill pill-done' + (keepMl ? ' ml-auto' : '');
+      pill.textContent = 'LISTO ✓';
+    }else{
+      pill.className = 'pill pill-pending' + (keepMl ? ' ml-auto' : '');
+      pill.textContent = 'PENDIENTE';
+    }
+  }
+
+  function setAuto(key, value){
+    var box = document.querySelector('input[data-key="' + key + '"]');
+    if(box && box.checked !== value){ box.checked = value; }
+  }
+
+  function isChecked(key){
+    var box = document.querySelector('input[data-key="' + key + '"]');
+    return !!(box && box.checked);
+  }
+
+  function updateProgress(){
+    var total = boxes.length;
+    var done = boxes.filter(function(b){ return b.checked; }).length;
+    var pct = Math.round(done / total * 100);
+
+    barBig.style.width = pct + '%';
+    barMini.style.width = pct + '%';
+    barMiniWide.style.width = pct + '%';
+    barBottom.style.width = pct + '%';
+    document.getElementById('xpBar').style.width = pct + '%';
+    pctBig.textContent = pct;
+    pctMini.textContent = pct;
+    pctBottom.textContent = pct;
+    document.getElementById('xpTxt').textContent = pct;
+    document.getElementById('rangoTxt').textContent = rangoFor(pct);
+    statusEl.textContent = statusFor(pct);
+
+    boxes.forEach(updatePill);
+    saveState();
+    updateBottomBar();
+    renderGame();
+
+    if(pct === 100){
+      successPanel.classList.add('on');
+      if(!wasFull) confetti();
+      wasFull = true;
+      updateReadyLink();
+    }else{
+      successPanel.classList.remove('on');
+      wasFull = false;
+    }
+  }
+
+  /* ---------- validadores automáticos ---------- */
+  function validateEncargado(){
+    var okName = encName.value.trim().length > 2;
+    var okMail = /.+@.+\..+/.test(encMail.value.trim());
+    var okPhone = encPhone.value.replace(/\D/g, '').length >= 8;
+    setAuto('k0', okName && okMail && okPhone && !!selectedChannel);
+    updateProgress();
+  }
+
+  function addedChars(ta, template){
+    return Math.max(0, ta.value.length - template.length);
+  }
+  function paintCounter(countEl, stateEl, added){
+    countEl.textContent = added;
+    if(added >= MIN_ADDED){
+      stateEl.textContent = '¡completo! ✓';
+      stateEl.className = 'text-fh-turq font-semibold';
+      countEl.className = 'font-semibold text-fh-turq';
+    }else{
+      stateEl.textContent = 'completa tus datos y se marcará solo ✓';
+      stateEl.className = '';
+      countEl.className = 'font-semibold';
+    }
+  }
+
+  function validateHosting(){
+    var added = addedChars(txtHosting, TEMPLATE_HOSTING);
+    paintCounter(document.getElementById('countHosting'), document.getElementById('stateHosting'), added);
+    var ok = modeHost === 'correo' ? sentHost.checked : added >= MIN_ADDED;
+    setAuto('k1', ok);
+    updateProgress();
+  }
+  function validateDominio(){
+    var added = addedChars(txtDominio, TEMPLATE_DOMINIO);
+    paintCounter(document.getElementById('countDominio'), document.getElementById('stateDominio'), added);
+    var ok = modeDom === 'correo' ? sentDom.checked : added >= MIN_ADDED;
+    setAuto('k2', ok);
+    updateProgress();
+  }
+
+  function validateMailConfig(){
+    setAuto('k7', !!selectedProto && selectedApps.length > 0);
+    updateProgress();
+  }
+  function validatePlan(){
+    setAuto('k6', !!selectedPlan);
+    updateProgress();
+  }
+
+  /* ---------- visita técnica ---------- */
+  function paintWeekday(dateEl, boxEl){
+    var d = dateEl.value;
+    if(!d){
+      boxEl.textContent = '—';
+      boxEl.classList.add('text-slate-500');
+      boxEl.classList.remove('text-fh-turq');
+      return;
+    }
+    var parts = d.split('-').map(Number);
+    var dt = new Date(parts[0], parts[1] - 1, parts[2]);
+    boxEl.textContent = new Intl.DateTimeFormat('es-CL', { weekday:'long' }).format(dt);
+    boxEl.classList.remove('text-slate-500');
+    boxEl.classList.add('text-fh-turq');
+  }
+
+  function fmtVisSchedule(){
+    var d = visDate.value, t = visTime.value;
+    if(!d || !t) return null;
+    var parts = d.split('-').map(Number);
+    var dt = new Date(parts[0], parts[1] - 1, parts[2]);
+    var f = new Intl.DateTimeFormat('es-CL', { weekday:'long', day:'numeric', month:'long' }).format(dt);
+    return f + ' a las ' + t + ' h';
+  }
+  function fmtVisScheduleShort(){
+    var d = visDate.value, t = visTime.value;
+    if(!d || !t) return null;
+    var parts = d.split('-').map(Number);
+    var dt = new Date(parts[0], parts[1] - 1, parts[2]);
+    var f = new Intl.DateTimeFormat('es-CL', { weekday:'short', day:'numeric', month:'short' }).format(dt);
+    return f + ' · ' + t;
+  }
+
+  function validateVisita(){
+    document.getElementById('visitaSi').classList.toggle('hidden', visitaNeed !== 'si');
+    document.getElementById('visitaNo').classList.toggle('hidden', visitaNeed !== 'no');
+    paintWeekday(visDate, visWeekdayBox);
+
+    var ok = false;
+    if(visitaNeed === 'no'){
+      ok = true;
+    }else if(visitaNeed === 'si'){
+      ok = !!(visDate.value && visTime.value &&
+              parseInt(visCuentas.value || '0', 10) > 0 &&
+              visDir.value.trim().length > 3);
+    }
+    setAuto('k8', ok);
+    updateProgress();
+  }
+
+  document.querySelectorAll('#visitaGroup .chip-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var val = btn.getAttribute('data-visita');
+      visitaNeed = (visitaNeed === val) ? null : val;
+      document.querySelectorAll('#visitaGroup .chip-toggle').forEach(function(b){
+        b.classList.toggle('on', b.getAttribute('data-visita') === visitaNeed);
+      });
+      validateVisita();
+    });
+  });
+
+  visDate.addEventListener('change', validateVisita);
+  visTime.addEventListener('change', validateVisita);
+  visCuentas.addEventListener('input', validateVisita);
+  visDir.addEventListener('input', validateVisita);
+  visCiudad.addEventListener('input', saveState);
+  visRef.addEventListener('input', saveState);
+
+  /* ---------- modo de entrega (accesos) ---------- */
+  function applyMode(target){
+    var isHost = target === 'host';
+    var mode = isHost ? modeHost : modeDom;
+    document.getElementById(isHost ? 'hostAqui' : 'domAqui').classList.toggle('hidden', mode !== 'aqui');
+    document.getElementById(isHost ? 'hostCorreo' : 'domCorreo').classList.toggle('hidden', mode !== 'correo');
+    document.querySelectorAll('.mode-btn[data-target="' + target + '"]').forEach(function(b){
+      b.classList.toggle('on', b.getAttribute('data-mode') === mode);
+    });
+  }
+  document.querySelectorAll('.mode-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = btn.getAttribute('data-target');
+      var mode = btn.getAttribute('data-mode');
+      if(target === 'host'){ modeHost = mode; applyMode('host'); validateHosting(); }
+      else{ modeDom = mode; applyMode('dom'); validateDominio(); }
+    });
+  });
+
+  /* ---------- mensajes para enviar por correo ---------- */
+  function mailBody(template){
+    return 'Hola Fractal Host,\n\nLes envío los datos de acceso para mi migración:\n\n' + template + '\n\nQuedo atento/a, gracias.';
+  }
+  document.getElementById('copyMailHost').addEventListener('click', function(){
+    copyText(mailBody(TEMPLATE_HOSTING), this, '✅ ¡Copiado!');
+  });
+  document.getElementById('copyMailDom').addEventListener('click', function(){
+    copyText(mailBody(TEMPLATE_DOMINIO), this, '✅ ¡Copiado!');
+  });
+  document.getElementById('mailtoHost').href =
+    'mailto:hola@fractalhost.cl?subject=' + encodeURIComponent('Datos de acceso hosting — Migración') +
+    '&body=' + encodeURIComponent(mailBody(TEMPLATE_HOSTING));
+  document.getElementById('mailtoDom').href =
+    'mailto:hola@fractalhost.cl?subject=' + encodeURIComponent('Datos de acceso dominio — Migración') +
+    '&body=' + encodeURIComponent(mailBody(TEMPLATE_DOMINIO));
+
+  sentHost.addEventListener('change', validateHosting);
+  sentDom.addEventListener('change', validateDominio);
+
+  /* ---------- copiar ---------- */
+  function copyText(txt, btn, doneLabel){
+    function ok(){
+      var original = btn.dataset.label || btn.textContent;
+      btn.dataset.label = original;
+      btn.textContent = doneLabel || '✅ ¡Copiado!';
+      btn.classList.add('copied');
+      setTimeout(function(){
+        btn.textContent = original;
+        btn.classList.remove('copied');
+      }, 2400);
+    }
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = txt;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand('copy'); ok(); }catch(e){}
+      document.body.removeChild(ta);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(ok).catch(fallback);
+    }else{ fallback(); }
+  }
+
+  document.querySelectorAll('[data-copyblock]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var el = document.getElementById(btn.getAttribute('data-copyblock'));
+      copyText(el.value, btn, '✅ ¡Bloque copiado!');
+    });
+  });
+
+  function fmtMb(mb){ return mb.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+
+  function buildAll(){
+    var line = '════════════════════════════════════';
+    var out = '';
+    out += line + '\n';
+    out += 'FRACTAL HOST · DATOS PARA MIGRACIÓN\n';
+    out += line + '\n\n';
+    out += '[1] ENCARGADO DE LA MIGRACIÓN\n';
+    out += '• Nombre: ' + (encName.value.trim() || '(sin completar)') + '\n';
+    out += '• Correo: ' + (encMail.value.trim() || '(sin completar)') + '\n';
+    out += '• Teléfono: ' + (encPhone.value.trim() || '(sin completar)') + '\n';
+    out += '• Canal preferido para avisos: ' + (selectedChannel || '(sin indicar)') + '\n\n';
+    out += '[2] ACCESO AL HOSTING DE ORIGEN\n';
+    if(modeHost === 'correo'){
+      out += '• Entrega: el cliente los envía por correo a hola@fractalhost.cl' + (sentHost.checked ? ' (ya enviado ✓)' : ' (pendiente de envío)') + '\n';
+    }else{
+      out += (txtHosting.value || '(sin completar)') + '\n';
+    }
+    out += '\n[3] ACCESO AL DOMINIO (DNS)\n';
+    if(modeDom === 'correo'){
+      out += '• Entrega: el cliente los envía por correo a hola@fractalhost.cl' + (sentDom.checked ? ' (ya enviado ✓)' : ' (pendiente de envío)') + '\n';
+    }else{
+      out += (txtDominio.value || '(sin completar)') + '\n';
+    }
+    out += '\n[4] AGENDAMIENTO DE LA MIGRACIÓN\n';
+    var label = fmtSchedule();
+    out += 'Día y hora programados: ' + (label || 'aún por definir') + '\n\n';
+    out += '[5] PLAN DE HOSTING\n';
+    if(selectedPlan){
+      var p = PLANS.filter(function(x){ return x.name === selectedPlan; })[0];
+      out += '• Plan elegido: ' + p.name + ' (' + p.gb + ' GB · correos ' + p.mails.toLowerCase() + ' · ' + p.price + ' anual)\n';
+    }else{
+      out += '• Plan elegido: (sin seleccionar)\n';
+    }
+    out += '• Espacio actual estimado: ' + fmtMb(parseInt(spaceRange.value, 10)) + ' MB (~' + (parseInt(spaceRange.value,10)/1024).toFixed(1).replace('.', ',') + ' GB)\n\n';
+    out += '[6] CONFIGURACIÓN DE CORREOS\n';
+    out += '• Protocolo: ' + (selectedProto || '(sin indicar)') + '\n';
+    out += '• Los revisa desde: ' + (selectedApps.length ? selectedApps.join(', ') : '(sin indicar)') + '\n\n';
+    out += '[7] VISITA TÉCNICA (DESCARGA DE CORREOS)\n';
+    if(visitaNeed === 'no'){
+      out += '• ¿Se necesita? No — el cliente indicó que no la necesita.\n';
+    }else if(visitaNeed === 'si'){
+      var visLabel = fmtVisSchedule();
+      out += '• ¿Se necesita? Sí — visita en terreno para descargar correos.\n';
+      out += '• Fecha y hora de la visita: ' + (visLabel || 'por definir') + '\n';
+      out += '• Cantidad de cuentas a descargar: ' + (visCuentas.value || '(sin indicar)') + '\n';
+      out += '• Dirección: ' + (visDir.value.trim() || '(sin completar)') + '\n';
+      out += '• Ciudad: ' + (visCiudad.value.trim() || '(sin completar)') + '\n';
+      out += '• Referencias: ' + (visRef.value.trim() || '(sin indicar)') + '\n';
+    }else{
+      out += '• ¿Se necesita? (sin indicar)\n';
+    }
+    out += '\n' + line + '\n';
+    out += 'Generado el ' + new Date().toLocaleDateString('es-CL') + '\n';
+    return out;
+  }
+  document.getElementById('copyAllBtn').addEventListener('click', function(){
+    copyText(buildAll(), this, '✅ ¡Todo copiado! Pégalo en tu bloc de notas');
+  });
+
+  /* ---------- barra inferior fija: resumen en vivo ---------- */
+  function fmtScheduleShort(){
+    var d = migDate.value, t = migTime.value;
+    if(!d || !t) return null;
+    var parts = d.split('-').map(Number);
+    var dt = new Date(parts[0], parts[1] - 1, parts[2]);
+    var f = new Intl.DateTimeFormat('es-CL', { weekday:'short', day:'numeric', month:'short' }).format(dt);
+    return f + ' · ' + t;
+  }
+
+  function chip(emoji, text){
+    return '<span class="bottom-chip">' + emoji + ' ' + text + '</span>';
+  }
+
+  function updateBottomBar(){
+    var chips = [];
+    var name = encName.value.trim();
+    if(name) chips.push(chip('👤', 'Encargado: ' + name));
+    if(selectedChannel) chips.push(chip('📣', 'Avisos por ' + selectedChannel));
+    var shortDate = fmtScheduleShort();
+    if(shortDate) chips.push(chip('🗓', shortDate));
+    if(selectedPlan) chips.push(chip('🧭', 'Plan ' + selectedPlan));
+    chips.push(chip('💾', fmtMb(parseInt(spaceRange.value, 10)) + ' MB'));
+    if(selectedProto) chips.push(chip('📧', selectedProto));
+    if(visitaNeed === 'si'){
+      var visShort = fmtVisScheduleShort();
+      chips.push(chip('🧑‍🔧', 'Visita: ' + (visShort || 'por agendar')));
+    }else if(visitaNeed === 'no'){
+      chips.push(chip('🧑‍🔧', 'Visita: no necesaria'));
+    }
+
+    if(chips.length){
+      summaryChips.innerHTML = chips.join('');
+    }else{
+      summaryChips.innerHTML = '<span class="text-[11px] text-slate-500 whitespace-nowrap">Empieza a completar tus datos arriba 👆</span>';
+    }
+  }
+
+  /* ---------- resumen estilo videojuego ---------- */
+  function gameRow(label, value, filled){
+    return '<div class="flex gap-2">' +
+      '<span class="text-slate-500 shrink-0 w-28 md:w-32 text-xs pt-0.5">' + label + '</span>' +
+      '<span class="' + (filled ? 'text-fh-ice' : 'text-slate-600 italic') + '">' + value + '</span>' +
+      '</div>';
+  }
+
+  function gameLevel(n, icon, title, done, rows){
+    return '<div class="flex gap-4 md:gap-6">' +
+      '<div class="flex flex-col items-center">' +
+        '<div class="lvl-node' + (done ? ' done' : '') + '">' + (done ? '★' : n) + '</div>' +
+        '<div class="lvl-stem"></div>' +
+      '</div>' +
+      '<div class="lvl-card' + (done ? ' done' : '') + ' flex-1 mb-6">' +
+        '<div class="flex items-center gap-3 flex-wrap">' +
+          '<span class="text-xl">' + icon + '</span>' +
+          '<span class="font-display text-[10px] tracking-[.2em] text-slate-500">NIVEL ' + n + '</span>' +
+          '<h4 class="font-display text-sm font-semibold">' + title + '</h4>' +
+          '<span class="pill ' + (done ? 'pill-done' : 'pill-pending') + ' ml-auto">' + (done ? 'COMPLETADO ★' : 'POR COMPLETAR') + '</span>' +
+        '</div>' +
+        '<div class="mt-3 space-y-1.5 text-sm">' + rows + '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function renderGame(){
+    var html = '';
+
+    /* Nivel 1: encargado */
+    var name = encName.value.trim();
+    var mail = encMail.value.trim();
+    var phone = encPhone.value.trim();
+    html += gameLevel(1, '👤', 'EL ENCARGADO', isChecked('k0'),
+      gameRow('Nombre', name || '— pendiente —', !!name) +
+      gameRow('Correo', mail || '— pendiente —', !!mail) +
+      gameRow('Teléfono', phone || '— pendiente —', !!phone) +
+      gameRow('Canal de avisos', selectedChannel || '— pendiente —', !!selectedChannel)
+    );
+
+    /* Nivel 2: hosting */
+    var hostStatus;
+    if(modeHost === 'correo'){
+      hostStatus = sentHost.checked ? 'Enviado por correo ✓' : 'Por correo — pendiente de envío';
+    }else{
+      hostStatus = isChecked('k1') ? 'Datos completados aquí ✓' : 'Completar aquí — faltan datos';
+    }
+    html += gameLevel(2, '🔑', 'LAS LLAVES DEL ORIGEN', isChecked('k1'),
+      gameRow('Hosting', modeHost === 'correo' ? 'Entrega por correo' : 'Formulario completado', true) +
+      gameRow('Estado', hostStatus, isChecked('k1'))
+    );
+
+    /* Nivel 3: dominio */
+    var domStatus;
+    if(modeDom === 'correo'){
+      domStatus = sentDom.checked ? 'Enviado por correo ✓' : 'Por correo — pendiente de envío';
+    }else{
+      domStatus = isChecked('k2') ? 'Datos completados aquí ✓' : 'Completar aquí — faltan datos';
+    }
+    html += gameLevel(3, '🌐', 'EL GUARDIÁN DEL DOMINIO', isChecked('k2'),
+      gameRow('Dominio (DNS)', modeDom === 'correo' ? 'Entrega por correo' : 'Formulario completado', true) +
+      gameRow('Estado', domStatus, isChecked('k2'))
+    );
+
+    /* Nivel 4: agenda */
+    var sched = fmtSchedule();
+    html += gameLevel(4, '🗓️', 'LA CITA DE MIGRACIÓN', isChecked('k3'),
+      gameRow('Fecha y hora', sched ? sched : '— por definir —', !!sched) +
+      gameRow('Cambio de DNS', sched ? 'Programado con monitoreo ✓' : 'Se programa al agendar', !!sched)
+    );
+
+    /* Nivel 5: plan */
+    var planInfo = '(sin seleccionar)';
+    if(selectedPlan){
+      var p = PLANS.filter(function(x){ return x.name === selectedPlan; })[0];
+      planInfo = p.name + ' · ' + p.gb + ' GB · ' + p.price + ' anual';
+    }
+    var mb = parseInt(spaceRange.value, 10);
+    html += gameLevel(5, '🧭', 'TU NUEVA BASE', isChecked('k6'),
+      gameRow('Plan elegido', planInfo, !!selectedPlan) +
+      gameRow('Espacio actual', fmtMb(mb) + ' MB (~' + (mb/1024).toFixed(1).replace('.', ',') + ' GB)', true)
+    );
+
+    /* Nivel 6: correos */
+    html += gameLevel(6, '📧', 'LOS CORREOS BAJO CONTROL', isChecked('k7'),
+      gameRow('Protocolo', selectedProto || '— pendiente —', !!selectedProto) +
+      gameRow('Los revisa desde', selectedApps.length ? selectedApps.join(', ') : '— pendiente —', selectedApps.length > 0)
+    );
+
+    /* Nivel 7: visita técnica */
+    var visNeedLabel = visitaNeed === 'si' ? 'Sí — descarga de correos en terreno' : (visitaNeed === 'no' ? 'No necesaria ✓' : '— por indicar —');
+    var visDateLabel = visitaNeed === 'si' ? (fmtVisSchedule() || '— por definir —') : (visitaNeed === 'no' ? 'No aplica' : '— por definir —');
+    var visCuentasLabel = visitaNeed === 'si' ? (visCuentas.value ? visCuentas.value + ' cuentas' : '— por indicar —') : 'No aplica';
+    var visDirLabel = visitaNeed === 'si' ? (visDir.value.trim() || '— por completar —') : 'No aplica';
+    html += gameLevel(7, '🧑‍🔧', 'LA VISITA TÉCNICA', isChecked('k8'),
+      gameRow('¿Se necesita?', visNeedLabel, !!visitaNeed) +
+      gameRow('Fecha y hora', visDateLabel, visitaNeed === 'no' || !!fmtVisSchedule()) +
+      gameRow('Cuentas', visCuentasLabel, visitaNeed === 'no' || !!visCuentas.value) +
+      gameRow('Dirección', visDirLabel, visitaNeed === 'no' || !!visDir.value.trim())
+    );
+
+    /* Nivel final */
+    var pct = Math.round(boxes.filter(function(b){ return b.checked; }).length / boxes.length * 100);
+    if(pct === 100){
+      html += '<div class="flex gap-4 md:gap-6">' +
+        '<div class="flex flex-col items-center"><div class="lvl-node done">🏆</div></div>' +
+        '<div class="lvl-card done flex-1 mb-2 text-center" style="border-color:rgba(0,214,194,.7)">' +
+          '<p class="text-4xl trophy-float">🏆</p>' +
+          '<h4 class="font-display font-bold text-lg md:text-xl mt-3 grad-text">¡MISIÓN CUMPLIDA!</h4>' +
+          '<p class="text-sm text-slate-300 mt-2">Tu migración está desbloqueada' + (sched ? ' para el <strong class="text-fh-turq capitalize">' + sched + '</strong>' : '') + '. Avísanos arriba con el botón y damos el vamos. 🚀</p>' +
+        '</div>' +
+      '</div>';
+    }else{
+      html += '<div class="flex gap-4 md:gap-6">' +
+        '<div class="flex flex-col items-center"><div class="lvl-node">🔒</div></div>' +
+        '<div class="lvl-card flex-1 mb-2">' +
+          '<div class="flex items-center gap-3 flex-wrap">' +
+            '<span class="text-xl">🔒</span>' +
+            '<span class="font-display text-[10px] tracking-[.2em] text-slate-500">NIVEL FINAL</span>' +
+            '<h4 class="font-display text-sm font-semibold">MIGRACIÓN DESBLOQUEABLE</h4>' +
+            '<span class="pill pill-pending ml-auto">BLOQUEADO</span>' +
+          '</div>' +
+          '<p class="text-sm text-slate-500 mt-3">Completa todos los niveles para desbloquear tu migración. Vas en ' + pct + ' XP de 100.</p>' +
+        '</div>' +
+      '</div>';
+    }
+
+    document.getElementById('gameMap').innerHTML = html;
+  }
+
+  /* ---------- planes ---------- */
+  function renderPlans(){
+    plansList.innerHTML = '';
+    PLANS.forEach(function(p){
+      var row = document.createElement('div');
+      row.className = 'plan-row' + (selectedPlan === p.name ? ' selected' : '');
+      row.setAttribute('data-plan', p.name);
+      row.innerHTML =
+        '<div class="plan-radio"></div>' +
+        '<div class="flex-1 min-w-0">' +
+          '<p class="font-display text-sm font-semibold flex items-center flex-wrap gap-y-1">' + p.name +
+            '<span class="rec-badge hidden">✦ RECOMENDADO</span>' +
+          '</p>' +
+          '<p class="text-xs text-slate-400 sm:hidden mt-0.5">' + p.gb.toString().replace('.', ',') + ' GB · ' + p.mails + ' correos · ' + p.price + ' anual</p>' +
+        '</div>' +
+        '<div class="hidden sm:block text-sm text-slate-300 w-16">' + p.gb.toString().replace('.', ',') + ' GB</div>' +
+        '<div class="hidden sm:block text-sm text-slate-300 w-24">' + p.mails + '</div>' +
+        '<div class="font-semibold text-fh-cyan text-sm whitespace-nowrap">' + p.price + '</div>';
+      row.addEventListener('click', function(){
+        selectedPlan = (selectedPlan === p.name) ? null : p.name;
+        renderPlans();
+        validatePlan();
+        updateReadyLink();
+      });
+      plansList.appendChild(row);
+    });
+    updateRecommendation();
+  }
+
+  function updateRecommendation(){
+    var usage = parseInt(spaceRange.value, 10);
+    var target = usage * 1.25;
+    var rec = null;
+    for(var i = 0; i < PLANS.length; i++){
+      if(PLANS[i].gb * 1024 >= target){ rec = PLANS[i].name; break; }
+    }
+    bigPlanHint.classList.toggle('hidden', !!rec);
+    plansList.querySelectorAll('.plan-row').forEach(function(row){
+      var badge = row.querySelector('.rec-badge');
+      if(row.getAttribute('data-plan') === rec){
+        badge.classList.remove('hidden');
+      }else{
+        badge.classList.add('hidden');
+      }
+    });
+  }
+
+  function updateSpace(){
+    var mb = parseInt(spaceRange.value, 10);
+    spaceVal.textContent = fmtMb(mb);
+    spaceGb.textContent = (mb / 1024).toFixed(1).replace('.', ',');
+    updateRecommendation();
+    saveState();
+    updateBottomBar();
+    renderGame();
+  }
+  spaceRange.addEventListener('input', updateSpace);
+
+  /* ---------- chips correo / canal ---------- */
+  document.querySelectorAll('#protoGroup .chip-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var val = btn.getAttribute('data-proto');
+      selectedProto = (selectedProto === val) ? null : val;
+      document.querySelectorAll('#protoGroup .chip-toggle').forEach(function(b){
+        b.classList.toggle('on', b.getAttribute('data-proto') === selectedProto);
+      });
+      validateMailConfig();
+    });
+  });
+  document.querySelectorAll('#appGroup .chip-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var val = btn.getAttribute('data-app');
+      var idx = selectedApps.indexOf(val);
+      if(idx >= 0){ selectedApps.splice(idx, 1); }else{ selectedApps.push(val); }
+      btn.classList.toggle('on', idx < 0);
+      validateMailConfig();
+    });
+  });
+  document.querySelectorAll('#channelGroup .chip-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var val = btn.getAttribute('data-channel');
+      selectedChannel = (selectedChannel === val) ? null : val;
+      document.querySelectorAll('#channelGroup .chip-toggle').forEach(function(b){
+        b.classList.toggle('on', b.getAttribute('data-channel') === selectedChannel);
+      });
+      validateEncargado();
+    });
+  });
+
+  /* ---------- agendamiento ---------- */
+  function fmtSchedule(){
+    var d = migDate.value, t = migTime.value;
+    if(!d || !t) return null;
+    var parts = d.split('-').map(Number);
+    var dt = new Date(parts[0], parts[1] - 1, parts[2]);
+    var f = new Intl.DateTimeFormat('es-CL', { weekday:'long', day:'numeric', month:'long' }).format(dt);
+    return f + ' a las ' + t + ' h';
+  }
+
+  function updateSchedule(){
+    paintWeekday(migDate, weekdayBox);
+    var label = fmtSchedule();
+    var confirmCard = document.getElementById('schedConfirm');
+    var hint = document.getElementById('schedHint');
+    var dnsPill = document.getElementById('dnsPill');
+    var dnsWhen = document.getElementById('dnsWhen');
+    var successSched = document.getElementById('successSched');
+
+    if(label){
+      document.getElementById('schedText').textContent = label;
+      confirmCard.classList.remove('hidden');
+      hint.classList.add('hidden');
+
+      document.getElementById('waSchedule').href =
+        'https://wa.me/56954132014?text=' + encodeURIComponent(
+          'Hola Fractal Host 👋 Quiero confirmar mi migración agendada para el ' + label + '. ¿Me confirman?'
+        );
+
+      dnsPill.className = 'pill pill-done';
+      dnsPill.textContent = 'PROGRAMADO ✓';
+      dnsWhen.classList.remove('italic');
+      dnsWhen.innerHTML = '📆 <strong class="text-fh-turq capitalize">El cambio de DNS se ejecutará el ' + label + '</strong>, con monitoreo de nuestro equipo durante todo el proceso.';
+
+      successSched.classList.remove('hidden');
+      document.getElementById('successSchedText').textContent = label;
+    }else{
+      confirmCard.classList.add('hidden');
+      hint.classList.remove('hidden');
+
+      dnsPill.className = 'pill pill-pending';
+      dnsPill.textContent = 'POR DEFINIR';
+      dnsWhen.classList.add('italic');
+      dnsWhen.innerHTML = '📆 Fecha de ejecución: aún por definir — <a href="#agenda" class="text-fh-cyan underline underline-offset-2">elige tu día y hora</a>.';
+
+      successSched.classList.add('hidden');
+    }
+    setAuto('k3', !!label);
+    updateProgress();
+  }
+
+  function updateReadyLink(){
+    var label = fmtSchedule();
+    var name = encName.value.trim();
+    var txt = 'Hola Fractal Host 👋 Completé el checklist de migración de mi cuenta cPanel';
+    if(name) txt += '. Soy ' + name;
+    if(selectedPlan) txt += ', y quiero el plan ' + selectedPlan;
+    if(visitaNeed === 'si') txt += '. Además necesito la visita técnica para descargar correos';
+    txt += label ? ' y mi migración está agendada para el ' + label : ' y está todo listo';
+    txt += '. ¡Podemos comenzar! 🚀';
+    document.getElementById('waReady').href =
+      'https://wa.me/56954132014?text=' + encodeURIComponent(txt);
+  }
+
+  migDate.addEventListener('change', updateSchedule);
+  migTime.addEventListener('change', updateSchedule);
+
+  /* ---------- listeners ---------- */
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      updateProgress();
+      updateReadyLink();
+    });
+  });
+  encName.addEventListener('input', validateEncargado);
+  encMail.addEventListener('input', validateEncargado);
+  encPhone.addEventListener('input', validateEncargado);
+  txtHosting.addEventListener('input', validateHosting);
+  txtDominio.addEventListener('input', validateDominio);
+
+  /* ---------- reiniciar ---------- */
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    boxes.forEach(function(b){ b.checked = false; });
+    migDate.value = '';
+    migTime.value = '';
+    encName.value = '';
+    encMail.value = '';
+    encPhone.value = '';
+    txtHosting.value = TEMPLATE_HOSTING;
+    txtDominio.value = TEMPLATE_DOMINIO;
+    spaceRange.value = 1000;
+    selectedPlan = null;
+    selectedProto = null;
+    selectedApps = [];
+    selectedChannel = null;
+    modeHost = 'aqui';
+    modeDom = 'aqui';
+    sentHost.checked = false;
+    sentDom.checked = false;
+    visitaNeed = null;
+    visDate.value = '';
+    visTime.value = '';
+    visCuentas.value = '';
+    visDir.value = '';
+    visCiudad.value = '';
+    visRef.value = '';
+    document.querySelectorAll('.chip-toggle').forEach(function(b){ b.classList.remove('on'); });
+    document.querySelectorAll('.mode-btn[data-mode="aqui"]').forEach(function(b){ b.classList.add('on'); });
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+    applyMode('host');
+    applyMode('dom');
+    renderPlans();
+    updateSpace();
+    validateHosting();
+    validateDominio();
+    validateVisita();
+    updateSchedule();
+    updateReadyLink();
+    document.getElementById('checklist').scrollIntoView({ behavior:'smooth' });
+  });
+
+  /* ---------- confeti ---------- */
+  function confetti(){
+    var colors = ['#00D2FF', '#00D6C2', '#2563EB', '#E6F0F7', '#7DE9FF'];
+    for(var i = 0; i < 70; i++){
+      var piece = document.createElement('div');
+      piece.className = 'confetti';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = (2.2 + Math.random() * 2.2) + 's';
+      piece.style.animationDelay = (Math.random() * 0.8) + 's';
+      piece.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+      document.body.appendChild(piece);
+      (function(p){ setTimeout(function(){ p.remove(); }, 6000); })(piece);
+    }
+  }
+
+  /* ---------- estado inicial ---------- */
+  var saved = loadState();
+  txtHosting.value = (saved && saved.hosting != null) ? saved.hosting : TEMPLATE_HOSTING;
+  txtDominio.value = (saved && saved.dominio != null) ? saved.dominio : TEMPLATE_DOMINIO;
+
+  if(saved){
+    if(saved.date) migDate.value = saved.date;
+    if(saved.time) migTime.value = saved.time;
+    if(saved.name) encName.value = saved.name;
+    if(saved.mail) encMail.value = saved.mail;
+    if(saved.phone) encPhone.value = saved.phone;
+    if(saved.space) spaceRange.value = saved.space;
+    if(saved.plan) selectedPlan = saved.plan;
+    if(saved.modeHost) modeHost = saved.modeHost;
+    if(saved.modeDom) modeDom = saved.modeDom;
+    if(saved.sentHost) sentHost.checked = true;
+    if(saved.sentDom) sentDom.checked = true;
+    if(saved.visita) visitaNeed = saved.visita;
+    if(saved.visDate) visDate.value = saved.visDate;
+    if(saved.visTime) visTime.value = saved.visTime;
+    if(saved.visCuentas) visCuentas.value = saved.visCuentas;
+    if(saved.visDir) visDir.value = saved.visDir;
+    if(saved.visCiudad) visCiudad.value = saved.visCiudad;
+    if(saved.visRef) visRef.value = saved.visRef;
+    if(saved.channel){
+      selectedChannel = saved.channel;
+      document.querySelectorAll('#channelGroup .chip-toggle').forEach(function(b){
+        b.classList.toggle('on', b.getAttribute('data-channel') === selectedChannel);
+      });
+    }
+    if(saved.proto){
+      selectedProto = saved.proto;
+      document.querySelectorAll('#protoGroup .chip-toggle').forEach(function(b){
+        b.classList.toggle('on', b.getAttribute('data-proto') === selectedProto);
+      });
+    }
+    if(saved.apps){
+      selectedApps = saved.apps;
+      document.querySelectorAll('#appGroup .chip-toggle').forEach(function(b){
+        b.classList.toggle('on', selectedApps.indexOf(b.getAttribute('data-app')) >= 0);
+      });
+    }
+    if(visitaNeed){
+      document.querySelectorAll('#visitaGroup .chip-toggle').forEach(function(b){
+        b.classList.toggle('on', b.getAttribute('data-visita') === visitaNeed);
+      });
+    }
+  }
+
+  applyMode('host');
+  applyMode('dom');
+  renderPlans();
+  updateSpace();
+  validateHosting();
+  validateDominio();
+  validateEncargado();
+  validateMailConfig();
+  validateVisita();
+  validatePlan();
+  updateSchedule();
+  updateReadyLink();
+  updateProgress();
+})();
+</script>
+</body>
+</html>

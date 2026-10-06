@@ -1,0 +1,82 @@
+# ============================================================
+#  FRACTAL HOST — https://fractalhost.cl
+#  Sitio Astro (estático) + PHP para formularios
+#  SUBIR A LA RAÍZ de public_html (junto a index.html)
+#
+#  ¿La página se ve "Error 500" después de subir este archivo?
+#  → Edítalo en el Administrador de Archivos y elimina la línea
+#    que dice "Options -Indexes". Todo lo demás sigue igual.
+# ============================================================
+
+# --- No listar el contenido de las carpetas ---
+Options -Indexes
+
+# --- Página por defecto ---
+DirectoryIndex index.html
+
+# --- Codificación por defecto ---
+AddDefaultCharset UTF-8
+
+# --- Página 404 propia (src/pages/404.astro) ---
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # ---------- HTTPS (no forma bucle detrás de Cloudflare) ----------
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # ---------- Canonical: de www a dominio raíz ----------
+  RewriteCond %{HTTP_HOST} ^www\.fractalhost\.cl [NC]
+  RewriteRule ^(.*)$ https://fractalhost.cl/$1 [R=301,L]
+
+  # ---------- Quitar /index.html de las URLs ----------
+  RewriteCond %{THE_REQUEST} \s/+(.*)index\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
+
+  # ---------- URLs del sitio anterior (SEO: nada de 404) ----------
+  RewriteRule ^cotizador\.html$ /cotizador/ [R=301,L]
+  RewriteRule ^migraciones/?$ /migraciones.html [R=301,L]
+
+  # ---------- Marca los assets con hash para darles caché de 1 año ----------
+  RewriteRule ^_astro/ - [E=ASSETS_HASHEADOS:1]
+</IfModule>
+
+# ---------- Compresión (gzip + brotli si existe) ----------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml text/javascript application/javascript application/json application/xml application/rss+xml image/svg+xml
+</IfModule>
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/xml text/javascript application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+# ---------- Caché y cabeceras ----------
+<IfModule mod_headers.c>
+  # HTML: siempre revalidar (así toca cambios al instante)
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  # Estáticos y assets con hash en nombre: caché larga
+  <FilesMatch "\.(?:css|js|mjs|jpg|jpeg|png|gif|svg|webp|avif|ico|woff2?|ttf|pdf)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  # /_astro/* llevan hash en el nombre: se pueden dejar 1 año
+  Header set Cache-Control "public, max-age=31536000, immutable" env=ASSETS_HASHEADOS
+
+  # Seguridad básica
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ---------- Archivos que no deben servirse por HTTP ----------
+<FilesMatch "^\.ht">
+  Require all denied
+</FilesMatch>
+<FilesMatch "^(?:codigos-cotizacion\.json|\.env)$">
+  Require all denied
+</FilesMatch>

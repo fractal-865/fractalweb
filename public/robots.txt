@@ -1,0 +1,7 @@
+# Fractal Host — robots.txt  (https://fractalhost.cl)
+User-agent: *
+Allow: /
+Disallow: /fractalweb/
+Disallow: /cotizador/codigos-cotizacion.json
+
+Sitemap: https://fractalhost.cl/sitemap.xml
