@@ -1,0 +1,72 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = 'https://fractalhost.cl/';
+---
+
+<!doctype html>
+<html lang="es-CL">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <link rel="icon" type="image/webp" href="/logo.webp" />
+    <link rel="preload" as="image" href="https://fractalhost.cl/fondo-fractal-host.webp" />
+    <meta name="geo.region" content="CL-MA" />
+    <meta name="geo.placename" content="Punta Arenas" />
+    <meta name="geo.position" content="-53.1638;-70.9171" />
+    <meta name="ICBM" content="-53.1638, -70.9171" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Fractal Host" />
+    <meta property="og:locale" content="es_CL" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://image.qwenlm.ai/public_source/6d281729-4e48-40fe-bd12-46e0f217f73f/15bdd2cad-ac08-48da-bef4-4a48af7939da.png" />
+    <meta property="og:image:width" content="1600" />
+    <meta property="og:image:height" content="900" />
+    <meta property="og:image:alt" content="Montañas de la Patagonia con líneas de datos y servidores de Fractal Host" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://image.qwenlm.ai/public_source/6d281729-4e48-40fe-bd12-46e0f217f73f/15bdd2cad-ac08-48da-bef4-4a48af7939da.png" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://image.qwenlm.ai" crossorigin />
+    <link rel="dns-prefetch" href="https://wa.me" />
+    <link rel="dns-prefetch" href="https://clientes.fractalhost.cl" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/montserrat@5.1.0/latin-600.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/montserrat@5.1.0/latin-700.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/montserrat@5.1.0/latin-800.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.1.0/latin-400.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.1.0/latin-500.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.1.0/latin-700.css" />
+    <script is:inline>
+      try { if (localStorage.getItem('fh-theme') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+    </script>
+    <script type="application/ld+json" is:inline>
+      {"@context":"https://schema.org","@graph":[
+        {"@type":"LocalBusiness","@id":"https://fractalhost.cl/#negocio","name":"Fractal Host","slogan":"Patagonia conectada","url":"https://fractalhost.cl/","logo":"/logo.webp","email":"hola@fractalhost.cl","telephone":"+56954132014","priceRange":"$","currenciesAccepted":"CLP","paymentAccepted":"Flow, tarjetas de crédito y débito, Webpay Plus, transferencia, MACH",
+        "address":{"@type":"PostalAddress","addressLocality":"Punta Arenas","addressRegion":"Región de Magallanes y de la Antártica Chilena","addressCountry":"CL"},
+        "geo":{"@type":"GeoCoordinates","latitude":-53.1638,"longitude":-70.9171},
+        "areaServed":[{"@type":"City","name":"Punta Arenas"},{"@type":"Country","name":"Chile"}]},
+        {"@type":"WebSite","@id":"https://fractalhost.cl/#web","url":"https://fractalhost.cl/","name":"Fractal Host — Hosting en Punta Arenas y Sitios Web","inLanguage":"es-CL","publisher":{"@id":"https://fractalhost.cl/#negocio"}}
+      ]}
+    </script>
+  </head>
+  <body class="bg-page text-txt dark:bg-paged dark:text-txtd font-body antialiased overflow-x-hidden transition-colors duration-300 text-[1.02rem] leading-relaxed">
+    <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[200] focus:bg-yel focus:text-ink focus:px-4 focus:py-2 focus:rounded-md font-display font-bold">Saltar al contenido</a>
+    <p id="liveRegion" class="sr-only" role="status" aria-live="polite"></p>
+    <slot />
+  </body>
+</html>

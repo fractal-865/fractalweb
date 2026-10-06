@@ -1,0 +1,27 @@
+<div id="cookieBanner" role="region" aria-label="Preferencias de cookies" class="fixed bottom-0 inset-x-0 z-[95] bg-[#04070D] border-t border-cy/25 text-txtd shadow-[0_-12px_40px_rgba(0,0,0,.65)]" hidden>
+  <div class="wrap py-4 flex flex-col lg:flex-row lg:items-center gap-4">
+    <p class="text-[.86rem] flex-1">Usamos cookies propias y de terceros: <b>funcionales</b> (siempre activas, necesarias para que el sitio funcione), <b>analíticas</b> (medición anónima de uso) y <b>marketing</b> (chat de atención). Las analíticas y de marketing solo se cargan si las aceptas. Puedes cambiar tu elección cuando quieras en “Preferencias de cookies”.</p>
+    <div class="flex flex-wrap items-center gap-2">
+      <button id="cbAcceptAll" type="button" class="cb-btn">Aceptar todo</button>
+      <button id="cbRejectAll" type="button" class="cb-btn">Rechazar todo</button>
+      <button id="cbConfigure" type="button" class="cb-btn" aria-expanded="false" aria-controls="cbPanel">Configurar</button>
+    </div>
+  </div>
+  <div id="cbPanel" class="wrap pb-4" hidden>
+    <fieldset class="grid sm:grid-cols-3 gap-3">
+      <label class="flex items-start gap-3 border border-white/20 rounded-lg p-3 text-[.84rem] bg-white/5">
+        <input type="checkbox" checked disabled class="mt-0.5 w-4 h-4 accent-[#00A9C4]">
+        <span><b>Funcionales</b><br><span class="text-[#A7B4C2]">Necesarias para el sitio. No se pueden desactivar.</span></span>
+      </label>
+      <label class="flex items-start gap-3 border border-white/20 rounded-lg p-3 text-[.84rem] bg-white/5">
+        <input id="cbAnalytics" type="checkbox" class="mt-0.5 w-4 h-4 accent-[#00A9C4]">
+        <span><b>Analíticas</b><br><span class="text-[#A7B4C2]">Google Analytics, para mejorar el sitio.</span></span>
+      </label>
+      <label class="flex items-start gap-3 border border-white/20 rounded-lg p-3 text-[.84rem] bg-white/5">
+        <input id="cbMarketing" type="checkbox" class="mt-0.5 w-4 h-4 accent-[#00A9C4]">
+        <span><b>Marketing</b><br><span class="text-[#A7B4C2]">Chat Botpress de atención.</span></span>
+      </label>
+    </fieldset>
+    <div class="mt-3"><button id="cbSave" type="button" class="cb-btn bg-yel !text-ink border-yel hover:bg-yelhov">Guardar preferencias</button></div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+export const faqs: [string, string][] = [
+  ['¿Qué es el hosting y por qué lo necesito?', 'Es el espacio en un servidor donde se guarda tu sitio web para que cualquier persona pueda verlo en internet, junto a tus correos corporativos. Sin hosting, tu sitio no existe fuera de tu computador.'],
+  ['¿Qué diferencia hay entre Hosting Global y Hosting Nacional?', 'El Hosting Global usa datacenter en EE.UU. con panel cPanel completo, ideal para WordPress. El Hosting Nacional usa servidores en el Cono Sur: 150 a 200 ms menos de ping para visitantes de Chile. Elige Nacional si tu público está en Chile.'],
+  ['¿El primer año de hosting es realmente gratis?', 'Sí. Si creas tu sitio web con nosotros, el primer año de hosting va incluido sin costo adicional, y el registro de tu dominio .cl también.'],
+  ['¿El mantenimiento y la seguridad están incluidos?', 'Para sitios desarrollados por nosotros y alojados con nosotros: actualizaciones de plugins y plantillas, corrección de errores y recuperación ante hackeos, sin costo adicional durante todo el servicio.'],
+  ['¿La migración tiene costo?', 'No. Movemos tu sitio, correos y base de datos desde tu hosting actual, sin cortes de servicio.'],
+  ['¿Qué necesito para migrar?', 'Solo el acceso a tu panel o hosting actual (usuario y contraseña). Con eso nosotros hacemos todo: sitio, correos y bases de datos.'],
+  ['¿Necesito saber de tecnología?', 'No. Nosotros nos encargamos de todo lo técnico y te enseñamos lo único que necesitas: administrar tu contenido, con una clase de uso personalizada.'],
+  ['¿Cuánto se demora en hacer mi sitio web?', 'Micrositio: 24 horas. Sitio simple u One Page: 3 a 7 días. Sitio corporativo: 1 a 3 semanas. Ecommerce: 15 a 45 días.'],
+  ['¿Cómo se paga y por qué boleta de honorarios?', 'Pagas con Flow: tarjetas de crédito y débito, Webpay Plus, transferencia o MACH; hasta 3 cuotas sin interés solo con tarjeta de crédito. Emitimos boleta de honorarios: el valor cotizado es líquido y el impuesto legal (+15,25%) lo declara tu empresa al SII.'],
+  ['¿Hay respaldos de mi sitio y correos?', 'Sí, respaldos diarios (hasta 15 copias según el plan), más monitoreo 24/7 y protección contra hack y malware.'],
+  ['¿Google Workspace incluye la licencia?', 'No. La licencia de Google Workspace se contrata directamente con Google. Gmail y Google Workspace son marcas de Google LLC. Nosotros hacemos toda la configuración.'],
+  ['¿Cuánto cuesta renovar el dominio .cl?', 'Desde el segundo año, la renovación del dominio .cl cuesta $18.990 al año si no lo administramos nosotros. Si tu sitio está con nosotros, te avisamos y gestionamos la renovación.'],
+  ['¿Qué pasa si no renuevo a tiempo?', 'Recibes un recordatorio automático 15 días antes del vencimiento. Si pasan 15 días de vencido, el servicio se suspende; a los 120 días, el sitio se elimina definitivamente.'],
+  ['¿En cuánto responden?', 'Normalmente en 2 a 3 horas; máximo 24 horas hábiles, en horario de oficina chileno. Siempre termina atendiéndote una persona.'],
+  ['¿Atienden fuera de Magallanes?', 'Sí. Trabajamos de forma remota con todo Chile y el extranjero, con el mismo trato cercano de siempre.'],
+];

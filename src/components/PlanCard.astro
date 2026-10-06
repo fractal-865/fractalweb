@@ -1,0 +1,34 @@
+---
+import type { Plan } from '../data/planes';
+interface Props {
+  plan: Plan;
+  tag: 'h3' | 'h4';
+}
+const { plan: p, tag: Tag } = Astro.props;
+const fmt = (n: number) => '$' + Math.round(n).toLocaleString('es-CL');
+---
+
+<article class={`plan-box${p.feat ? ' is-featured max-md:order-first' : ''}`}>
+  {p.feat && <span class="plan-badge">Más elegido</span>}
+  <Tag class="font-display font-extrabold uppercase tracking-[.05em] text-[1.2rem] text-txt dark:text-txtd">{p.name}</Tag>
+  <p class="text-[.9rem] text-mut dark:text-mutd mt-1.5 min-h-[2.6rem]">{p.desc}</p>
+  <div class="price-block mt-4" data-base={p.base}>
+    <div class="min-h-[1.25rem] text-[.85rem] text-mut dark:text-mutd"><s data-strike class="invisible">&nbsp;</s></div>
+    <div class="flex items-end gap-2 flex-wrap mt-1">
+      <span data-main class="font-display font-extrabold text-[2.5rem] leading-none text-txt dark:text-txtd">{fmt(p.base)}</span>
+      <span class="text-[.8rem] font-medium text-mut dark:text-mutd mb-1">CLP / año</span>
+      <span data-badge class="invisible mb-1 text-[.72rem] font-bold text-okd dark:text-live bg-ok/10 border border-okd/30 dark:border-live/30 rounded-full px-2 py-0.5">-6%</span>
+    </div>
+    <div class="min-h-[1.5rem] mt-2 text-[.9rem] leading-snug"><span data-total class="invisible font-bold text-txt dark:text-txtd">&nbsp;</span> <span data-save class="invisible font-medium text-[.8rem] text-okd dark:text-live">&nbsp;</span></div>
+  </div>
+  <p class="text-[.74rem] text-mut dark:text-mutd mt-1">Valor líquido, sin retención (+15,25%)</p>
+  <ul class="keylist mt-5 mb-6 text-[.9rem]">
+    <li class="flex items-center gap-2.5 py-2.5 text-cydeep dark:text-cyt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-4 h-4 shrink-0" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg><span class="text-mut dark:text-mutd">Espacio de disco SSD:</span> <b class="ml-auto text-txt dark:text-txtd">{p.gb}</b></li>
+    <li class="flex items-center gap-2.5 py-2.5 text-cydeep dark:text-cyt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-4 h-4 shrink-0" aria-hidden="true"><path d="M4 18v-6M9 18V6M14 18v-9M19 18V4"/></svg><span class="text-mut dark:text-mutd">Ancho banda:</span> <b class="ml-auto text-txt dark:text-txtd">{p.tr}</b></li>
+    <li class="flex items-center gap-2.5 py-2.5 text-cydeep dark:text-cyt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-4 h-4 shrink-0" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span class="text-mut dark:text-mutd">Correos:</span> <b class="ml-auto text-txt dark:text-txtd">{p.mail}</b></li>
+    <li class="flex items-center gap-2.5 py-2.5 text-cydeep dark:text-cyt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-4 h-4 shrink-0" aria-hidden="true"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg><span class="text-mut dark:text-mutd">Base de datos:</span> <b class="ml-auto text-txt dark:text-txtd">{p.db}</b></li>
+  </ul>
+  <a href={p.url} target="_blank" rel="noopener noreferrer" class={p.feat
+    ? 'w-full inline-flex justify-center items-center gap-2 bg-yel hover:bg-yelhov text-ink font-display font-extrabold text-[.95rem] px-6 py-3.5 rounded-lg shadow-[0_10px_26px_rgba(255,230,0,.35)] hover:-translate-y-0.5 transition-all'
+    : 'w-full inline-flex justify-center items-center gap-2 border-2 border-yel bg-yel/10 hover:bg-yel text-ink font-display font-extrabold text-[.95rem] px-6 py-3.5 rounded-lg hover:-translate-y-0.5 transition-all'}>Contratar</a>
+</article>
