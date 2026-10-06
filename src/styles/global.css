@@ -144,7 +144,15 @@ html.dark body { background-image:
 .cb-btn { @apply inline-flex items-center justify-center gap-2 font-display font-bold text-[.82rem] px-5 py-2.5 rounded-md border border-white/35 text-txtd hover:border-cyt hover:text-cyt transition-colors cursor-pointer; }
 .watermark { position:absolute; pointer-events:none; z-index:0; }
 .pill-clean { @apply inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 backdrop-blur px-4 py-2 text-[.82rem] text-[#EAF1F8]; }
-#faqWrap details p { overflow: hidden; transition: max-height .28s ease, opacity .28s ease; }
+#faq .faq-answer { overflow: hidden; transition: max-height .2s ease, opacity .2s ease; }
+#faq .faq-answer a { color:#00A9C4; font-weight:700; text-decoration:underline; text-underline-offset:3px; }
+:where(.dark) #faq .faq-answer a { color:#6FE6FF; }
+#faq .faq-answer ul { list-style:disc; padding-left:1.25rem; }
+#faq .faq-answer li { margin:.2rem 0; }
+.no-scrollbar { scrollbar-width:none; -ms-overflow-style:none; }
+.no-scrollbar::-webkit-scrollbar { display:none; }
+.faq-more .faq-spin { display:none; }
+.faq-more.is-loading .faq-spin { display:inline-block; }
 .modal-x { @apply w-10 h-10 rounded-full border border-line dark:border-lined flex items-center justify-center cursor-pointer hover:border-cydeep dark:hover:border-cy hover:text-cydeep dark:hover:text-cyt transition-colors shrink-0; }
 .leg-h { @apply font-display font-extrabold text-[1rem] text-txt dark:text-txtd mt-6 mb-2; }
 .leg-p { @apply text-[.9rem] text-mut dark:text-mutd mb-3; }

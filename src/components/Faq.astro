@@ -1,22 +1,59 @@
 ---
-import { faqs } from '../data/faqs';
+import { faqCategories, FAQ_PAGE_SIZE } from '../data/faqs';
 ---
 
 <section id="faq" class="bg-pagesoft dark:bg-paged py-[88px] transition-colors duration-300">
   <div class="wrap">
-    <div class="max-w-[860px] mx-auto text-center mb-12 reveal">
+    <div class="max-w-[860px] mx-auto text-center mb-8 reveal">
       <span class="kicker">Resolvemos tus dudas</span>
       <h2 class="font-display font-extrabold uppercase text-[clamp(1.45rem,3.1vw,2.25rem)] leading-snug mt-4 mb-3">Preguntas frecuentes</h2>
       <p class="text-mut dark:text-mutd text-[1rem]">Respuestas directas, sin rodeos. Si prefieres hablar: <a class="text-cydeep dark:text-cyt font-bold" href="https://calendar.app.google/W9CqbvXdKMzcAWHN8" target="_blank" rel="noopener noreferrer">agenda tu videollamada de 15 minutos →</a></p>
     </div>
-    <div class="max-w-[820px] mx-auto flex flex-col gap-3" id="faqWrap">
-      {faqs.map((f, i) => (
-        <details class={`group bg-white dark:bg-cardd border border-line dark:border-lined rounded-lg shadow-[0_10px_30px_rgba(0,0,0,.09)] open:border-cydeep dark:open:border-cy transition-colors reveal d${(i % 4) + 1}`}>
-          <summary aria-expanded="false" class="flex justify-between items-center gap-4 cursor-pointer list-none font-display font-bold text-[1rem] p-5"><span>{f[0]}</span>
-            <span class="shrink-0 w-[26px] h-[26px] rounded-md bg-cy/10 border border-cy/30 flex items-center justify-center transition-transform group-open:rotate-45" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" class="w-3 h-3 stroke-cydeep dark:stroke-cyt"><path d="M12 5v14M5 12h14"/></svg></span>
-          </summary>
-          <p class="px-5 pb-5 text-[.98rem] text-mut dark:text-mutd">{f[1]}</p>
-        </details>
+
+    <div id="faqTabs" role="tablist" aria-label="Categorías de preguntas frecuentes" data-page={FAQ_PAGE_SIZE} class="flex gap-2 overflow-x-auto no-scrollbar pb-2 mb-7 justify-start lg:flex-wrap lg:justify-center reveal">
+      {faqCategories.map((c, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`faq-tab-${c.id}`}
+          aria-controls={`faq-panel-${c.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          class="faq-tab shrink-0 rounded-full border border-line dark:border-lined bg-white dark:bg-cardd px-4 py-2 text-[.86rem] font-semibold text-mut dark:text-mutd hover:border-cydeep dark:hover:border-cy hover:text-cydeep dark:hover:text-cyt transition-colors cursor-pointer aria-selected:border-cydeep aria-selected:bg-cydeep aria-selected:text-white dark:aria-selected:border-cy dark:aria-selected:bg-cy dark:aria-selected:text-ink"
+        >
+          {c.title}
+        </button>
+      ))}
+    </div>
+
+    <div class="max-w-[820px] mx-auto">
+      {faqCategories.map((c, i) => (
+        <div
+          role="tabpanel"
+          id={`faq-panel-${c.id}`}
+          aria-labelledby={`faq-tab-${c.id}`}
+          tabindex="0"
+          class="flex flex-col gap-3 outline-none"
+          hidden={i !== 0}
+        >
+          {c.items.map((it, j) => (
+            <details class="faq-item group bg-white dark:bg-cardd border border-line dark:border-lined rounded-lg shadow-[0_10px_30px_rgba(0,0,0,.09)] open:border-cydeep dark:open:border-cy transition-colors" data-faq-item hidden={j >= FAQ_PAGE_SIZE}>
+              <summary aria-expanded="false" class="flex justify-between items-center gap-4 cursor-pointer list-none font-display font-bold text-[1rem] p-5">
+                <span>{it.q}</span>
+                <span class="shrink-0 w-[26px] h-[26px] rounded-md bg-cy/10 border border-cy/30 flex items-center justify-center transition-transform group-open:rotate-45" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" class="w-3 h-3 stroke-cydeep dark:stroke-cyt"><path d="M12 5v14M5 12h14"/></svg></span>
+              </summary>
+              <div class="faq-answer px-5 pb-5 text-[.98rem] text-mut dark:text-mutd space-y-2" set:html={it.a}></div>
+            </details>
+          ))}
+          {c.items.length > FAQ_PAGE_SIZE && (
+            <div class="flex justify-center pt-2">
+              <button type="button" data-faq-more hidden class="faq-more inline-flex items-center gap-2 border-2 border-cydeep/60 dark:border-cy/60 text-cydeep dark:text-cyt hover:bg-cy/10 font-display font-bold text-[.95rem] px-6 py-3 rounded-lg transition-colors cursor-pointer disabled:opacity-70">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" class="faq-spin w-4 h-4 stroke-current animate-spin" aria-hidden="true"><path d="M21 12a9 9 0 11-6.2-8.56" /></svg>
+                <span>Cargar más</span>
+              </button>
+            </div>
+          )}
+        </div>
       ))}
     </div>
   </div>
