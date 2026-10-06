@@ -385,6 +385,37 @@ var revealObserver = new IntersectionObserver(function(entries){
 }, { threshold:.12 });
 document.querySelectorAll('.reveal, .ping-demo').forEach(function(el){ revealObserver.observe(el); });
 
+/* ================= CONTADORES 0 → N (franja de cifras) ================= */
+var countEls = document.querySelectorAll('[data-count]');
+function runCount(el){
+  var target = parseInt(el.getAttribute('data-count'), 10);
+  if (isNaN(target)) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { el.textContent = String(target); return; }
+  var dur = 1500, t0 = null;
+  el.textContent = '0';
+  function tick(now){
+    if (t0 === null) t0 = now;
+    var p = Math.min((now - t0) / dur, 1);
+    var eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(target * eased);
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+if (countEls.length) {
+  if ('IntersectionObserver' in window) {
+    var countObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) { runCount(entry.target); countObserver.unobserve(entry.target); }
+      });
+    }, { threshold: 0.6 });
+    countEls.forEach(function(el){ countObserver.observe(el); });
+  } else {
+    countEls.forEach(runCount);
+  }
+}
+
 /* ================= FORMULARIO → enviar.php (PHPMailer) con respaldo WhatsApp ================= */
 document.getElementById('contactForm').addEventListener('submit', function(ev){
   ev.preventDefault();
