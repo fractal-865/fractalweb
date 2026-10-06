@@ -4,10 +4,11 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description: string;
+  path?: string;
 }
 
-const { title, description } = Astro.props;
-const canonical = 'https://fractalhost.cl/';
+const { title, description, path = '' } = Astro.props;
+const canonical = path ? `https://fractalhost.cl/${path}` : 'https://fractalhost.cl/';
 ---
 
 <!doctype html>
@@ -22,7 +23,7 @@ const canonical = 'https://fractalhost.cl/';
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" type="application/xml" title="Sitemap" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/sitemap.xml`} />
     <link rel="icon" type="image/webp" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/logo.webp`} />
-    <link rel="preload" as="image" type="image/avif" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/fondo-fractal-hosting.avif`} />
+    {!path && <link rel="preload" as="image" type="image/avif" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/fondo-fractal-hosting.avif`} />}
     <meta name="geo.region" content="CL-MA" />
     <meta name="geo.placename" content="Punta Arenas" />
     <meta name="geo.position" content="-53.1638;-70.9171" />
@@ -68,5 +69,8 @@ const canonical = 'https://fractalhost.cl/';
     <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[200] focus:bg-yel focus:text-ink focus:px-4 focus:py-2 focus:rounded-md font-display font-bold">Saltar al contenido</a>
     <p id="liveRegion" class="sr-only" role="status" aria-live="polite"></p>
     <slot />
+    <script>
+      import '../scripts/site';
+    </script>
   </body>
 </html>

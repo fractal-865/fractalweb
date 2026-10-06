@@ -1,3 +1,7 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const H = `${base}/#`;
+---
 <header class="fixed top-0 inset-x-0 z-50">
   <div id="topbar" class="bg-deep-2 noise border-b border-cy/10 relative overflow-hidden">
     <div class="wrap h-full flex items-center justify-between gap-2 relative z-10">
@@ -28,16 +32,16 @@
 
   <div class="bg-gradient-to-b from-night/95 to-darksec/95 backdrop-blur-md border-b border-cy/10 shadow-[0_10px_40px_rgba(0,0,0,.45)]">
     <div class="wrap h-[70px] flex items-center justify-between gap-4 relative z-20">
-      <a href="#inicio" aria-label="Fractal Host, ir al inicio">
+      <a href={`${H}inicio`} aria-label="Fractal Host, ir al inicio">
         <img src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/logo.webp`} alt="Fractal Host" width="148" height="44" class="h-[44px] w-auto object-contain drop-shadow-[0_0_8px_rgba(0,229,255,.55)]" />
       </a>
       <nav class="hidden lg:flex items-center gap-7" aria-label="Navegación principal">
-        <a href="#inicio" class="font-display text-[.8rem] font-bold tracking-[.12em] uppercase text-[#E6EDF5] hover:text-cyt transition-colors">Inicio</a>
-        <a href="#hosting-global" data-drop="global" class="drop-btn cursor-pointer flex items-center gap-1.5 font-display text-[.8rem] font-bold tracking-[.12em] uppercase text-[#E6EDF5] hover:text-cyt transition-colors">Hosting Global<svg class="chev w-3 h-3 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="3" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
-        <a href="#hosting-nacional" data-drop="nacional" class="drop-btn cursor-pointer flex items-center gap-1.5 font-display text-[.8rem] font-bold tracking-[.12em] uppercase text-[#E6EDF5] hover:text-cyt transition-colors">Hosting Nacional<svg class="chev w-3 h-3 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="3" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
-        <a href="#servicios" data-drop="servicios" class="drop-btn cursor-pointer flex items-center gap-1.5 font-display text-[.8rem] font-bold tracking-[.12em] uppercase text-[#E6EDF5] hover:text-cyt transition-colors">Servicios<svg class="chev w-3 h-3 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="3" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
-        <a href="#sitios-web" data-drop="webs" class="drop-btn cursor-pointer flex items-center gap-1.5 font-display text-[.8rem] font-bold tracking-[.12em] uppercase text-[#E6EDF5] hover:text-cyt transition-colors">Sitios Web<svg class="chev w-3 h-3 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="3" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
-        <a href="#contacto" data-drop="contacto" class="drop-btn cursor-pointer flex items-center gap-1.5 font-display text-[.8rem] font-bold tracking-[.12em] uppercase text-[#E6EDF5] hover:text-cyt transition-colors">Contacto<svg class="chev w-3 h-3 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="3" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
+        <a href={`${H}inicio`} class="font-display text-[.8rem] font-bold tracking-[.12em] uppercase text-[#E6EDF5] hover:text-cyt transition-colors">Inicio</a>
+        <a href={`${H}hosting-global`} data-drop="global" class="drop-btn cursor-pointer flex items-center gap-1.5 font-display text-[.8rem] font-bold tracking-[.12em] uppercase text-[#E6EDF5] hover:text-cyt transition-colors">Hosting Global<svg class="chev w-3 h-3 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="3" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
+        <a href={`${H}hosting-nacional`} data-drop="nacional" class="drop-btn cursor-pointer flex items-center gap-1.5 font-display text-[.8rem] font-bold tracking-[.12em] uppercase text-[#E6EDF5] hover:text-cyt transition-colors">Hosting Nacional<svg class="chev w-3 h-3 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="3" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
+        <a href={`${H}servicios`} data-drop="servicios" class="drop-btn cursor-pointer flex items-center gap-1.5 font-display text-[.8rem] font-bold tracking-[.12em] uppercase text-[#E6EDF5] hover:text-cyt transition-colors">Servicios<svg class="chev w-3 h-3 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="3" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
+        <a href={`${H}sitios-web`} data-drop="webs" class="drop-btn cursor-pointer flex items-center gap-1.5 font-display text-[.8rem] font-bold tracking-[.12em] uppercase text-[#E6EDF5] hover:text-cyt transition-colors">Sitios Web<svg class="chev w-3 h-3 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="3" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
+        <a href={`${H}contacto`} data-drop="contacto" class="drop-btn cursor-pointer flex items-center gap-1.5 font-display text-[.8rem] font-bold tracking-[.12em] uppercase text-[#E6EDF5] hover:text-cyt transition-colors">Contacto<svg class="chev w-3 h-3 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="3" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
       </nav>
       <button id="burger" class="lg:hidden p-2" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu"><span class="block w-6 h-0.5 bg-white my-[5px]"></span><span class="block w-6 h-0.5 bg-white my-[5px]"></span><span class="block w-6 h-0.5 bg-white my-[5px]"></span></button>
     </div>
@@ -51,9 +55,9 @@
         <p class="font-display font-extrabold text-txt text-[1.08rem] mt-2 mb-2">Hosting Global compartido</p>
         <p class="text-[.88rem] text-mut mb-4">cPanel completo, SSL, correos y WordPress optimizado con LiteSpeed.</p>
         <div class="flex flex-wrap gap-2 mb-4">
-          <a href="#hosting-global" data-mega-link class="mega-link">Starter 1–3</a>
-          <a href="#hosting-global" data-mega-link class="mega-link">Pro 1–3</a>
-          <a href="#hosting-global" data-mega-link class="mega-link">Master 1–3</a>
+          <a href={`${H}hosting-global`} data-mega-link class="mega-link">Starter 1–3</a>
+          <a href={`${H}hosting-global`} data-mega-link class="mega-link">Pro 1–3</a>
+          <a href={`${H}hosting-global`} data-mega-link class="mega-link">Master 1–3</a>
         </div>
         <div class="flex flex-wrap gap-1.5 text-[.76rem] text-mut">
           <span class="border border-line rounded-full px-2.5 py-1">SSL gratis</span><span class="border border-line rounded-full px-2.5 py-1">Datacenter EE. UU.</span><span class="border border-line rounded-full px-2.5 py-1">LiteSpeed Cache</span><span class="border border-line rounded-full px-2.5 py-1">Imunify360</span>
@@ -112,8 +116,8 @@
         <p class="font-display font-extrabold text-txt text-[1.08rem] mt-2 mb-2">Correo con el nombre de tu empresa</p>
         <p class="text-[.88rem] text-mut mb-4">Cuentas @tuempresa.cl configuradas por nosotros en Gmail, Outlook o tu celular.</p>
         <div class="flex flex-wrap gap-2">
-          <a href="#correo" data-mega-link class="mega-link">Correo con tu dominio</a>
-          <a href="#correo" data-mega-link class="mega-link">Gmail con tu dominio</a>
+          <a href={`${H}correo`} data-mega-link class="mega-link">Correo con tu dominio</a>
+          <a href={`${H}correo`} data-mega-link class="mega-link">Gmail con tu dominio</a>
         </div>
       </div>
       <div class="mega-card" data-goto="#mantencion">
@@ -121,8 +125,8 @@
         <p class="font-display font-extrabold text-txt text-[1.08rem] mt-2 mb-2">Mantención, respaldos y monitoreo</p>
         <p class="text-[.88rem] text-mut mb-4">Actualizaciones, SSL vigente y soporte directo. Servicio independiente del hosting.</p>
         <div class="flex flex-wrap gap-2">
-          <a href="#mantencion" data-mega-link class="mega-link">Ver mantención web</a>
-          <a href="http://fractalhost.cl/cotizador.html" target="_blank" rel="noopener noreferrer" data-mega-link class="mega-link border-yel/60 text-[#8a6d00] font-bold">Cotizar mantención</a>
+          <a href={`${H}mantencion`} data-mega-link class="mega-link">Ver mantención web</a>
+          <a href={`${base}/cotizador`} data-mega-link class="mega-link border-yel/60 text-[#8a6d00] font-bold">Cotizar mantención</a>
         </div>
       </div>
       <div class="mega-card" data-goto="#mantencion">
@@ -130,8 +134,8 @@
         <p class="font-display font-extrabold text-txt text-[1.08rem] mt-2 mb-2">Seguridad informática y Ley 21.719</p>
         <p class="text-[.88rem] text-mut mb-4">Desinfección de sitios hackeados y adecuación técnica de protección de datos.</p>
         <div class="flex flex-wrap gap-2">
-          <a href="#mantencion" data-mega-link class="mega-link">Seguridad informática</a>
-          <a href="#mantencion" data-mega-link class="mega-link">Adecuación Ley 21.719</a>
+          <a href={`${H}mantencion`} data-mega-link class="mega-link">Seguridad informática</a>
+          <a href={`${H}mantencion`} data-mega-link class="mega-link">Adecuación Ley 21.719</a>
         </div>
       </div>
     </div>
@@ -144,21 +148,21 @@
         <span class="font-display text-[.68rem] font-extrabold tracking-[.2em] uppercase text-cydeep">Creación de sitios web en Punta Arenas</span>
         <p class="font-display font-extrabold text-txt text-[1.08rem] mt-2 mb-4">¿Qué tipo de sitio necesitas?</p>
         <div class="grid sm:grid-cols-2 gap-2.5">
-          <a href="#sitios-web" data-mega-link class="mega-link">Micrositio · 24 h</a>
-          <a href="#sitios-web" data-mega-link class="mega-link">One Page / simple · 3 a 7 días</a>
-          <a href="#sitios-web" data-mega-link class="mega-link">Sitio de empresa · 1 a 3 semanas</a>
-          <a href="#sitios-web" data-mega-link class="mega-link">Tienda en línea · 15 a 45 días</a>
-          <a href="#sitios-web" data-mega-link class="mega-link">Eventos y entradas</a>
-          <a href="#sitios-web" data-mega-link class="mega-link">Reserva de horas</a>
-          <a href="#sitios-web" data-mega-link class="mega-link">Sitio inmobiliario</a>
-          <a href="#sitios-web" data-mega-link class="mega-link">Proyecto a medida</a>
+          <a href={`${H}sitios-web`} data-mega-link class="mega-link">Micrositio · 24 h</a>
+          <a href={`${H}sitios-web`} data-mega-link class="mega-link">One Page / simple · 3 a 7 días</a>
+          <a href={`${H}sitios-web`} data-mega-link class="mega-link">Sitio de empresa · 1 a 3 semanas</a>
+          <a href={`${H}sitios-web`} data-mega-link class="mega-link">Tienda en línea · 15 a 45 días</a>
+          <a href={`${H}sitios-web`} data-mega-link class="mega-link">Eventos y entradas</a>
+          <a href={`${H}sitios-web`} data-mega-link class="mega-link">Reserva de horas</a>
+          <a href={`${H}sitios-web`} data-mega-link class="mega-link">Sitio inmobiliario</a>
+          <a href={`${H}sitios-web`} data-mega-link class="mega-link">Proyecto a medida</a>
         </div>
       </div>
       <div class="mega-card" data-goto="#sitios-web">
         <span class="font-display text-[.68rem] font-extrabold tracking-[.2em] uppercase text-cydeep">Empieza hoy</span>
         <p class="font-display font-extrabold text-txt text-[1.08rem] mt-2 mb-4">Cotiza o conversa</p>
         <ul class="flex flex-col gap-3 mb-4">
-          <li><a href="http://fractalhost.cl/cotizador.html" target="_blank" rel="noopener noreferrer" data-mega-link class="flex items-center gap-3 text-[.9rem] text-[#8a6d00] hover:text-ink font-bold transition-colors"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-4 h-4 stroke-yelhov shrink-0" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h3M8 15h3M14 11h2M14 15h2"/></svg>Usar el cotizador de sitios web<svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-3.5 h-3.5 stroke-current ml-auto" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></li>
+          <li><a href={`${base}/cotizador`} data-mega-link class="flex items-center gap-3 text-[.9rem] text-[#8a6d00] hover:text-ink font-bold transition-colors"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-4 h-4 stroke-yelhov shrink-0" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h3M8 15h3M14 11h2M14 15h2"/></svg>Usar el cotizador de sitios web<svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-3.5 h-3.5 stroke-current ml-auto" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></li>
           <li><a href="https://calendar.app.google/W9CqbvXdKMzcAWHN8" target="_blank" rel="noopener noreferrer" data-mega-link class="flex items-center gap-3 text-[.9rem] text-txt hover:text-cydeep transition-colors"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-4 h-4 stroke-cydeep shrink-0" aria-hidden="true"><rect x="2" y="6" width="13" height="12" rx="2"/><path d="M15 10.5l7-3.5v10l-7-3.5z"/></svg>Agendar videollamada de 15 minutos</a></li>
         </ul>
         <ul class="flex flex-col gap-2 text-[.86rem] text-mut">
@@ -186,7 +190,7 @@
         <span class="font-display text-[.68rem] font-extrabold tracking-[.2em] uppercase text-cydeep">Antes de escribir</span>
         <p class="font-display font-extrabold text-txt text-[1.08rem] mt-2 mb-4">Resuelve al instante</p>
         <ul class="flex flex-col gap-3">
-          <li><a href="#faq" data-mega-link class="flex items-start gap-3 text-[.88rem] text-txt hover:text-cydeep transition-colors"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-5 h-5 stroke-cydeep shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 015 0c0 1.5-2.5 2-2.5 3.5"/><path d="M12 17h.01"/></svg><span><b>Preguntas frecuentes</b><br /><span class="text-mut">Precios, plazos, migración y renovaciones.</span></span></a></li>
+          <li><a href={`${H}faq`} data-mega-link class="flex items-start gap-3 text-[.88rem] text-txt hover:text-cydeep transition-colors"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-5 h-5 stroke-cydeep shrink-0 mt-0.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 015 0c0 1.5-2.5 2-2.5 3.5"/><path d="M12 17h.01"/></svg><span><b>Preguntas frecuentes</b><br /><span class="text-mut">Precios, plazos, migración y renovaciones.</span></span></a></li>
           <li><a href="https://clientes.fractalhost.cl/serverstatus.php" target="_blank" rel="noopener noreferrer" data-mega-link class="flex items-start gap-3 text-[.88rem] text-txt hover:text-ok transition-colors"><span class="w-3 h-3 rounded-full bg-live animate-pulse shrink-0 mt-1" aria-hidden="true"></span><span><b>Estado de servidores en vivo</b><br /><span class="text-mut">Monitoreo público 24/7.</span></span></a></li>
         </ul>
       </div>
@@ -204,18 +208,18 @@
 </header>
 
 <div id="mobileMenu" class="lg:hidden fixed top-[118px] inset-x-0 z-40 bg-night border-b border-white/10 px-[6%] py-4 flex flex-col -translate-y-[130%] transition-transform duration-300 overflow-y-auto max-h-[calc(100vh-118px)]">
-  <a href="#inicio" class="py-3 text-[#E6EDF5] border-b border-white/10">Inicio</a>
+  <a href={`${H}inicio`} class="py-3 text-[#E6EDF5] border-b border-white/10">Inicio</a>
   <span class="pt-3 pb-1 text-cyt font-display font-extrabold text-[.74rem] tracking-[.2em] uppercase">Hosting</span>
-  <a href="#hosting-global" class="py-2.5 pl-5 text-[.92rem] text-[#B9C6D4] border-b border-white/5">Hosting Global · cPanel (EE. UU.)</a>
-  <a href="#hosting-nacional" class="py-2.5 pl-5 text-[.92rem] text-[#B9C6D4] border-b border-white/10">Hosting Cono Sur</a>
+  <a href={`${H}hosting-global`} class="py-2.5 pl-5 text-[.92rem] text-[#B9C6D4] border-b border-white/5">Hosting Global · cPanel (EE. UU.)</a>
+  <a href={`${H}hosting-nacional`} class="py-2.5 pl-5 text-[.92rem] text-[#B9C6D4] border-b border-white/10">Hosting Cono Sur</a>
   <span class="pt-3 pb-1 text-cyt font-display font-extrabold text-[.74rem] tracking-[.2em] uppercase">Servicios</span>
-  <a href="#correo" class="py-2.5 pl-5 text-[.92rem] text-[#B9C6D4] border-b border-white/5">Correo corporativo</a>
-  <a href="#mantencion" class="py-2.5 pl-5 text-[.92rem] text-[#B9C6D4] border-b border-white/10">Mantención, seguridad y protección de datos</a>
-  <a href="http://fractalhost.cl/cotizador.html" target="_blank" rel="noopener noreferrer" class="py-3 text-yel font-bold border-b border-white/10 flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-4 h-4 stroke-current" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h3M8 15h3M14 11h2M14 15h2"/></svg>Cotizador de sitios web y mantención</a>
+  <a href={`${H}correo`} class="py-2.5 pl-5 text-[.92rem] text-[#B9C6D4] border-b border-white/5">Correo corporativo</a>
+  <a href={`${H}mantencion`} class="py-2.5 pl-5 text-[.92rem] text-[#B9C6D4] border-b border-white/10">Mantención, seguridad y protección de datos</a>
+  <a href={`${base}/cotizador`} class="py-3 text-yel font-bold border-b border-white/10 flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-4 h-4 stroke-current" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h3M8 15h3M14 11h2M14 15h2"/></svg>Cotizador de sitios web y mantención</a>
   <a href="https://calendar.app.google/W9CqbvXdKMzcAWHN8" target="_blank" rel="noopener noreferrer" class="py-3 text-[#E6EDF5] font-bold border-b border-white/10 flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-4 h-4 stroke-cyt" aria-hidden="true"><rect x="2" y="6" width="13" height="12" rx="2"/><path d="M15 10.5l7-3.5v10l-7-3.5z"/></svg>Agendar videollamada</a>
-  <a href="#sitios-web" class="py-3 text-[#E6EDF5] border-b border-white/10">Sitios Web</a>
-  <a href="#faq" class="py-3 text-[#E6EDF5] border-b border-white/10">Preguntas frecuentes</a>
+  <a href={`${H}sitios-web`} class="py-3 text-[#E6EDF5] border-b border-white/10">Sitios Web</a>
+  <a href={`${H}faq`} class="py-3 text-[#E6EDF5] border-b border-white/10">Preguntas frecuentes</a>
   <a href="https://clientes.fractalhost.cl/serverstatus.php" target="_blank" rel="noopener noreferrer" class="py-3 text-live font-bold border-b border-white/10 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-live animate-pulse" aria-hidden="true"></span>Estado de servidores</a>
-  <a href="#contacto" class="py-3 text-[#E6EDF5] border-b border-white/10">Contacto</a>
+  <a href={`${H}contacto`} class="py-3 text-[#E6EDF5] border-b border-white/10">Contacto</a>
   <a href="https://clientes.fractalhost.cl/" target="_blank" rel="noopener noreferrer" class="py-3 text-cyt font-bold">Área clientes →</a>
 </div>

@@ -269,6 +269,7 @@ document.querySelectorAll('[data-cycle-btn]').forEach(function(btn){
 /* ================= SLIDER ================= */
 (function(){
   var slider = document.getElementById('heroSlider');
+  if (!slider) return;
   var slides = Array.prototype.slice.call(slider.querySelectorAll('.slide'));
   var dotsWrap = document.getElementById('slideDots');
   var idx = 0, timer = null, DELAY = 7000;
@@ -499,7 +500,8 @@ if (countEls.length) {
 }
 
 /* ================= FORMULARIO → enviar.php (PHPMailer) con respaldo WhatsApp ================= */
-document.getElementById('contactForm').addEventListener('submit', function(ev){
+var contactFormEl = document.getElementById('contactForm');
+if (contactFormEl) contactFormEl.addEventListener('submit', function(ev){
   ev.preventDefault();
   var ok = true;
   function setErr(id, msg){

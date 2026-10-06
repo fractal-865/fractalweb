@@ -1,10 +1,14 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const H = `${base}/#`;
+---
 <footer class="relative bg-deep-3 noise text-[#A7B4C2] pt-16 pb-7 border-t border-cy/10 overflow-hidden">
     <script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
 <script src="https://files.bpcontent.cloud/2026/08/28/13/20260828134040-5CULTYOO.js" defer></script> 
   <div class="relative z-10 wrap">
     <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-10 mb-11">
       <div>
-        <a href="#inicio" aria-label="Fractal Host, ir al inicio">
+        <a href={`${H}inicio`} aria-label="Fractal Host, ir al inicio">
           <img src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/logo.webp`} alt="Fractal Host" width="148" height="44" class="h-[44px] w-auto object-contain">
         </a>
         <p class="mt-4 text-[.88rem] max-w-[300px]">Patagonia conectada. Servicio de hosting, creación de sitios web y correo corporativo con trato humano, desde Punta Arenas para todo Chile.</p>
@@ -12,11 +16,11 @@
       <nav aria-label="Servicios">
         <h3 class="font-display text-[.78rem] tracking-[.18em] uppercase text-cyt mb-4">Servicios</h3>
         <ul class="flex flex-col gap-2 text-[.88rem]">
-          <li><a class="hover:text-cyt" href="#hosting-global">Hosting Global (cPanel · EE. UU.)</a></li>
-          <li><a class="hover:text-cyt" href="#hosting-nacional">Hosting Cono Sur</a></li>
-          <li><a class="hover:text-cyt" href="#correo">Correo corporativo</a></li>
-          <li><a class="hover:text-cyt" href="#mantencion">Mantención y seguridad web</a></li>
-          <li><a class="hover:text-cyt" href="http://fractalhost.cl/cotizador.html" target="_blank" rel="noopener noreferrer">Cotizador de sitios web y mantención</a></li>
+          <li><a class="hover:text-cyt" href={`${H}hosting-global`}>Hosting Global (cPanel · EE. UU.)</a></li>
+          <li><a class="hover:text-cyt" href={`${H}hosting-nacional`}>Hosting Cono Sur</a></li>
+          <li><a class="hover:text-cyt" href={`${H}correo`}>Correo corporativo</a></li>
+          <li><a class="hover:text-cyt" href={`${H}mantencion`}>Mantención y seguridad web</a></li>
+          <li><a class="hover:text-cyt" href={`${base}/cotizador`}>Cotizador de sitios web y mantención</a></li>
           <li><a class="hover:text-cyt" href="https://fractalhost.cl/migraciones.html">Migración de sitio y correos</a></li>
         </ul>
       </nav>
@@ -25,7 +29,7 @@
         <ul class="flex flex-col gap-2 text-[.88rem]">
           <li><a class="hover:text-cyt" href="https://clientes.fractalhost.cl/" target="_blank" rel="noopener noreferrer">Área clientes</a></li>
           <li><a class="hover:text-live flex items-center gap-2" href="https://clientes.fractalhost.cl/serverstatus.php" target="_blank" rel="noopener noreferrer"><span class="w-2 h-2 rounded-full bg-live animate-pulse" aria-hidden="true"></span>Estado de servidores</a></li>
-          <li><a class="hover:text-cyt" href="#faq">Preguntas frecuentes</a></li>
+          <li><a class="hover:text-cyt" href={`${H}faq`}>Preguntas frecuentes</a></li>
           <li><a class="hover:text-cyt" href="https://calendar.app.google/W9CqbvXdKMzcAWHN8" target="_blank" rel="noopener noreferrer">Agendar videollamada</a></li>
         </ul>
       </nav>
