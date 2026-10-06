@@ -342,14 +342,11 @@ document.querySelectorAll('[data-cycle-btn]').forEach(function(btn){
   });
 })();
 
-/* ================= HEADER / TEMA / MÓVIL / VOLVER ARRIBA ================= */
+/* ================= HEADER / TEMA / MÓVIL ================= */
 var headerEl = document.querySelector('header');
-var toTopBtn = document.getElementById('toTop');
 window.addEventListener('scroll', function(){
   headerEl.classList.toggle('scrolled', window.scrollY > 40);
-  toTopBtn.classList.toggle('show', window.scrollY > 600);
 }, { passive:true });
-toTopBtn.addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); });
 document.getElementById('themeBtn').addEventListener('click', function(){
   var isDark = document.documentElement.classList.toggle('dark');
   try { localStorage.setItem('fh-theme', isDark ? 'dark' : 'light'); } catch(e){}

@@ -31,7 +31,7 @@ export const hostingGlobal: Record<'starter' | 'pro' | 'master', Plan[]> = {
 
 export const hostingConoSur: Plan[] = [
   { name: 'Austral', desc: 'Presencia local rápida para partir.', tier: 1, gb: '1,5GB', tr: '15GB', mail: '3', db: '3', base: 49990, feat: false, url: 'https://clientes.fractalhost.cl/store/enlace-nacional-patagonia-cloud-server/austral' },
-  { name: 'Glaciar', desc: 'Más espacio para un negocio en marcha.', tier: 2, gb: '2,5GB', tr: '35GB', mail: '5', db: 'Ilimitadas', base: 69990, feat: false, url: 'https://clientes.fractalhost.cl/store/enlace-nacional-patagonia-cloud-server/glaciar' },
+  { name: 'Glaciar', desc: 'Más espacio para un negocio en marcha.', tier: 2, gb: '2,5GB', tr: '35GB', mail: '5', db: '5', base: 69990, feat: false, url: 'https://clientes.fractalhost.cl/store/enlace-nacional-patagonia-cloud-server/glaciar' },
   { name: 'Fiordo', desc: 'El equilibrio ideal para pymes de la zona.', tier: 3, gb: '4GB', tr: '90GB', mail: '12', db: '8', base: 89990, feat: true, url: 'https://clientes.fractalhost.cl/store/enlace-nacional-patagonia-cloud-server/fiordo' },
   { name: 'Fiordo Extra', desc: 'Máximo espacio y banda ilimitada.', tier: 4, gb: '8GB', tr: 'Ilimitada', mail: 'Ilimitados', db: '12', base: 129990, feat: false, url: 'https://clientes.fractalhost.cl/store/enlace-nacional-patagonia-cloud-server/fiordo-extra' },
 ];

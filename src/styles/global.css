@@ -28,9 +28,6 @@
   --color-okd: #0F7A3D;
   --color-live: #22E6A8;
   --color-wa: #25D366;
-  --color-org: #FF923D;
-  --color-vio: #A78BFA;
-  --color-ros: #FF6EC7;
   --font-display: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Roboto', ui-sans-serif, system-ui, sans-serif;
 }
@@ -58,15 +55,11 @@ body.modal-open { overflow: hidden; }
 .ping-demo.visible .ping-cl i { width: 22%; }
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.visible { opacity: 1; transform: none; }
-.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}.d6{transition-delay:.48s}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
 .wa-ring::after { content:""; position:absolute; inset:0; border-radius:9999px; border:2px solid rgba(37,211,102,.6); animation: ring 2s infinite; }
 @keyframes ring { 0%{transform:scale(1);opacity:1} 100%{transform:scale(1.55);opacity:0} }
 body.cookies-open .wa-ring { bottom: 130px; }
 .wa-ring { transition: bottom .35s ease, transform .3s ease; }
-#toTop { position: fixed; right: 1.5rem; bottom: 6.25rem; z-index: 60; opacity: 0; visibility: hidden; transform: translateY(12px);
-  transition: opacity .3s ease, transform .3s ease, visibility .3s, bottom .35s ease; }
-#toTop.show { opacity: 1; visibility: visible; transform: translateY(0); }
-body.cookies-open #toTop { bottom: 11rem; }
 summary::-webkit-details-marker { display:none; }
 #topbar { height: 3.1rem; transition: height .35s ease; }
 header.scrolled #topbar { height: 2.35rem; }
@@ -145,9 +138,6 @@ html.dark body { background-image:
 .spot-cy { background: radial-gradient(600px 260px at 90% -20%, rgba(0,229,255,.2), transparent 60%), radial-gradient(500px 260px at -10% 110%, rgba(27,116,228,.18), transparent 60%), linear-gradient(160deg,#041018 0%,#062030 55%,#082A3D 100%); border:1px solid rgba(0,229,255,.35); box-shadow:0 24px 60px rgba(0,0,0,.5); }
 .spot-ok { background: radial-gradient(600px 260px at 90% -20%, rgba(18,161,80,.2), transparent 60%), radial-gradient(500px 260px at -10% 110%, rgba(18,161,80,.12), transparent 60%), linear-gradient(160deg,#07130C 0%,#0C1F14 55%,#12291B 100%); border:1px solid rgba(34,230,168,.35); box-shadow:0 24px 60px rgba(0,0,0,.5); }
 .spot-yel { background: radial-gradient(600px 260px at 90% -20%, rgba(255,230,0,.22), transparent 60%), radial-gradient(500px 260px at -10% 110%, rgba(255,230,0,.12), transparent 60%), linear-gradient(160deg,#131208 0%,#1B1A0A 55%,#232009 100%); border:1px solid rgba(255,230,0,.35); box-shadow:0 24px 60px rgba(0,0,0,.5); }
-.spot-org { background: radial-gradient(600px 260px at 90% -20%, rgba(255,146,61,.22), transparent 60%), radial-gradient(500px 260px at -10% 110%, rgba(255,146,61,.14), transparent 60%), linear-gradient(160deg,#150D07 0%,#22140A 55%,#2C1A0D 100%); border:1px solid rgba(255,146,61,.35); box-shadow:0 24px 60px rgba(0,0,0,.5); }
-.spot-vio { background: radial-gradient(600px 260px at 90% -20%, rgba(167,139,250,.22), transparent 60%), radial-gradient(500px 260px at -10% 110%, rgba(167,139,250,.14), transparent 60%), linear-gradient(160deg,#0E0B1A 0%,#171130 55%,#1F1740 100%); border:1px solid rgba(167,139,250,.35); box-shadow:0 24px 60px rgba(0,0,0,.5); }
-.spot-ros { background: radial-gradient(600px 260px at 90% -20%, rgba(255,110,199,.22), transparent 60%), radial-gradient(500px 260px at -10% 110%, rgba(255,110,199,.14), transparent 60%), linear-gradient(160deg,#170A13 0%,#25101E 55%,#301527 100%); border:1px solid rgba(255,110,199,.35); box-shadow:0 24px 60px rgba(0,0,0,.5); }
 .tl-line { display:none; position:absolute; top:26px; left:10%; right:10%; height:3px; border-radius:99px; background:linear-gradient(90deg,#00E5FF,#FFE600); opacity:.45; }
 .tl-line-v { position:absolute; top:8px; bottom:8px; left:26px; width:3px; border-radius:99px; background:linear-gradient(180deg,#00E5FF,#FFE600); opacity:.45; }
 @media (min-width:768px){ .tl-line{display:block} .tl-line-v{display:none} }
