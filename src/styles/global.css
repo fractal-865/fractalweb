@@ -158,7 +158,6 @@ html.dark body { background-image:
 @media (min-width:768px){ .tl-line{display:block} .tl-line-v{display:none} }
 .cb-btn { @apply inline-flex items-center justify-center gap-2 font-display font-bold text-[.76rem] px-3.5 py-1.5 rounded-md border border-white/35 text-txtd hover:border-cyt hover:text-cyt transition-colors cursor-pointer; }
 .watermark { position:absolute; pointer-events:none; z-index:0; }
-.pill-clean { @apply inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 backdrop-blur px-4 py-2 text-[.82rem] text-[#EAF1F8]; }
 #faq .faq-answer { overflow: hidden; transition: max-height .2s ease, opacity .2s ease; }
 #faq .faq-answer a { color:#00747F; font-weight:700; text-decoration:underline; text-underline-offset:3px; }
 :where(.dark) #faq .faq-answer a { color:#6FE6FF; }

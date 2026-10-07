@@ -13,9 +13,9 @@ export interface Plan {
 
 export const hostingGlobal: Record<'starter' | 'pro' | 'master', Plan[]> = {
   starter: [
-    { name: 'Starter 1', desc: 'Ideal para partir: tu primer sitio con correo propio.', tier: 1, gb: '1,5GB', tr: '12GB', mail: '3', db: '2', base: 39990, feat: false, url: 'https://clientes.fractalhost.cl/store/planes/starter-1' },
+    { name: 'Starter 1', desc: 'Ideal para partir: tu primer sitio con correo propio.', tier: 1, gb: '1,5GB', tr: '15GB', mail: '3', db: '2', base: 39990, feat: false, url: 'https://clientes.fractalhost.cl/store/planes/starter-1' },
     { name: 'Starter 2', desc: 'El equilibrio para emprendedores y pymes chicas.', tier: 2, gb: '2,5GB', tr: '35GB', mail: '6', db: '3', base: 49990, feat: true, url: 'https://clientes.fractalhost.cl/store/planes/starter-2' },
-    { name: 'Starter 3', desc: 'Más espacio para crecer tranquilo.', tier: 3, gb: '4GB', tr: '90GB', mail: '12', db: '8', base: 67990, feat: false, url: 'https://clientes.fractalhost.cl/store/planes/starter-3' },
+    { name: 'Starter 3', desc: 'Más espacio para crecer tranquilo.', tier: 3, gb: '4GB', tr: '90GB', mail: '12', db: '8', base: 69990, feat: false, url: 'https://clientes.fractalhost.cl/store/planes/starter-3' },
   ],
   pro: [
     { name: 'Pro 1', desc: 'Negocios con tráfico constante.', tier: 1, gb: '8GB', tr: '180GB', mail: '20', db: '15', base: 86990, feat: false, url: 'https://clientes.fractalhost.cl/store/planes/pro-1' },
