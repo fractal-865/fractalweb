@@ -20,10 +20,28 @@
     var s1 = document.createElement('script'); s1.src = 'https://cdn.botpress.cloud/webchat/v5.0/inject.js'; document.head.appendChild(s1);
     var s2 = document.createElement('script'); s2.defer = true; s2.src = 'https://files.bpcontent.cloud/2026/08/28/13/20260828134040-5CULTYOO.js'; document.head.appendChild(s2);
   }
-  function apply(c){ if (c.analytics) loadAnalytics(); if (c.marketing) loadMarketing(); }
+  /* El chat NO se carga al abrir la página: espera al primer gesto del visitante
+     (es lo que marca interés real) o, en su defecto, a 30 s. Así deja de competir
+     con la imagen del hero y con el primer pintado. */
+  var GESTOS = ['pointerdown', 'keydown', 'touchstart', 'wheel', 'scroll'];
+  function scheduleMarketing(){
+    if (window.__fhBPq) return; window.__fhBPq = true;
+    var lanzado = false;
+    var lanzar = function(){
+      if (lanzado) return; lanzado = true;
+      GESTOS.forEach(function(e){ window.removeEventListener(e, lanzar); });
+      loadMarketing();
+    };
+    GESTOS.forEach(function(e){ window.addEventListener(e, lanzar, { passive: true }); });
+    setTimeout(lanzar, 30000);
+  }
+  function apply(c, inmediato){
+    if (c.analytics) loadAnalytics();
+    if (c.marketing) { if (inmediato) loadMarketing(); else scheduleMarketing(); }
+  }
   function hide(){ banner.hidden = true; document.body.classList.remove('cookies-open'); }
   function show(){ banner.hidden = false; document.body.classList.add('cookies-open'); }
-  function save(c, msg){ set(c); apply(c); hide(); announce(msg || 'Preferencias de cookies guardadas.'); }
+  function save(c, msg){ set(c); apply(c, true); hide(); announce(msg || 'Preferencias de cookies guardadas.'); }
   var saved = get();
   if (saved) { apply(saved); } else { show(); }
   document.getElementById('cbAcceptAll').addEventListener('click', function(){ save({functional:true, analytics:true, marketing:true}, 'Cookies: aceptaste todas las categorías.'); });

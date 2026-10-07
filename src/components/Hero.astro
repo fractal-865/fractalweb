@@ -4,7 +4,17 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 <section id="inicio" class="on-dark relative pt-[196px] pb-[110px] text-center text-white bg-deep noise gridlines inner-depth overflow-hidden">
   <div data-px="0.22" class="absolute inset-0 z-0">
-    <img src={`${base}/fondo-fractal-hosting.avif`} alt="Montañas de la Patagonia con líneas de datos y servidores de Fractal Host" width="1923" height="1253" fetchpriority="high" decoding="async" class="w-full h-full object-cover opacity-70 scale-110" />
+    <img
+      src={`${base}/fondo-fractal-hosting.avif`}
+      srcset={`${base}/fondo-fractal-hosting-960.avif 960w, ${base}/fondo-fractal-hosting-1440.avif 1440w, ${base}/fondo-fractal-hosting.avif 1923w`}
+      sizes="110vw"
+      alt="Montañas de la Patagonia con líneas de datos y servidores de Fractal Host"
+      width="1923"
+      height="1253"
+      fetchpriority="high"
+      decoding="async"
+      class="w-full h-full object-cover opacity-70 scale-110"
+    />
   </div>
   <div class="absolute inset-0 z-[2] bg-gradient-to-b from-night/90 via-night/55 to-night/95"></div>
   <div class="absolute inset-0 z-[2] bg-[radial-gradient(115%_85%_at_50%_38%,rgba(4,7,13,0)_0%,rgba(4,7,13,.55)_58%,rgba(4,7,13,.92)_100%)]" aria-hidden="true"></div>

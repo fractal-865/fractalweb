@@ -28,7 +28,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <link rel="icon" type="image/png" sizes="96x96" href={`${base}/favicon-96x96.png`} />
     <link rel="apple-touch-icon" sizes="180x180" href={`${base}/apple-touch-icon.png`} />
     <link rel="manifest" href={`${base}/site.webmanifest`} />
-    {!path && !noindex && <link rel="preload" as="image" type="image/avif" href={`${base}/fondo-fractal-hosting.avif`} />}
+    {!path && !noindex && (
+      <link
+        rel="preload"
+        as="image"
+        type="image/avif"
+        href={`${base}/fondo-fractal-hosting.avif`}
+        imagesrcset={`${base}/fondo-fractal-hosting-960.avif 960w, ${base}/fondo-fractal-hosting-1440.avif 1440w, ${base}/fondo-fractal-hosting.avif 1923w`}
+        imagesizes="110vw"
+      />
+    )}
     <meta name="geo.region" content="CL-MA" />
     <meta name="geo.placename" content="Punta Arenas" />
     <meta name="geo.position" content="-53.1638;-70.9171" />
@@ -48,15 +57,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="https://fractalhost.cl/fondo-fractal-hosting.jpg" />
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-    <link rel="dns-prefetch" href="https://wa.me" />
     <link rel="dns-prefetch" href="https://clientes.fractalhost.cl" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/montserrat@5.1.0/latin-600.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/montserrat@5.1.0/latin-700.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/montserrat@5.1.0/latin-800.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.1.0/latin-400.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.1.0/latin-500.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.1.0/latin-700.css" />
+    <link rel="stylesheet" href={`${base}/fonts/fonts.css`} />
     <script is:inline>
       try { if (localStorage.getItem('fh-theme') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
     </script>
