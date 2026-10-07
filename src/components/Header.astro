@@ -9,14 +9,18 @@ const H = `${base}/#`;
         <a href="mailto:hola@fractalhost.cl" class="tb-text hover:text-cyt transition-colors inline-flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-3.5 h-3.5 stroke-cyt" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>hola@fractalhost.cl</a>
         <a href="https://clientes.fractalhost.cl/serverstatus.php" target="_blank" rel="noopener noreferrer" class="tb-text hover:text-live transition-colors inline-flex items-center gap-1.5 font-bold text-[#C9F7E4]"><span class="w-2 h-2 rounded-full bg-live animate-pulse" aria-hidden="true"></span>Estado de servidores</a>
       </div>
-      <div class="flex items-center gap-1.5 sm:gap-2 ml-auto">
+      <div class="flex items-center gap-1 sm:gap-2 ml-auto">
         <a href={`${base}/cotizador/`} aria-label="Cotizar mi sitio web" class="tb-btn shrink-0 items-center gap-1.5 bg-cy hover:bg-cyt text-[#03222D] font-display font-extrabold rounded-md shadow-[0_4px_16px_rgba(0,229,255,.35)]">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-4 h-4 stroke-current" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 12h4M8 15h4M15 12h.01M15 15h.01"/></svg>
           <span class="hidden sm:inline">Cotizar sitio web</span><span class="sm:hidden">Cotizar</span>
         </a>
-        <a href="https://calendar.app.google/W9CqbvXdKMzcAWHN8" target="_blank" rel="noopener noreferrer" aria-label="Agendar videollamada de 15 minutos" class="tb-btn shrink-0 items-center gap-1.5 border border-white/25 text-[#E6EDF5] hover:border-cy hover:text-cyt font-bold rounded-md">
+        <a href="https://calendar.app.google/W9CqbvXdKMzcAWHN8" target="_blank" rel="noopener noreferrer" aria-label="Agendar videollamada de 15 minutos" class="tb-btn tb-agendar shrink-0 items-center gap-1.5 border border-white/25 text-[#E6EDF5] hover:border-cy hover:text-cyt font-bold rounded-md">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-4 h-4 stroke-current" aria-hidden="true"><rect x="2" y="6" width="13" height="12" rx="2"/><path d="M15 10.5l7-3.5v10l-7-3.5z"/></svg>
           <span class="hidden sm:inline">Agendar videollamada</span>
+        </a>
+        <a href="https://clientes.fractalhost.cl/store/planes" aria-label="Ver planes y contratar hosting en línea" class="tb-btn shrink-0 items-center gap-1.5 border border-cy/55 text-cyt hover:border-cy hover:bg-cy/10 hover:shadow-[0_0_16px_rgba(0,229,255,.45)] font-bold rounded-md transition-[box-shadow,border-color,background-color] duration-200">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" class="w-6 h-6 stroke-cyt shrink-0" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h2.6l2.3 11.2a1.7 1.7 0 001.7 1.4h8.4a1.7 1.7 0 001.7-1.3l1.4-6.3H6"/></svg>
+          <span class="hidden sm:inline">Contratar</span>
         </a>
         <a href="https://clientes.fractalhost.cl/" target="_blank" rel="noopener noreferrer" class="tb-btn shrink-0 items-center gap-1.5 bg-yel hover:bg-yelhov text-ink font-display font-extrabold rounded-md shadow-[0_4px_16px_rgba(255,230,0,.45)]">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" class="w-4 h-4 stroke-current" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>

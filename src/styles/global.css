@@ -80,6 +80,10 @@ header.scrolled .tb-btn { padding:.3rem .65rem; font-size:.68rem; min-height:1.9
 .tb-ico { width:2.35rem; height:2.35rem; transition: all .35s ease; }
 header.scrolled .tb-ico { width:1.9rem; height:1.9rem; }
 @media (max-width:640px){ #topbar{height:3.4rem} header.scrolled #topbar{height:2.6rem} .tb-btn{min-height:2.5rem;padding:.5rem .75rem} header.scrolled .tb-btn{min-height:2rem} }
+/* En pantallas muy angostas la barra superior no da abasto (tiene overflow:hidden
+   y recorta los últimos botones). "Agendar videollamada" se oculta allí para dejar
+   sitio a "Contratar": sigue disponible en el menú hamburguesa. */
+@media (max-width:413px){ .tb-agendar { display:none; } }
 .bg-deep { background:
   radial-gradient(1100px 520px at 85% -12%, rgba(0,229,255,.16), transparent 60%),
   radial-gradient(900px 480px at -10% 30%, rgba(27,116,228,.22), transparent 60%),
@@ -140,8 +144,10 @@ html.dark body { background-image:
 .price-block { transition: opacity .12s ease, transform .12s ease; }
 .price-block.swap { opacity:0; transform:translateY(4px); }
 .tip { position: relative; cursor: help; }
+a.tip, button.tip { cursor: pointer; }
 #tipBox { position: fixed; z-index: 300; max-width: 240px; background: #04070D; color: #EAF1F8;
   font-size: .74rem; line-height: 1.45; font-weight: 500; padding: 9px 12px; border-radius: 10px;
+  border: 1px solid rgba(0,229,255,.4);
   box-shadow: 0 12px 30px rgba(4,7,13,.45); opacity: 0; visibility: hidden; transition: opacity .18s ease; pointer-events: none; }
 #tipBox.show { opacity: 1; visibility: visible; }
 #tipBox .tip-arrow { position: absolute; width: 12px; height: 12px; background: #04070D; transform: rotate(45deg); }

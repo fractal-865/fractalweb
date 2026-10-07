@@ -217,7 +217,11 @@ var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').match
   var text = document.createElement('span'); tip.appendChild(text);
   document.body.appendChild(tip);
   var current = null;
+  /* En pantallas táctiles no se muestran los tooltips marcados con data-tip-hoveronly:
+     ahí el clic navega directo y la información la aporta la franja de pago. */
+  var esTactil = window.matchMedia && window.matchMedia('(hover: none)').matches;
   function show(pill){
+    if (esTactil && pill.hasAttribute('data-tip-hoveronly')) return;
     current = pill;
     text.textContent = pill.getAttribute('data-tip');
     tip.classList.add('show');
@@ -227,9 +231,13 @@ var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').match
   function position(pill){
     var r = pill.getBoundingClientRect();
     var tw = tip.offsetWidth, th = tip.offsetHeight;
-    var place = 'below';
-    var top = r.bottom + 10;
-    if (top + th > window.innerHeight - 8) { place = 'above'; top = r.top - th - 10; }
+    /* data-tip-place="above" fuerza la apertura hacia arriba (botones de plan);
+       si no cabe arriba, cae abajo. Sin ese atributo el comportamiento es el de siempre. */
+    var arriba = pill.getAttribute('data-tip-place') === 'above';
+    var place = arriba ? 'above' : 'below';
+    var top = arriba ? r.top - th - 10 : r.bottom + 10;
+    if (place === 'above' && top < 8) { place = 'below'; top = r.bottom + 10; }
+    if (place === 'below' && top + th > window.innerHeight - 8) { place = 'above'; top = r.top - th - 10; }
     if (top < 8) { top = 8; }
     var left = r.left + r.width / 2 - tw / 2;
     left = Math.max(8, Math.min(window.innerWidth - tw - 8, left));
