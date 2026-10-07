@@ -58,8 +58,6 @@ body.modal-open { overflow: hidden; }
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.visible { opacity: 1; transform: none; }
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
-.wa-ring::after { content:""; position:absolute; inset:0; border-radius:9999px; border:2px solid rgba(37,211,102,.6); animation: ring 2s infinite; }
-@keyframes ring { 0%{transform:scale(1);opacity:1} 100%{transform:scale(1.55);opacity:0} }
 /* Se desplaza con `transform` (propiedad compuesta) en vez de `bottom`:
    moverlo con bottom forzaba reflow, era una animación no compuesta y sumaba
    CLS. 110px = la diferencia entre bottom:20px (base) y bottom:130px. */

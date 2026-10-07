@@ -83,6 +83,13 @@
       st.textContent = '.bpFabWrapper { bottom: calc(24px + var(--fp-off, 0px)) !important; transition: bottom .35s ease !important; }';
       host.shadowRoot.appendChild(st);
     }
+    /* Efecto de llamar la atención ahora va en el botón de Botpress (estilo especial: va inyectado al shadow root) */
+    if (host && host.shadowRoot && !host.shadowRoot.querySelector('#fhFabRing')){
+      var st2 = document.createElement('style');
+      st2.id = 'fhFabRing';
+      st2.textContent = '@keyframes fhRing { 0%{transform:scale(1);opacity:1} 100%{transform:scale(1.55);opacity:0} } .bpFab { position:relative !important; overflow:visible !important; } .bpFab::after { content:""; position:absolute; inset:0; border-radius:50%; border:2px solid rgba(0,229,255,.6); animation: fhRing 2s ease-out infinite; pointer-events:none; }';
+      host.shadowRoot.appendChild(st2);
+    }
     if (intentos > 60) clearInterval(timer);
   }, 500);
 })();
@@ -231,9 +238,10 @@ var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').match
   function position(pill){
     var r = pill.getBoundingClientRect();
     var tw = tip.offsetWidth, th = tip.offsetHeight;
-    /* data-tip-place="above" fuerza la apertura hacia arriba (botones de plan);
-       si no cabe arriba, cae abajo. Sin ese atributo el comportamiento es el de siempre. */
-    var arriba = pill.getAttribute('data-tip-place') === 'above';
+    /* Con data-tip-place se fuerza la dirección; sin el atributo, abrimos hacia
+       arriba si hay sitio libre (evita solapar el contenido de abajo). */
+    var setLugar = pill.getAttribute('data-tip-place');
+    var arriba = setLugar ? setLugar === 'above' : (r.top > th + 32);
     var place = arriba ? 'above' : 'below';
     var top = arriba ? r.top - th - 10 : r.bottom + 10;
     if (place === 'above' && top < 8) { place = 'below'; top = r.bottom + 10; }

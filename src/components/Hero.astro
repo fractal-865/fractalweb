@@ -2,7 +2,7 @@
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<section id="inicio" class="on-dark relative pt-[196px] pb-[110px] text-center text-white bg-deep noise gridlines inner-depth overflow-hidden">
+<section id="inicio" class="on-dark relative pt-[124px] pb-[72px] text-center text-white bg-deep noise gridlines inner-depth overflow-hidden">
   <div data-px="0.22" class="absolute inset-0 z-0">
     <img
       src={`${base}/fondo-fractal-hosting.avif`}
@@ -24,7 +24,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <svg data-px="0.06" viewBox="0 0 1440 220" preserveAspectRatio="none" class="absolute bottom-0 left-0 w-full h-[160px] z-[4] opacity-80" aria-hidden="true"><path fill="#071120" d="M0 220 L0 150 L220 70 L420 140 L640 50 L860 135 L1060 65 L1260 145 L1440 90 L1440 220 Z"/></svg>
   <svg viewBox="0 0 1440 160" preserveAspectRatio="none" class="absolute bottom-0 left-0 w-full h-[110px] z-[5]" aria-hidden="true"><path fill="#04070D" d="M0 160 L0 120 L260 60 L500 115 L760 45 L1020 110 L1240 60 L1440 115 L1440 160 Z"/></svg>
 
-  <div id="heroSlider" class="relative z-10 wrap min-h-[560px] flex items-center justify-center">
+  <div id="heroSlider" class="relative z-10 wrap min-h-[430px] flex items-center justify-center">
     <div class="slide is-active" data-slide="0" role="group" aria-roledescription="lámina" aria-label="Servicio de hosting en Punta Arenas">
       <div class="w-full text-center">
         <span class="kicker on-dark">Servicio de hosting en Punta Arenas</span>
@@ -57,11 +57,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="relative z-10 wrap mt-8 flex items-center justify-center gap-5">
-    <button id="slidePrev" aria-label="Lámina anterior" class="w-11 h-11 rounded-full border border-white/30 hover:border-cy hover:text-cyt flex items-center justify-center transition-colors cursor-pointer"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" class="w-4 h-4 stroke-current" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
-    <div id="slideDots" class="flex items-center gap-0" role="tablist" aria-label="Láminas del inicio"></div>
-    <button id="slideNext" aria-label="Lámina siguiente" class="w-11 h-11 rounded-full border border-white/30 hover:border-cy hover:text-cyt flex items-center justify-center transition-colors cursor-pointer"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" class="w-4 h-4 stroke-current" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+    <button id="slidePrev" aria-label="Lámina anterior" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border border-white/30 bg-black/20 backdrop-blur-sm hover:border-cy hover:text-cyt flex items-center justify-center transition-colors cursor-pointer"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" class="w-4 h-4 stroke-current" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <button id="slideNext" aria-label="Lámina siguiente" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border border-white/30 bg-black/20 backdrop-blur-sm hover:border-cy hover:text-cyt flex items-center justify-center transition-colors cursor-pointer"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" class="w-4 h-4 stroke-current" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+    <div id="slideDots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-0" role="tablist" aria-label="Láminas del inicio"></div>
   </div>
 </section>

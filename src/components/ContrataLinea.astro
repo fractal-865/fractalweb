@@ -7,7 +7,6 @@ import khipu from '../assets/pagos/logo_khipu_bancos100.png';
 import etpay from '../assets/pagos/etpay_png_9ade6942d2.png';
 import billeteras from '../assets/pagos/logo_billeteras_CL_80x64_57c620ad9a.png';
 import mach from '../assets/pagos/logo_mach.png';
-import webpay3c from '../assets/pagos/logo_webpay3C.png';
 
 /* En un .astro el import de una imagen devuelve un ImageMetadata {src,width,height}
    y no una cadena: si se cuela en src="…" sale "[object Object]" y el logo no carga. */
@@ -17,10 +16,10 @@ const medio = (img: any, alt: string) => ({
   w: (img && img.width) || 80,
   h: (img && img.height) || 64,
 });
-const cuotas = medio(webpay3c, 'Hasta 3 cuotas sin interés con Webpay, con tarjeta de crédito');
+
 
 /* Orden fijo pedido: Webpay, Visa, Mastercard, Redcompra, Khipu, ETPay,
-   Billeteras digitales, Bci | MACH. Sin añadir ningún otro. */
+   Billeteras digitales, Bci | MACH. */
 const medios = [
   medio(webpay, 'Webpay'),
   medio(visa, 'Visa'),
@@ -33,27 +32,24 @@ const medios = [
 ];
 ---
 
-<section id="contrata-en-linea" class="border-y border-cy/30 bg-[#111A2B] py-10">
-  <div class="wrap">
-    <div class="text-center reveal">
-      <h2 class="font-display font-extrabold uppercase tracking-[.03em] text-[clamp(1.15rem,2.3vw,1.55rem)] text-white">Contrata y paga en línea</h2>
+<section id="contrata-en-linea" class="on-dark relative bg-deep noise gridlines inner-depth text-[#EAF1F8] py-[64px] overflow-hidden">
+  <div data-px="0.08" class="absolute -top-24 right-[8%] w-[420px] h-[420px] rounded-full bg-cy/12 blur-[130px] z-0" aria-hidden="true"></div>
+  <div data-px="-0.05" class="absolute bottom-[-120px] left-[4%] w-[420px] h-[420px] rounded-full bg-[#1B74E4]/18 blur-[140px] z-0" aria-hidden="true"></div>
 
-      <div class="mt-5 mx-auto max-w-[760px] rounded-xl bg-[#E6F0F7] px-4 py-3.5 flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
+  <div class="relative z-10 wrap">
+    <div class="text-center reveal">
+      <h2 class="font-display font-extrabold uppercase tracking-[.03em] text-[clamp(1.45rem,3.1vw,2.25rem)] text-white">Contrata y paga en línea</h2>
+
+      <div class="mt-6 mx-auto max-w-[860px] rounded-xl bg-[#E6F0F7] px-5 py-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
         {medios.map((m) => (
           <img src={m.src} alt={m.alt} width={m.w} height={m.h} loading="lazy" decoding="async"
-               class="h-8 w-auto max-w-full object-contain grayscale opacity-90" />
+               class="h-12 w-auto max-w-full object-contain grayscale opacity-90" />
         ))}
       </div>
 
-      <p class="mt-3 inline-flex items-center justify-center gap-2.5 rounded-full bg-[#E6F0F7] px-4 py-2">
-        <img src={cuotas.src} alt={cuotas.alt} width={cuotas.w} height={cuotas.h} loading="lazy" decoding="async"
-             class="h-8 w-auto object-contain grayscale opacity-90" />
-        <span class="text-[.85rem] font-semibold text-[#1B2A3D]">con tarjeta de crédito</span>
-      </p>
+      <p class="mt-5 mx-auto max-w-[640px] text-[.98rem] leading-relaxed text-[#B7C4D4]">Serás redireccionado a nuestro carrito de compra. Ahí indicas tu dominio y completas los datos de tu empresa. También puedes pagar por depósito o transferencia.</p>
 
-      <p class="mt-5 mx-auto max-w-[640px] text-[.95rem] leading-relaxed text-[#B7C4D4]">Serás redireccionado a nuestro carrito de compra. Ahí indicas tu dominio y completas los datos de tu empresa. También puedes pagar por depósito o transferencia.</p>
-
-      <a href="https://clientes.fractalhost.cl/store/planes" class="mt-6 inline-flex items-center gap-2 bg-cy hover:bg-cyt text-[#03222D] font-display font-extrabold text-[.95rem] px-7 py-3.5 rounded-lg shadow-[0_8px_24px_rgba(0,229,255,.3)] hover:-translate-y-0.5 transition-all">
+      <a href="https://clientes.fractalhost.cl/store/planes" class="mt-7 inline-flex items-center gap-2 border border-cy/60 bg-transparent hover:bg-cy/10 hover:border-cy text-cyt font-display font-bold text-[.95rem] px-8 py-3.5 rounded-md transition-colors duration-200">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" class="w-5 h-5 stroke-current shrink-0" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h2.6l2.3 11.2a1.7 1.7 0 001.7 1.4h8.4a1.7 1.7 0 001.7-1.3l1.4-6.3H6"/></svg>
         Ver planes y contratar
       </a>
