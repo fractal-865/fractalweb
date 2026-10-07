@@ -10,5 +10,10 @@ export default defineConfig({
   base: process.env.GITHUB_ACTIONS ? '/fractalweb' : undefined,
   vite: {
     plugins: [tailwindcss()]
+  },
+  // Incrusta todo el CSS en el HTML: cero peticiones de hoja de estilo que
+  // bloqueen el primer pintado (Lighthouse marcaba 890 ms de bloqueo).
+  build: {
+    inlineStylesheets: 'always'
   }
 });

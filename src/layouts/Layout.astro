@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/fonts.css';
 
 interface Props {
   title: string;
@@ -58,7 +59,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="https://fractalhost.cl/fondo-fractal-hosting.jpg" />
     <link rel="dns-prefetch" href="https://clientes.fractalhost.cl" />
-    <link rel="stylesheet" href={`${base}/fonts/fonts.css`} />
     <script is:inline>
       try { if (localStorage.getItem('fh-theme') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
     </script>
