@@ -17,8 +17,14 @@
   }
   function loadMarketing(){
     if (window.__fhBP) return; window.__fhBP = true;
-    var s1 = document.createElement('script'); s1.src = 'https://cdn.botpress.cloud/webchat/v5.0/inject.js'; document.head.appendChild(s1);
-    var s2 = document.createElement('script'); s2.defer = true; s2.src = 'https://files.bpcontent.cloud/2026/08/28/13/20260828134040-5CULTYOO.js'; document.head.appendChild(s2);
+    /* `async = false` es imprescindible aquí: un <script> creado con JS se marca
+       solo (async=true) y entonces el de configuración puede ejecutarse ANTES
+       que inject.js, y el chat no arranca. `defer` no vale en scripts dinámicos.
+       Con async=false ambos entran en la cola "en orden de inserción", igual que
+       cuando eran <script> del HTML en Footer.astro. */
+    var s1 = document.createElement('script'); s1.async = false; s1.src = 'https://cdn.botpress.cloud/webchat/v5.0/inject.js';
+    var s2 = document.createElement('script'); s2.async = false; s2.src = 'https://files.bpcontent.cloud/2026/08/28/13/20260828134040-5CULTYOO.js';
+    document.head.appendChild(s1); document.head.appendChild(s2);
   }
   /* El chat NO se carga al abrir la página: espera al primer gesto del visitante
      (es lo que marca interés real) o, en su defecto, a 30 s. Así deja de competir
