@@ -60,6 +60,11 @@ body.modal-open { overflow: hidden; }
 @keyframes ring { 0%{transform:scale(1);opacity:1} 100%{transform:scale(1.55);opacity:0} }
 body.cookies-open .wa-ring { bottom: 130px; }
 .wa-ring { transition: bottom .35s ease, transform .3s ease; }
+
+/* Burbuja de chat Botpress (fab): que suba junto con la caja de cookies */
+#fab-root { --fp-off: 0px; }
+body.cookies-open #fab-root { --fp-off: 106px; }
+
 summary::-webkit-details-marker { display:none; }
 #topbar { height: 3.1rem; transition: height .35s ease; }
 header.scrolled #topbar { height: 2.35rem; }
@@ -67,8 +72,8 @@ header.scrolled #topbar { height: 2.35rem; }
 header.scrolled .tb-text { font-size:.68rem; }
 .tb-btn { padding:.5rem .9rem; font-size:.8rem; min-height:2.35rem; display:inline-flex; align-items:center; transition: all .35s ease; }
 header.scrolled .tb-btn { padding:.3rem .65rem; font-size:.68rem; min-height:1.9rem; }
-.tb-ico { width:2.1rem; height:2.1rem; transition: all .35s ease; }
-header.scrolled .tb-ico { width:1.7rem; height:1.7rem; }
+.tb-ico { width:2.35rem; height:2.35rem; transition: all .35s ease; }
+header.scrolled .tb-ico { width:1.9rem; height:1.9rem; }
 @media (max-width:640px){ #topbar{height:3.4rem} header.scrolled #topbar{height:2.6rem} .tb-btn{min-height:2.5rem;padding:.5rem .75rem} header.scrolled .tb-btn{min-height:2rem} }
 .bg-deep { background:
   radial-gradient(1100px 520px at 85% -12%, rgba(0,229,255,.16), transparent 60%),
@@ -141,7 +146,7 @@ html.dark body { background-image:
 .tl-line { display:none; position:absolute; top:26px; left:10%; right:10%; height:3px; border-radius:99px; background:linear-gradient(90deg,#00E5FF,#FFE600); opacity:.45; }
 .tl-line-v { position:absolute; top:8px; bottom:8px; left:26px; width:3px; border-radius:99px; background:linear-gradient(180deg,#00E5FF,#FFE600); opacity:.45; }
 @media (min-width:768px){ .tl-line{display:block} .tl-line-v{display:none} }
-.cb-btn { @apply inline-flex items-center justify-center gap-2 font-display font-bold text-[.82rem] px-5 py-2.5 rounded-md border border-white/35 text-txtd hover:border-cyt hover:text-cyt transition-colors cursor-pointer; }
+.cb-btn { @apply inline-flex items-center justify-center gap-2 font-display font-bold text-[.76rem] px-3.5 py-1.5 rounded-md border border-white/35 text-txtd hover:border-cyt hover:text-cyt transition-colors cursor-pointer; }
 .watermark { position:absolute; pointer-events:none; z-index:0; }
 .pill-clean { @apply inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 backdrop-blur px-4 py-2 text-[.82rem] text-[#EAF1F8]; }
 #faq .faq-answer { overflow: hidden; transition: max-height .2s ease, opacity .2s ease; }

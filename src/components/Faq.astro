@@ -36,6 +36,11 @@ import { faqCategories, FAQ_PAGE_SIZE } from '../data/faqs';
           class="flex flex-col gap-3 outline-none"
           hidden={i !== 0}
         >
+          {/* Título del tab seleccionado sobre la lista */}
+          <h3 class="font-display font-extrabold text-[1.12rem] tracking-wide uppercase text-cydeep dark:text-cyt mb-1 flex items-center gap-2.5">
+            <span class="inline-block w-[14px] h-[8px] rounded-[4px] bg-yel shadow-[0_0_12px_rgba(255,230,0,.5)]" aria-hidden="true"></span>
+            {c.title}
+          </h3>
           {c.items.map((it, j) => (
             <details class="faq-item group bg-white dark:bg-cardd border border-line dark:border-lined rounded-lg shadow-[0_10px_30px_rgba(0,0,0,.09)] open:border-cydeep dark:open:border-cy transition-colors" data-faq-item hidden={j >= FAQ_PAGE_SIZE}>
               <summary aria-expanded="false" class="flex justify-between items-center gap-4 cursor-pointer list-none font-display font-bold text-[1rem] p-5">

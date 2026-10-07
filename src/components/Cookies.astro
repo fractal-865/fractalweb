@@ -1,10 +1,16 @@
+<style>
+  /* "Aceptar todo" destaca con fondo blanco */
+  #cbAcceptAll { background:#ffffff !important; color:#101318 !important; border-color:#ffffff !important; font-weight:800; }
+  #cbAcceptAll:hover { background:#DBE4EF !important; border-color:#DBE4EF !important; color:#101318 !important; }
+</style>
+
 <div id="cookieBanner" role="region" aria-label="Preferencias de cookies" class="fixed bottom-0 inset-x-0 z-[95] bg-[#04070D] border-t border-cy/25 text-txtd shadow-[0_-12px_40px_rgba(0,0,0,.65)]" hidden>
-  <div class="wrap py-4 flex flex-col lg:flex-row lg:items-center gap-4">
-    <p class="text-[.86rem] flex-1">Usamos cookies propias y de terceros: <b>funcionales</b> (siempre activas, necesarias para que el sitio funcione), <b>analíticas</b> (medición anónima de uso) y <b>marketing</b> (chat de atención). Las analíticas y de marketing solo se cargan si las aceptas. Puedes cambiar tu elección cuando quieras en “Preferencias de cookies”.</p>
-    <div class="flex flex-wrap items-center gap-2">
-      <button id="cbAcceptAll" type="button" class="cb-btn">Aceptar todo</button>
-      <button id="cbRejectAll" type="button" class="cb-btn">Rechazar todo</button>
-      <button id="cbConfigure" type="button" class="cb-btn" aria-expanded="false" aria-controls="cbPanel">Configurar</button>
+  <div class="wrap py-4 flex flex-col lg:flex-row lg:items-center gap-3">
+    <p class="text-[.8rem] sm:text-[.86rem] leading-snug flex-1 max-h-32 sm:max-h-none overflow-y-auto pr-1">Usamos cookies propias y de terceros: <b>funcionales</b> (siempre activas, necesarias para que el sitio funcione), <b>analíticas</b> (medición anónima de uso) y <b>marketing</b> (chat de atención). Las analíticas y de marketing solo se cargan si las aceptas. Puedes cambiar tu elección cuando quieras en “Preferencias de cookies”.</p>
+    <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-1.5 w-full sm:w-auto">
+      <button id="cbAcceptAll" type="button" class="cb-btn flex-1 sm:flex-none">Aceptar todo</button>
+      <button id="cbRejectAll" type="button" class="cb-btn flex-1 sm:flex-none">Rechazar todo</button>
+      <button id="cbConfigure" type="button" class="cb-btn flex-1 sm:flex-none" aria-expanded="false" aria-controls="cbPanel">Configurar</button>
     </div>
   </div>
   <div id="cbPanel" class="wrap pb-4" hidden>

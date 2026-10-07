@@ -47,6 +47,22 @@
   });
 })();
 
+/* ===== Burbuja de chat Botpress: sube al soltarse la caja de cookies ===== */
+(function(){
+  var intentos = 0;
+  var timer = setInterval(function(){
+    intentos++;
+    var host = document.getElementById('fab-root');
+    if (host && host.shadowRoot && !host.shadowRoot.querySelector('#fhFabFix')){
+      var st = document.createElement('style');
+      st.id = 'fhFabFix';
+      st.textContent = '.bpFabWrapper { bottom: calc(24px + var(--fp-off, 0px)) !important; transition: bottom .35s ease !important; }';
+      host.shadowRoot.appendChild(st);
+    }
+    if (intentos > 60) clearInterval(timer);
+  }, 500);
+})();
+
 /* ================= DATOS ================= */
 function fmtCLP(n){ return '$' + Math.round(n).toLocaleString('es-CL'); }
 var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
