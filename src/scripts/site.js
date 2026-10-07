@@ -329,19 +329,21 @@ document.querySelectorAll('[data-cycle-btn]').forEach(function(btn){
   var slides = Array.prototype.slice.call(slider.querySelectorAll('.slide'));
   var dotsWrap = document.getElementById('slideDots');
   var idx = 0, timer = null, DELAY = 7000;
-  slides.forEach(function(_, i){
-    var d = document.createElement('button');
-    d.className = 'dot' + (i === 0 ? ' active' : '');
-    d.setAttribute('role', 'tab');
-    d.setAttribute('aria-label', 'Ir a lámina ' + (i + 1));
-    d.addEventListener('click', function(){ go(i, true); });
-    dotsWrap.appendChild(d);
-  });
-  var dots = Array.prototype.slice.call(dotsWrap.children);
+  if (dotsWrap){
+    dotsWrap.innerHTML = '';
+    var track = document.createElement('div');
+    track.className = 'h-[3px] w-14 overflow-hidden rounded-full bg-white/20';
+    var fill = document.createElement('div');
+    fill.className = 'h-full rounded-full bg-cy transition-all duration-500';
+    fill.style.width = (100/slides.length) + '%';
+    track.appendChild(fill);
+    dotsWrap.appendChild(track);
+  }
+  var fillBar = track ? fill : null;
   function go(n, manual){
     idx = (n + slides.length) % slides.length;
     slides.forEach(function(s, i){ s.classList.toggle('is-active', i === idx); });
-    dots.forEach(function(d, i){ d.classList.toggle('active', i === idx); });
+    if (fillBar) fillBar.style.width = (((idx + 1) / slides.length) * 100) + '%';
     if (manual) restart();
   }
   function restart(){ clearInterval(timer); timer = setInterval(function(){ go(idx + 1); }, DELAY); }

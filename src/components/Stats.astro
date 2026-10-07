@@ -1,20 +1,45 @@
 ---
-import webpay3c from '../assets/pagos/logo_webpay3C.png';
-const logo = typeof webpay3c === 'string' ? webpay3c : webpay3c.src;
-const logoW = (webpay3c && webpay3c.width) || 150;
-const logoH = (webpay3c && webpay3c.height) || 50;
 ---
 
 <section id="stats" class="on-dark relative bg-deep noise inner-depth text-[#EAF1F8] overflow-hidden">
-  <div class="max-w-[1180px] mx-auto w-[92%] py-12">
-    <div class="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-white/10 reveal">
-      <div class="text-center px-3 py-6 md:py-0"><div class="font-display font-extrabold text-[clamp(1.4rem,2.7vw,2rem)]"><span data-count="13">13</span></div><div class="text-[.84rem] text-[#B7C4D4] mt-1">años de trayectoria</div></div>
-      <div class="text-center px-3 py-6 md:py-0"><div class="font-display font-extrabold text-[clamp(1.4rem,2.7vw,2rem)]"><span data-count="150">150</span><em class="not-italic text-cyt">+</em></div><div class="text-[.84rem] text-[#B7C4D4] mt-1">proyectos entregados</div></div>
-      <div class="text-center px-3 py-6 md:py-0"><div class="font-display font-extrabold text-[clamp(1.4rem,2.7vw,2rem)]"><span data-count="35">35</span><em class="not-italic text-cyt">+</em></div><div class="text-[.84rem] text-[#B7C4D4] mt-1">sitios en nuestros servidores</div></div>
-      <div class="text-center px-3 py-6 md:py-0"><div class="font-display font-extrabold text-[clamp(1.4rem,2.7vw,2rem)]"><span data-count="24">24</span>/7</div><div class="text-[.84rem] text-[#B7C4D4] mt-1">monitoreo y seguridad</div></div>
-    </div>
-    <div class="mt-9 flex justify-center">
-      <img src={logo} alt="Hasta 3 cuotas sin interés con Webpay" width={logoW} height={logoH} loading="lazy" decoding="async" class="h-10 w-auto rounded-md bg-[#E6F0F7] px-3 py-1.5" />
+  <div class="max-w-[1180px] mx-auto w-[92%] py-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-6 sm:gap-y-10 lg:gap-y-0 reveal lg:divide-x lg:divide-white/10">
+      <div class="flex items-center gap-4 lg:pr-6 text-left">
+        <div class="w-10 h-10 rounded-lg bg-[#16243F] border border-white/5 flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#5BC0F8" stroke-width="1.8" class="w-5 h-5 shrink-0" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </div>
+        <div>
+          <div class="font-display font-extrabold text-[1.3rem] leading-none"><span data-count="13">13</span></div>
+          <div class="text-[.8rem] text-[#B7C4D4] mt-1.5">años de trayectoria</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 lg:px-6 text-left">
+        <div class="w-10 h-10 rounded-lg bg-[#16243F] border border-white/5 flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#5BC0F8" stroke-width="1.8" class="w-5 h-5 shrink-0" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <div>
+          <div class="font-display font-extrabold text-[1.3rem] leading-none"><span data-count="150">150</span><em class="not-italic text-cyt">+</em></div>
+          <div class="text-[.8rem] text-[#B7C4D4] mt-1.5">proyectos entregados</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 lg:px-6 text-left">
+        <div class="w-10 h-10 rounded-lg bg-[#16243F] border border-white/5 flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#5BC0F8" stroke-width="1.8" class="w-5 h-5 shrink-0" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        </div>
+        <div>
+          <div class="font-display font-extrabold text-[1.3rem] leading-none"><span data-count="35">35</span><em class="not-italic text-cyt">+</em></div>
+          <div class="text-[.8rem] text-[#B7C4D4] mt-1.5">sitios en nuestros servidores</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 lg:px-6 text-left">
+        <div class="w-10 h-10 rounded-lg bg-[#16243F] border border-white/5 flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#5BC0F8" stroke-width="1.8" class="w-5 h-5 shrink-0" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <div>
+          <div class="font-display font-extrabold text-[1.3rem] leading-none"><span data-count="24">24</span>/7</div>
+          <div class="text-[.8rem] text-[#B7C4D4] mt-1.5">monitoreo y seguridad</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
