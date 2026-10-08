@@ -56,7 +56,18 @@ const raw: FaqCategory[] = [
         q: '¿Qué pasa si mi sitio o mi negocio crece y necesito más espacio?',
         a: `Subes a un plan mayor (Pro o Master) sin cambiar de proveedor y sin migraciones complicadas. Empiezas con lo que necesitas hoy y creces cuando haga falta.`,
       },
-    ],
+      {
+        q: '¿En qué servidor está mi sitio?',
+        a: `En un servidor LiteSpeed con discos SSD NVMe. En Estados Unidos para los planes estándar, o en un cloud server del Cono Sur si eliges Enlace Nacional Patagonia.`,
+      },
+      {
+        q: '¿Puedo moverme entre planes después de contratar?',
+        a: `Sí. Puedes subir o bajar de plan sin perder correos, bases de datos ni archivos; ajustamos la diferencia y aplicamos el cambio sin mayores cortes.`,
+      },
+      {
+        q: '¿Los respaldos ya van incluidos?',
+        a: `Sí. Todos nuestros planes incluyen respaldo diario y hasta 15 copias disponibles en tu Área de Clientes para restaurar cuando necesites.`,
+      },    ],
   },
   {
     id: 'sitios-web',
@@ -106,7 +117,10 @@ const raw: FaqCategory[] = [
         q: '¿Dónde puedo ver ejemplos de sus trabajos?',
         a: `En <a href="https://trianguloweb.cl/" target="_blank" rel="noopener noreferrer">trianguloweb.cl</a>. Algunos proyectos: <a href="https://museomaggiorinoborgatello.cl/" target="_blank" rel="noopener noreferrer">Museo Maggiorino Borgatello</a>, <a href="https://fpymemagallanes.cl/" target="_blank" rel="noopener noreferrer">Fpyme Magallanes</a>, <a href="https://propiedadeswurth.cl/" target="_blank" rel="noopener noreferrer">Propiedades Wurth</a> y <a href="https://epaustral.cl/" target="_blank" rel="noopener noreferrer">EP Austral</a>.`,
       },
-    ],
+      {
+        q: '¿Puedo editar mi sitio después de entregado?',
+        a: `Sí. Desarrollamos tu sitio en WordPress, pensado para que actualices textos e imágenes sin conocimientos técnicos. Además te capacitamos para que quede listo.`,
+      },    ],
   },
   {
     id: 'correo',
@@ -124,7 +138,42 @@ const raw: FaqCategory[] = [
         q: '¿Puedo usar la interfaz de Gmail con mi propio dominio?',
         a: `Sí, con Google Workspace. La licencia de Google la pagas directo a ellos. Nosotros hacemos toda la parte técnica, que funciona a través de nuestros servidores: activación y verificación de tu dominio, configuración antispam (registros como SPF y DKIM), pruebas de envío y recepción, soporte inicial y una revisión anual. Para esto necesitas un plan de hosting anual activo con nosotros.`,
       },
-    ],
+      {
+        q: '¿Cómo reviso mi correo corporativo?',
+        a: `Puedes usar el webmail incluido en tu panel de control, u configurar la cuenta en Gmail, Outlook, Thunderbird o la app de correo de tu celular.`,
+      },
+      {
+        q: '¿Puedo usarlo en varios dispositivos?',
+        a: `Sí. Con IMAP revisas el mismo correo desde tu celular, computador y otros equipos sin perder mensajes.`,
+      },
+      {
+        q: '¿Qué es IMAP y POP3?',
+        a: `IMAP te permite revisar el mismo correo desde varios equipos sin perder mensajes; POP3 lo descarga a tu computador. Lo habitual es IMAP.`,
+      },
+      {
+        q: '¿Incluye antispam?',
+        a: `Sí, y también configuramos autenticación como SPF y DKIM para que tus correos lleguen mejor.`,
+      },
+      {
+        q: '¿Puedo crear alias (info@, ventas@)?',
+        a: `Sí. Los alias reciben en la misma casilla principal sin consumir otra cuenta.`,
+      },
+      {
+        q: '¿Puedo reenviar los correos a mi Gmail?',
+        a: `Sí, podemos crear un reenvío para que tu correo con tu dominio llegue a tu cuenta externa preferida.`,
+      },
+      {
+        q: '¿Cómo cambio la contraseña del correo?',
+        a: `Desde el panel de control, o nos lo pides y lo hacemos por ti.`,
+      },
+      {
+        q: '¿Qué hago si no puedo acceder?',
+        a: `Escríbenos por WhatsApp o correo y te ayudamos a recuperar el acceso.`,
+      },
+      {
+        q: '¿Pueden ayudarme a configurarlo en Outlook o Gmail?',
+        a: `Sí. Te ayudamos a dejarlo configurado en las apps que usas.`,
+      },    ],
   },
   {
     id: 'dominio',
@@ -146,7 +195,38 @@ const raw: FaqCategory[] = [
         q: '¿Y si ya tengo un dominio?',
         a: `Lo sigues usando. Solo ajustamos la delegación de DNS hacia nuestros servidores.`,
       },
-    ],
+      {
+        q: '¿Puedo registrar mi dominio con ustedes aunque no contrate hosting?',
+        a: `Sí. Podemos asistirte con el registro directamente en NIC Chile; queda siempre a tu nombre.`,
+      },
+      {
+        q: '¿Cuánto tarda en activarse el dominio?',
+        a: `El registro en NIC Chile normalmente toma entre 24 y 48 horas hábiles.`,
+      },
+      {
+        q: '¿Qué es el código EPP?',
+        a: `Es el código de seguridad que usas para transferir tu dominio a otro registrador; lo encuentras en tu panel o lo solicitamos por ti.`,
+      },
+      {
+        q: '¿Puedo transferir mi dominio a otra empresa?',
+        a: `Sí. Desbloqueas el dominio y usas el código EPP para autorizar la transferencia.`,
+      },
+      {
+        q: '¿Qué pasa cuando el dominio vence?',
+        a: `Tienes un período de gracia para renovarlo; si pasa más tiempo, puede quedar libre y otra persona registrarlo.`,
+      },
+      {
+        q: '¿Puedo usar mi dominio con varios servicios?',
+        a: `Sí. Puedes crear subdominios distintos para cada servicio, por ejemplo tienda y correo.`,
+      },
+      {
+        q: '¿Puedo renovar por varios años?',
+        a: `Sí. Puedes renovar períodos más largos para evitar el trámite anual.`,
+      },
+      {
+        q: '¿Puedo cambiar los datos de contacto de mi dominio?',
+        a: `Sí. Se gestiona en tu cuenta de NIC Chile; podemos guiarte con el cambio.`,
+      },    ],
   },
   {
     id: 'mantencion',
@@ -176,7 +256,30 @@ const raw: FaqCategory[] = [
         q: '¿Pueden recuperar contenido perdido?',
         a: `Solo si estaba respaldado antes del ataque. Por eso el respaldo es siempre el primer paso.`,
       },
-    ],
+      {
+        q: '¿Con qué frecuencia actualizan plugins y temas?',
+        a: `Revisamos periódicamente y aplicamos primero las actualizaciones de seguridad; el resto las programamos para no afectar tu sitio.`,
+      },
+      {
+        q: '¿Qué monitoreo hacen?',
+        a: `Revisamos disponibilidad y señales de seguridad; si tu sitio deja de responder o detectamos algo extraño, te avisamos para que lo revisemos.`,
+      },
+      {
+        q: '¿Puedo pedir un respaldo bajo demanda?',
+        a: `Sí. Puedes solicitar un respaldo extra cuando lo necesites, e incluso descargar las últimas copias desde tu Área de Clientes.`,
+      },
+      {
+        q: '¿La mantención cubre cambios de diseño grandes?',
+        a: `Cubre actualizaciones, respaldos y soporte; los cambios de diseño mayores se cotizan aparte como desarrollo.`,
+      },
+      {
+        q: '¿Qué pasa si una actualización falla?',
+        a: `Probamos los cambios y, si algo falla, revertimos usando el respaldo del día anterior; si se retrasa, te avisamos sin que tu sitio quede caído.`,
+      },
+      {
+        q: '¿Qué incluye el plan de seguridad?',
+        a: `Detección de malware, protección SSL, monitoreo 24/7 y soporte directo para resolver incidentes.`,
+      },    ],
   },
   {
     id: 'migracion',
@@ -198,7 +301,38 @@ const raw: FaqCategory[] = [
         q: '¿Qué no incluye la migración?',
         a: `Configurar Outlook o Gmail en tus dispositivos, limpiar casillas llenas o hacer respaldos locales. Eso tiene costo aparte o requiere un técnico en terreno. Si tu sitio es pequeño o tienes hasta 2 casillas, te ayudamos sin costo de forma remota.`,
       },
-    ],
+      {
+        q: '¿Cuánto demora la migración?',
+        a: `Depende del tamaño del sitio. Normalmente entre 1 y 3 días hábiles; te avisamos cuando todo queda listo.`,
+      },
+      {
+        q: '¿Qué datos incluye la migración?',
+        a: `Archivos del sitio, base de datos y correos, siempre que tengas acceso de administrador al hosting actual (cPanel o similar).`,
+      },
+      {
+        q: '¿Pierdo los correos durante la migración?',
+        a: `No. Configuramos el correo en paralelo y copiamos el contenido para que sigas recibiendo también en ambos.`,
+      },
+      {
+        q: '¿Puedo seguir usando mi hosting actual mientras tanto?',
+        a: `Sí. Solo cambiamos las DNS cuando ya está todo probado en tu nuevo hosting.`,
+      },
+      {
+        q: '¿Qué pasa si algo no funciona igual que antes?',
+        a: `Ajustamos configuraciones hasta que quede equivalente; si no lo logramos, te lo indicamos antes de cambiar las DNS.`,
+      },
+      {
+        q: '¿Puedo migrar un sitio que no está en cPanel?',
+        a: `En la mayoría de los casos sí, pero puede requerir más configuración manual; lo revisamos antes de aceptar la migración.`,
+      },
+      {
+        q: '¿Hay costo por migrar?',
+        a: `Cuando traes tu hosting con nosotros, la migración desde cPanel va sin costo.`,
+      },
+      {
+        q: '¿Puedo migrar después?',
+        a: `Claro. Solo coordina con nosotros una fecha.`,
+      },    ],
   },
   {
     id: 'pagos',
@@ -232,7 +366,26 @@ const raw: FaqCategory[] = [
         q: '¿Me devuelven el anticipo si me arrepiento?',
         a: `Lo devolvemos solo si nosotros incumplimos los plazos ofrecidos. Si cancelas por razones ajenas a nuestro trabajo, evaluamos un reembolso parcial según el avance real, pero no hay devolución total si el diseño ya empezó.`,
       },
-    ],
+      {
+        q: '¿Qué medios de pago aceptan?',
+        a: `Flow en línea (tarjetas, MACH, BCI, banca.me y más) o transferencia bancaria.`,
+      },
+      {
+        q: '¿Puedo pagar en dólares?',
+        a: `No. Los valores están en pesos chilenos (CLP).`,
+      },
+      {
+        q: '¿Emiten factura?',
+        a: `Emitimos boleta de honorarios como corresponde al servicio; no emitimos factura como venta de producto.`,
+      },
+      {
+        q: '¿Puedo dividir el pago en cuotas?',
+        a: `Sí. Con tarjeta de crédito puedes pagar en hasta 3 cuotas sin interés.`,
+      },
+      {
+        q: '¿Envían un comprobante al pagar?',
+        a: `Sí. Emmite boleta de honorarios y te la enviamos por correo al completar el pago.`,
+      },    ],
   },
   {
     id: 'soporte',
@@ -262,7 +415,30 @@ const raw: FaqCategory[] = [
         q: '¿Dónde veo si hay algún problema con los servidores?',
         a: `En la <a href="https://clientes.fractalhost.cl/serverstatus.php" target="_blank" rel="noopener noreferrer">página de estado</a>.`,
       },
-    ],
+      {
+        q: '¿Cuál es el horario de atención?',
+        a: `Lunes a viernes de 9:30 a 20:00 h y sábado de 11:00 a 16:00 h, hora de Punta Arenas.`,
+      },
+      {
+        q: '¿Atienden emergencias fuera de horario?',
+        a: `Sí, para emergencias de servidor o caída podemos atenderte con coordinación previa.`,
+      },
+      {
+        q: '¿Puedo abrir un ticket?',
+        a: `Sí. Desde tu Área de Clientes puedes crear un ticket y dar seguimiento.`,
+      },
+      {
+        q: '¿Responden por WhatsApp?',
+        a: `Sí, es nuestro canal principal para responder más rápido.`,
+      },
+      {
+        q: '¿Puedo pedir una videollamada?',
+        a: `Sí. Puedes agendar 15 minutos desde el enlace que está en varias partes de esta página.`,
+      },
+      {
+        q: '¿Cómo hago una queja o sugerencia?',
+        a: `Escríbenos por WhatsApp, correo o crea un ticket; lo revisamos y te respondemos.`,
+      },    ],
   },
   {
     id: 'nosotros',
@@ -288,7 +464,34 @@ const raw: FaqCategory[] = [
         q: '¿No encontraste lo que buscabas?',
         a: `<a href="https://wa.me/56954132014" target="_blank" rel="noopener noreferrer">Escríbenos por WhatsApp</a> o envía un correo a <a href="mailto:hola@fractalhost.cl">hola@fractalhost.cl</a>.`,
       },
-    ],
+      {
+        q: '¿Hace cuánto tiempo están?',
+        a: `Llevamos más de 13 años en hosting y desarrollo web.`,
+      },
+      {
+        q: '¿Dónde están ubicados?',
+        a: `En Punta Arenas, Región de Magallanes, Chile. Atendemos en toda la región y también a la distancia.`,
+      },
+      {
+        q: '¿Atienden solo en la Patagonia?',
+        a: `No. Atendemos a todo Chile e incluso al extranjero; el trabajo a distancia es parte de nuestro día a día.`,
+      },
+      {
+        q: '¿Qué diferencia hay entre Fractal Host y Triángulo Web?',
+        a: `Fractal Host se centra en hosting y soporte técnico; Triángulo Web en el desarrollo. Trabajan juntas para darte el mejor resultado.`,
+      },
+      {
+        q: '¿Puedo pedir una cotización sin compromiso?',
+        a: `Sí. Usa el botón "Cotizar sitio web" y te lleva a la cotización; te respondemos en menos de 24 horas hábiles.`,
+      },
+      {
+        q: '¿Ofrecen servicio después de la entrega?',
+        a: `Sí. El primer año de hosting y dominio .cl va incluido cuando desarrollamos tu sitio.`,
+      },
+      {
+        q: '¿Cómo me contacto si no veo lo que necesito?',
+        a: `Escríbenos por WhatsApp o llena el formulario de contacto.`,
+      },    ],
   },
 ];
 
