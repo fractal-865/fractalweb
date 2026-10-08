@@ -630,7 +630,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
   if (!enCotizador() || !sigo) return;
 
   function iniciar(){
-    var target = document.getElementById('paso1');
+    var target = document.querySelector('button[data-modo="nuevo"]') || document.getElementById('paso1');
     if (!target) return;
     try { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e){ target.scrollIntoView(); }
     window.setTimeout(function(){ dibujarFlecha(target); }, 900);
