@@ -79,19 +79,41 @@ summary::-webkit-details-marker { display:none; }
 @keyframes cotArrowFlow{ 0%,100%{ transform: translateX(0); } 50%{ transform: translateX(6px); } }
 @media (max-width:640px){ .cot-arrow{ width:44px; height:44px; left: 8px; } }
 @media (prefers-reduced-motion: reduce){ .cot-arrow--on svg path{ animation: none; } .cot-arrow, .cot-arrow--off{ transition: none; } }
-#topbar { height: 3.1rem; transition: height .35s ease; }
-header.scrolled #topbar { height: 2.35rem; }
-.tb-text { font-size:.8rem; transition: font-size .35s ease; }
-header.scrolled .tb-text { font-size:.68rem; }
-.tb-btn { padding:.5rem .9rem; font-size:.8rem; min-height:2.35rem; display:inline-flex; align-items:center; transition: all .35s ease; }
-header.scrolled .tb-btn { padding:.3rem .65rem; font-size:.68rem; min-height:1.9rem; }
-.tb-ico { width:2.35rem; height:2.35rem; transition: all .35s ease; }
-header.scrolled .tb-ico { width:1.9rem; height:1.9rem; }
-@media (max-width:640px){ #topbar{height:3.4rem} header.scrolled #topbar{height:2.6rem} .tb-btn{min-height:2.5rem;padding:.5rem .75rem} header.scrolled .tb-btn{min-height:2rem} }
-/* En pantallas muy angostas la barra superior no da abasto (tiene overflow:hidden
-   y recorta los últimos botones). "Agendar videollamada" se oculta allí para dejar
-   sitio a "Contratar": sigue disponible en el menú hamburguesa. */
-@media (max-width:413px){ .tb-agendar { display:none; } }
+#topbar { height: 2.75rem; background: #0B1220; border-bottom: 1px solid rgba(0,240,255,.12); transition: height .3s ease-in-out; }
+header.scrolled #topbar { height: 2.15rem; }
+.tb-left { display:flex; align-items:center; gap:1rem; color:rgba(230,240,247,.7); }
+.tb-right { display:flex; align-items:center; gap:.35rem; margin-left:auto; }
+.tb-plain { display:inline-flex; align-items:center; gap:.45rem; padding:.3rem .55rem; color:rgba(230,240,247,.7); font-size:.82rem; text-decoration:none; transition:color .2s ease, font-size .25s ease-in-out, padding .2s ease-in-out; }
+.tb-plain:hover { color:#00F0FF; }
+header.scrolled .tb-plain { font-size:.68rem; padding:.25rem .4rem; }
+header.scrolled .tb-email-text { display:none; }
+.tb-dot { width:.6rem; height:.6rem; border-radius:9999px; background:#00D6C2; display:inline-block; }
+.tb-link { position:relative; display:inline-flex; align-items:center; gap:.4rem; padding:.4rem .55rem; color:rgba(230,240,247,.8); font-size:.82rem; text-decoration:none; transition:color .2s ease, font-size .25s ease-in-out, padding .2s ease-in-out; }
+.tb-link svg { width:1rem; height:1rem; stroke:currentColor; }
+header.scrolled .tb-link { font-size:.68rem; padding:.25rem .4rem; }
+.tb-link > span { text-decoration: none; border-bottom: 1px solid transparent; transition: border-color .24s ease-in-out; }
+.tb-link:hover, .tb-link:focus-visible { color:#00F0FF; }
+.tb-link:hover > span { border-color:#00F0FF; }
+.tb-secondary { display:inline-flex; align-items:center; gap:.4rem; padding:.4rem .8rem; border:1.5px solid #00D2FF; border-radius:10px; background:transparent; color:#00D2FF; font-size:.82rem; font-weight:600; text-decoration:none; transition:background-color .25s ease, color .25s ease, font-size .25s ease-in-out, padding .2s ease-in-out; }
+.tb-secondary svg { width:1rem; height:1rem; stroke:currentColor; }
+.tb-secondary:hover { background:rgba(0,210,255,.12); }
+header.scrolled .tb-secondary { padding:.3rem .6rem; font-size:.68rem; }
+.tb-primary { display:inline-flex; align-items:center; gap:.4rem; padding:.4rem .8rem; border-radius:10px; background:linear-gradient(135deg,#00D2FF 0%,#2563EB 100%); color:#fff; font-size:.82rem; font-weight:700; box-shadow:0 0 18px rgba(0,210,255,.30); text-decoration:none; text-shadow:0 1px 2px rgba(0,0,0,.25); transition:transform .25s ease, box-shadow .25s ease, padding .2s ease-in-out, font-size .25s ease-in-out; }
+.tb-primary svg { width:1rem; height:1rem; stroke:currentColor; }
+.tb-primary:hover { transform:translateY(-1px); box-shadow:0 0 26px rgba(0,210,255,.45); }
+header.scrolled .tb-primary { padding:.3rem .6rem; font-size:.68rem; }
+.tb-theme { width:2rem; height:2rem; border-radius:9999px; display:inline-flex; align-items:center; justify-content:center; color:rgba(230,240,247,.8); transition:background-color .25s ease, color .25s ease, width .25s ease-in-out, height .25s ease-in-out; }
+.tb-theme:hover { background:rgba(0,210,255,.12); color:#00F0FF; }
+header.scrolled .tb-theme { width:1.6rem; height:1.6rem; }
+.tb-theme svg { width:1rem; height:1rem; stroke:currentColor; }
+.tb-sep { width:1px; height:1.25rem; background:rgba(230,240,247,.15); }
+
+@media (max-width:1023px){
+  .tb-msg, .tb-email-text, .tb-status-text { display:none; }
+  .tb-plain > span:not(.tb-dot), .tb-link > span, .tb-secondary > span { display:none; }
+  .tb-plain, .tb-link { padding:.4rem; }
+  .tb-secondary { padding:.4rem .65rem; justify-content:center; }
+}
 .bg-deep { background:
   radial-gradient(1100px 520px at 85% -12%, rgba(0,229,255,.16), transparent 60%),
   radial-gradient(900px 480px at -10% 30%, rgba(27,116,228,.22), transparent 60%),
