@@ -608,3 +608,54 @@ if (contactFormEl) contactFormEl.addEventListener('submit', function(ev){
 });
 
 document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ================= INTRODUCCIÓN AL COTIZADOR: llega a #paso1 y muestra flecha guía ================= */
+(function(){
+  var KEY = 'fh-cot-intro';
+  /* Marca la URL antes de salir desde cualquier enlace "Cotizar" */
+  document.addEventListener('click', function(ev){
+    var a = ev.target && ev.target.closest ? ev.target.closest('a') : null;
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    if (href.indexOf('/cotizador') > -1) {
+      try { sessionStorage.setItem(KEY, '1'); } catch(e){}
+    }
+  }, { passive: true });
+
+  function enCotizador(){
+    return location.pathname && location.pathname.indexOf('cotizador') > -1;
+  }
+  var sigo = false;
+  try { sigo = sessionStorage.getItem(KEY) === '1'; if (sigo) sessionStorage.removeItem(KEY); } catch(e){}
+  if (!enCotizador() || !sigo) return;
+
+  function iniciar(){
+    var target = document.getElementById('paso1');
+    if (!target) return;
+    try { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e){ target.scrollIntoView(); }
+    window.setTimeout(function(){ dibujarFlecha(target); }, 900);
+  }
+
+  if (document.readyState === 'complete') window.setTimeout(iniciar, 300);
+  else window.addEventListener('load', function(){ window.setTimeout(iniciar, 300); });
+
+  function dibujarFlecha(target){
+    var el = document.createElement('div');
+    el.className = 'cot-arrow';
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = '<svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true"><circle cx="28" cy="28" r="26" fill="rgba(0,229,255,.12)" stroke="#00E5FF" stroke-width="2.5"/><path d="M21 28h14m-5-5 5 5-5 5" stroke="#00E5FF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    document.body.appendChild(el);
+    var rect = target.getBoundingClientRect();
+    var y = rect.top + rect.height / 2;
+    y = Math.max(80, Math.min(y, window.innerHeight - 80));
+    el.style.top = y + 'px';
+    window.requestAnimationFrame(function(){ el.classList.add('cot-arrow--on'); });
+
+    window.setTimeout(function(){
+      el.classList.remove('cot-arrow--on');
+      el.classList.add('cot-arrow--off');
+      window.setTimeout(function(){ el.remove(); }, 900);
+    }, 3800);
+  }
+})();
