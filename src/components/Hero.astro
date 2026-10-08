@@ -73,60 +73,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
     <button id="slidePrev" aria-label="Lámina anterior" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border border-white/30 bg-black/20 backdrop-blur-sm hover:border-cy hover:text-cyt flex items-center justify-center transition-colors cursor-pointer"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" class="w-4 h-4 stroke-current" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
     <button id="slideNext" aria-label="Lámina siguiente" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border border-white/30 bg-black/20 backdrop-blur-sm hover:border-cy hover:text-cyt flex items-center justify-center transition-colors cursor-pointer"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" class="w-4 h-4 stroke-current" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
-    <div id="heroProgress" class="absolute inset-x-0 top-0 h-[3px] bg-white/20 overflow-hidden"><span id="heroProgressFill" class="block h-full bg-cy transition-all duration-500" style="width:25%"></span></div>
-  </div>
-  <div id="heroSlider2" class="relative z-10 wrap min-h-[500px] flex items-center justify-center">
-    <div class="slide is-active" data-slide="0" role="group" aria-roledescription="lámina" aria-label="Servicio de hosting en Punta Arenas">
-      <div class="w-full text-center">
-        <span class="kicker on-dark">Servicio de hosting en Punta Arenas</span>
-        <h1 class="font-display font-extrabold uppercase tracking-[.02em] text-[clamp(1.7rem,3.8vw,2.8rem)] leading-tight mt-4 drop-shadow-[0_6px_30px_rgba(0,0,0,.6)]">Hosting en <span class="text-yel drop-shadow-[0_0_22px_rgba(255,230,0,.35)]">Punta Arenas</span> y la Patagonia</h1>
-        <p class="mt-4 mb-3 mx-auto max-w-[760px] text-[#DCE6F0] text-[1.08rem]">Te damos el espacio en servidor que necesitas para publicar tu <strong>página web</strong> y tener tus <strong>correos electrónicos corporativos</strong> (como contacto@tuempresa.cl), respaldado con infraestructura en el Cono Sur para máxima velocidad.</p>
-        <p class="mb-8 inline-flex items-center justify-center gap-2 text-[.95rem] font-semibold text-[#CFE9F2]"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" class="w-5 h-5 stroke-cyt shrink-0" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h2.6l2.3 11.2a1.7 1.7 0 001.7 1.4h8.4a1.7 1.7 0 001.7-1.3l1.4-6.3H6"/></svg>Pagas en línea y empiezas hoy.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="#hosting-global" class="inline-flex bg-yel hover:bg-yelhov text-ink font-display font-bold text-[.98rem] px-10 py-3.5 rounded-md shadow-[0_6px_20px_rgba(255,230,0,.28)] hover:-translate-y-1 transition-all">Ver planes de hosting</a>
-        </div>
-      </div>
-    </div>
-    <div class="slide" data-slide="1" role="group" aria-roledescription="lámina" aria-label="Creación de sitios web en Punta Arenas">
-      <div class="w-full max-w-[900px] mx-auto text-center">
-        <span class="kicker on-dark">Creación de sitios web en Punta Arenas</span>
-        <p class="font-display font-extrabold uppercase tracking-[.02em] text-[clamp(1.7rem,3.8vw,2.8rem)] leading-tight mt-4 drop-shadow-[0_6px_30px_rgba(0,0,0,.6)]">Tu sitio web listo desde <span class="text-yel drop-shadow-[0_0_22px_rgba(255,230,0,.35)]">24 horas</span></p>
-        <p class="mt-4 mb-8 mx-auto max-w-[760px] text-[#DCE6F0] text-[1.08rem]">Micrositio en 24 h · One Page 3 a 7 días · Sitio de empresa 1 a 3 semanas · Tienda en línea 15 a 45 días. Con dominio .cl y primer año de hosting incluidos.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/cotizador`} class="inline-flex bg-yel hover:bg-yelhov text-ink font-display font-bold text-[.98rem] px-10 py-3.5 rounded-md shadow-[0_6px_20px_rgba(255,230,0,.28)] hover:-translate-y-1 transition-all">Cotizar mi sitio</a>
-          <a href="#sitios-web" class="inline-flex border-2 border-white/40 hover:border-cy hover:text-cyt text-white font-display font-bold text-[.98rem] px-8 py-3.5 rounded-md transition-colors">Ver cómo trabajamos</a>
-        </div>
-      </div>
-    </div>
-    <div class="slide" data-slide="2" role="group" aria-roledescription="lámina" aria-label="Mantención, seguridad y soluciones digitales">
-      <div class="w-full max-w-[900px] mx-auto text-center">
-        <span class="kicker on-dark">Mantención, seguridad y soluciones digitales</span>
-        <p class="font-display font-extrabold uppercase tracking-[.02em] text-[clamp(1.7rem,3.8vw,2.8rem)] leading-tight mt-4 drop-shadow-[0_6px_30px_rgba(0,0,0,.6)]">Tu <span class="text-yel drop-shadow-[0_0_22px_rgba(255,230,0,.35)]">aliado digital</span> en la Patagonia: más que hosting</p>
-        <p class="mt-4 mb-8 mx-auto max-w-[760px] text-[#DCE6F0] text-[1.08rem]">Transformamos tus ideas en proyectos digitales completos. Te acompañamos con mantención continua, seguridad informática contra ciberataques, adaptación a la Ley 21.719 y soporte directo.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="#mantencion" class="inline-flex bg-yel hover:bg-yelhov text-ink font-display font-bold text-[.98rem] px-10 py-3.5 rounded-md shadow-[0_6px_20px_rgba(255,230,0,.28)] hover:-translate-y-1 transition-all">Ver mantención y seguridad</a>
-        </div>
-      </div>
-    </div>
-    <div class="slide" data-slide="3" role="group" aria-roledescription="lámina" aria-label="Hosting en Punta Arenas y la Patagonia">
-      <div class="w-full max-w-[1120px] mx-auto grid md:grid-cols-2 gap-10 items-center text-left">
-        <div class="text-center md:text-left">
-          <span class="kicker on-dark">Servicio de hosting en Punta Arenas</span>
-          <h1 class="font-display font-extrabold uppercase tracking-[.02em] text-[clamp(1.7rem,3.8vw,2.8rem)] leading-tight mt-4 drop-shadow-[0_6px_30px_rgba(0,0,0,.6)]">Hosting en <span class="text-yel drop-shadow-[0_0_22px_rgba(255,230,0,.35)]">Punta Arenas</span> y la Patagonia</h1>
-          <p class="mt-4 mb-3 mx-auto md:mx-0 max-w-[760px] text-[#DCE6F0] text-[1.08rem]">Te damos el espacio en servidor que necesitas para publicar tu <strong>página web</strong> y tener tus <strong>correos electrónicos corporativos</strong> (como contacto@tuempresa.cl), respaldado con infraestructura en el Cono Sur para máxima velocidad.</p>
-          <p class="mb-8 inline-flex items-center justify-center md:justify-start gap-2 text-[.95rem] font-semibold text-[#CFE9F2]"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" class="w-5 h-5 stroke-cyt shrink-0" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h2.6l2.3 11.2a1.7 1.7 0 001.7 1.4h8.4a1.7 1.7 0 001.7-1.3l1.4-6.3H6"/></svg>Pagas en línea y empiezas hoy.</p>
-          <div class="flex flex-wrap justify-center md:justify-start gap-3">
-            <a href="#hosting-global" class="inline-flex bg-yel hover:bg-yelhov text-ink font-display font-bold text-[.98rem] px-10 py-3.5 rounded-md shadow-[0_6px_20px_rgba(255,230,0,.28)] hover:-translate-y-1 transition-all">Ver planes de hosting</a>
-          </div>
-        </div>
-        <div class="flex items-center justify-center md:justify-end">
-          <img src={`${base}/server-rack.png`} alt="Rack de servidores en el data center de Fractal Host" width="285" height="464" class="w-full max-w-[300px] h-auto drop-shadow-[0_20px_60px_rgba(0,0,0,.45)] select-none" />
-        </div>
-      </div>
-    </div>
-
-    <button id="slidePrev2" aria-label="Lámina anterior" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border border-white/30 bg-black/20 backdrop-blur-sm hover:border-cy hover:text-cyt flex items-center justify-center transition-colors cursor-pointer"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" class="w-4 h-4 stroke-current" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
-    <button id="slideNext2" aria-label="Lámina siguiente" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border border-white/30 bg-black/20 backdrop-blur-sm hover:border-cy hover:text-cyt flex items-center justify-center transition-colors cursor-pointer"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" class="w-4 h-4 stroke-current" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
-    <div id="heroTabs" class="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2"><button class="hero-tab active" data-index="0">Hosting</button><button class="hero-tab" data-index="1">Sitios</button><button class="hero-tab" data-index="2">Mantención</button><button class="hero-tab" data-index="3">Racks</button></div>
+    <div id="slideDots" class="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center" role="group" aria-label="Progreso de láminas"></div>
   </div>
 </section>
