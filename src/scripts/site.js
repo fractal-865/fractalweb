@@ -352,35 +352,21 @@ document.querySelectorAll('[data-cycle-btn]').forEach(function(btn){
   restart();
 })();
 
-/* ================= SLIDER 2: TABS ================= */
+/* ================= DROPDOWN CARRITO (topbar Contratar) ================= */
 (function(){
-  var slider = document.getElementById('heroSlider2');
-  if (!slider) return;
-  var slides = Array.prototype.slice.call(slider.querySelectorAll('.slide'));
-  var idx = 0, timer = null, DELAY = 7000;
-  var tabsWrap = document.getElementById('heroTabs');
-  function go(n, manual){
-    idx = (n + slides.length) % slides.length;
-    slides.forEach(function(s, i){ s.classList.toggle('is-active', i === idx); });
-    if (tabsWrap) Array.prototype.slice.call(tabsWrap.querySelectorAll('.hero-tab')).forEach(function(tab, i){ tab.classList.toggle('active', i === idx); });
-    if (manual) restart();
-  }
-  function restart(){ clearInterval(timer); timer = setInterval(function(){ go(idx + 1); }, DELAY); }
-  document.getElementById('slidePrev2').addEventListener('click', function(){ go(idx - 1, true); });
-  document.getElementById('slideNext2').addEventListener('click', function(){ go(idx + 1, true); });
-  var tabBtns = tabsWrap ? Array.prototype.slice.call(tabsWrap.querySelectorAll('.hero-tab')) : [];
-  tabBtns.forEach(function(btn, i){ btn.addEventListener('click', function(){ go(i, true); }); });
-  slider.addEventListener('mouseenter', function(){ clearInterval(timer); });
-  slider.addEventListener('mouseleave', restart);
-  var tx = null;
-  slider.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, { passive:true });
-  slider.addEventListener('touchend', function(e){
-    if (tx === null) return;
-    var dx = e.changedTouches[0].clientX - tx;
-    if (Math.abs(dx) > 48) go(idx + (dx < 0 ? 1 : -1), true);
-    tx = null;
-  }, { passive:true });
-  restart();
+  var drop = document.getElementById('tbContratar');
+  if (!drop) return;
+  var btn = document.getElementById('tbContratarBtn');
+  var closeT = null;
+  function open(){ clearTimeout(closeT); drop.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+  function close(){ drop.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+  function scheduleClose(){ clearTimeout(closeT); closeT = setTimeout(close, 260); }
+  btn.addEventListener('click', function(e){ e.preventDefault(); if (drop.classList.contains('open')) close(); else open(); });
+  drop.addEventListener('mouseenter', function(){ if (window.innerWidth >= 1024) open(); });
+  drop.addEventListener('mouseleave', function(){ if (window.innerWidth >= 1024) scheduleClose(); });
+  document.addEventListener('click', function(e){ if (!e.target.closest('#tbContratar')) close(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  window.addEventListener('scroll', close, { passive:true });
 })();
 
 /* ================= MEGAMENU ================= */
