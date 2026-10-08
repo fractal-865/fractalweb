@@ -341,6 +341,9 @@ document.querySelectorAll('[data-cycle-btn]').forEach(function(btn){
   document.getElementById('slideNext').addEventListener('click', function(){ go(idx + 1, true); });
   slider.addEventListener('mouseenter', function(){ clearInterval(timer); });
   slider.addEventListener('mouseleave', restart);
+  /* Teclado: el carrusel se detiene mientras el foco está dentro y se reanuda al salir */
+  slider.addEventListener('focusin', function(){ clearInterval(timer); });
+  slider.addEventListener('focusout', function(){ if (!prefersReduced) restart(); });
   var tx = null;
   slider.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, { passive:true });
   slider.addEventListener('touchend', function(e){
@@ -349,7 +352,7 @@ document.querySelectorAll('[data-cycle-btn]').forEach(function(btn){
     if (Math.abs(dx) > 48) go(idx + (dx < 0 ? 1 : -1), true);
     tx = null;
   }, { passive:true });
-  restart();
+  if (!prefersReduced) restart();
 })();
 
 /* ================= DROPDOWN CARRITO (topbar Contratar) ================= */
@@ -503,9 +506,11 @@ var mobileMenu = document.getElementById('mobileMenu');
 var burgerBtn = document.getElementById('burger');
 burgerBtn.addEventListener('click', function(){
   var open = mobileMenu.classList.toggle('-translate-y-[130%]') === false;
+  mobileMenu.classList.toggle('mm-open', open);
+  if (open) mobileMenu.removeAttribute('inert'); else mobileMenu.setAttribute('inert', '');
   burgerBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
 });
-mobileMenu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ mobileMenu.classList.add('-translate-y-[130%]'); burgerBtn.setAttribute('aria-expanded','false'); }); });
+mobileMenu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ mobileMenu.classList.add('-translate-y-[130%]'); mobileMenu.classList.remove('mm-open'); mobileMenu.setAttribute('inert', ''); burgerBtn.setAttribute('aria-expanded','false'); }); });
 
 /* ================= PARALLAX ================= */
 (function(){

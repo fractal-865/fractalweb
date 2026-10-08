@@ -166,8 +166,11 @@ html.dark body { background-image:
   -webkit-mask-image:radial-gradient(ellipse 85% 65% at 50% 40%,#000 30%,transparent 78%);
   mask-image:radial-gradient(ellipse 85% 65% at 50% 40%,#000 30%,transparent 78%); }
 .inner-depth { box-shadow: inset 0 40px 90px rgba(0,0,0,.55), inset 0 -50px 110px rgba(0,0,0,.6); }
-.slide { position:absolute; inset:0; width:100%; opacity:0; transform:translateY(26px) scale(.985); transition: opacity .8s ease, transform .8s ease; pointer-events:none; display:flex; align-items:center; justify-content:center; text-align:center; }
-.slide.is-active { position:relative; opacity:1; transform:none; pointer-events:auto; }
+.slide { position:absolute; inset:0; width:100%; opacity:0; visibility:hidden; transform:translateY(26px) scale(.985); transition: opacity .8s ease, transform .8s ease, visibility .8s ease; pointer-events:none; display:flex; align-items:center; justify-content:center; text-align:center; }
+.slide.is-active { position:relative; opacity:1; visibility:visible; transform:none; pointer-events:auto; }
+/* Menú móvil cerrado: fuera del orden de tabulación (visibility:hidden quita los enlaces del focus) */
+#mobileMenu { visibility:hidden; transition: transform .3s ease, visibility .3s ease; }
+#mobileMenu.mm-open { visibility:visible; }
 /* El botón mide 24×24 px (objetivo táctil mínimo de WCAG 2.2); el círculo
    visible sigue midiendo 12 px gracias al pseudo-elemento interior. */
 .dot { @apply relative w-6 h-6 cursor-pointer; }
@@ -241,6 +244,6 @@ a.tip, button.tip { cursor: pointer; }
   * { animation:none !important; transition:none !important; }
   .reveal { opacity:1; transform:none; }
   [data-px] { transform:none !important; }
-  .slide { position:relative; opacity:1; transform:none; pointer-events:auto; }
+  .slide { position:relative; opacity:1; visibility:visible; transform:none; pointer-events:auto; }
   .price-block { transition:none; }
 }

@@ -62,6 +62,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <script is:inline>
       try { if (localStorage.getItem('fh-theme') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
     </script>
+    <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
     <script type="application/ld+json" is:inline>
       {"@context":"https://schema.org","@graph":[
         {"@type":"LocalBusiness","@id":"https://fractalhost.cl/#negocio","name":"Fractal Host","slogan":"Patagonia conectada","url":"https://fractalhost.cl/","logo":"/logo.webp","email":"hola@fractalhost.cl","telephone":"+56954132014","priceRange":"$","currenciesAccepted":"CLP","paymentAccepted":"Flow, tarjetas de crédito y débito, Webpay Plus, transferencia, MACH",
