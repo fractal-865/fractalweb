@@ -79,6 +79,18 @@ summary::-webkit-details-marker { display:none; }
 @keyframes cotArrowFlow{ 0%,100%{ transform: translateX(0); } 50%{ transform: translateX(6px); } }
 @media (max-width:640px){ .cot-arrow{ width:44px; height:44px; left: 8px; } }
 @media (prefers-reduced-motion: reduce){ .cot-arrow--on svg path{ animation: none; } .cot-arrow, .cot-arrow--off{ transition: none; } }
+
+/* Tabs en segundo slider */
+.hero-tab { border:1px solid rgba(255,255,255,.25); border-radius:9999px; padding:.35rem .75rem; font-size:.8rem; color:#EAF1F8; transition: all .25s ease; }
+.hero-tab:hover { border-color:rgba(0,229,255,.5); color:#fff; }
+.hero-tab.active { background:#00E5FF; border-color:#00E5FF; color:#03222D; font-weight:600; }
+
+/* Flip-Box para tarjetasdestacadas */
+.flipbox { position: relative; perspective: 1000px; min-height: 260px; }
+.flipbox-inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .6s ease; }
+.flipbox:hover .flipbox-inner { transform: rotateY(180deg); }
+.flipbox-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: .5rem; }
+.flipbox-back { transform: rotateY(180deg); }
 #topbar { height: 2.75rem; background: #0B1220; border-bottom: 1px solid rgba(0,240,255,.12); transition: height .3s ease-in-out; }
 header.scrolled #topbar { height: 2.15rem; }
 .tb-left { display:flex; align-items:center; gap:1rem; color:rgba(230,240,247,.7); }
