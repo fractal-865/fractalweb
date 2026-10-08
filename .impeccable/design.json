@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-08T12:00:00-03:00",
+  "title": "Design System: Fractal Host",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Signal Cyan",
+        "canonical": "#00E5FF",
+        "tonalRamp": ["#00252B", "#004A57", "#007082", "#00A9C4", "#00CDE9", "#00E5FF", "#6FE6FF", "#BDF6FF"]
+      },
+      "primary-deep": {
+        "role": "primary",
+        "displayName": "Deep Cyan",
+        "canonical": "#00747F",
+        "tonalRamp": ["#002E36", "#004A57", "#00747F", "#00A9C4", "#26C4DA", "#5CD8E9", "#94E8F3", "#CDF5FA"],
+        "note": "#00747F es el único cian AA como texto (5,1:1). #00A9C4 solo para foco/acentos no textuales (2,6:1)."
+      },
+      "secondary": {
+        "role": "secondary",
+        "displayName": "Voltage Yellow",
+        "canonical": "#FFE600",
+        "tonalRamp": ["#2B2700", "#574E00", "#847500", "#B19C00", "#D6BD00", "#FFE600", "#FFEE5C", "#FFF7C2"]
+      },
+      "night": {
+        "role": "neutral",
+        "displayName": "Night",
+        "canonical": "#04070D",
+        "tonalRamp": ["#04070D", "#0A1020", "#111A31", "#1C2B4C", "#2A4068", "#4A6289", "#8194B1", "#D5DDE9"]
+      },
+      "page": {
+        "role": "neutral",
+        "displayName": "Page Grey",
+        "canonical": "#EBEBEB",
+        "tonalRamp": ["#262626", "#4D4D4D", "#737373", "#999999", "#B8B8B8", "#D1D1D1", "#EBEBEB", "#F7F7F7"]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Cool Slate",
+        "canonical": "#2B2F36",
+        "tonalRamp": ["#0D0F13", "#1A1E24", "#2B2F36", "#484E58", "#646C78", "#8B94A1", "#B4BBC5", "#DFE3E9"]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Steel",
+        "canonical": "#5F6B7A",
+        "tonalRamp": ["#171C23", "#2E3844", "#46525F", "#5F6B7A", "#7B8794", "#9AA5B1", "#C3CAD2", "#E4E8EC"]
+      },
+      "success": {
+        "role": "tertiary",
+        "displayName": "Success Green",
+        "canonical": "#12A150",
+        "tonalRamp": ["#04260F", "#084A1E", "#0C6E2C", "#12A150", "#3FBE73", "#6FD49A", "#A9E7C4", "#DFF6EA"]
+      },
+      "whatsapp": {
+        "role": "tertiary",
+        "displayName": "WhatsApp Green",
+        "canonical": "#25D366",
+        "tonalRamp": ["#062B12", "#0D5725", "#148338", "#25D366", "#55DE8A", "#85E9B0", "#B5F3D0", "#E0FBEF"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline. Uppercase, extrabold, one phrase in Voltage Yellow." },
+      "headline": { "displayName": "Headline", "purpose": "Section h2 on the single-page scroll. Anchor of every block." },
+      "title": { "displayName": "Title", "purpose": "Plan names and megamenu card titles, uppercase with wide tracking." },
+      "body": { "displayName": "Body", "purpose": "All reading copy, plan descriptions and legal notes." },
+      "label": { "displayName": "Label / Kicker", "purpose": "Section eyebrow flanked by two 34x2px rules." },
+      "nav": { "displayName": "Nav", "purpose": "Header and mobile menu links, uppercase with 0.12em tracking." },
+      "action": { "displayName": "Action", "purpose": "Primary CTA button text." },
+      "button-sm": { "displayName": "Button compact", "purpose": "Topbar action buttons (cotizar, agenda, area de clientes)." }
+    },
+    "shadows": [
+      { "name": "card-rest", "value": "0 2px 6px rgba(4,7,13,.05), 0 14px 34px rgba(4,7,13,.08)", "purpose": "Resting white card on the light page." },
+      { "name": "card-hover", "value": "0 6px 14px rgba(4,7,13,.08), 0 26px 60px rgba(4,7,13,.14)", "purpose": "Card hover, always paired with translateY(-6px)." },
+      { "name": "featured-glow", "value": "0 8px 20px rgba(0,169,196,.16), 0 24px 60px rgba(0,169,196,.18)", "purpose": "Featured hosting plan card." },
+      { "name": "action-glow", "value": "0 6px 20px rgba(255,230,0,.28)", "purpose": "Hero-scale yellow CTA." },
+      { "name": "action-glow-compact", "value": "0 4px 16px rgba(255,230,0,.45)", "purpose": "Compact yellow CTA in the topbar." },
+      { "name": "cyan-glow", "value": "0 4px 16px rgba(0,229,255,.35)", "purpose": "Cyan CTA and the 'Mas elegido' badge." },
+      { "name": "panel-lift", "value": "0 30px 80px rgba(4,7,13,.35), 0 4px 18px rgba(4,7,13,.15)", "purpose": "Floating megamenu panel." },
+      { "name": "chrome", "value": "0 10px 40px rgba(0,0,0,.45)", "purpose": "Fixed navigation bar." },
+      { "name": "spotlight", "value": "0 24px 60px rgba(0,0,0,.5)", "purpose": "Tinted spotlight cards (cyan, green or yellow theme)." },
+      { "name": "hero-inset", "value": "inset 0 40px 90px rgba(0,0,0,.55), inset 0 -50px 110px rgba(0,0,0,.6)", "purpose": "Sinks the center of the hero image so type stays readable." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "ease", "purpose": "Default easing for state transitions." },
+      { "name": "duration-state", "value": "0.2s", "purpose": "Button and link state changes." },
+      { "name": "duration-lift", "value": "0.3s", "purpose": "Card lift, megamenu open, chevron rotation." },
+      { "name": "duration-chrome", "value": "0.35s", "purpose": "Topbar collapse on scroll and floating-button repositioning." },
+      { "name": "duration-reveal", "value": "0.7s", "purpose": "Scroll reveal: 28px rise with stagger steps .08s / .16s / .24s / .32s." },
+      { "name": "ease-meter", "value": "cubic-bezier(.2,.8,.2,1)", "purpose": "Ping meter fill, 1.5s." },
+      { "name": "duration-tab", "value": "0.45s", "purpose": "Tab content swap (rise + fade)." },
+      { "name": "duration-slide", "value": "0.8s", "purpose": "Hero slider crossfade." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The only full-strength yellow element on a screen: the conversion CTA.",
+      "html": "<button class=\"ds-btn-primary\">Ver planes de hosting</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;background:var(--color-yel,#FFE600);color:var(--color-ink,#111318);font-family:Montserrat,sans-serif;font-weight:700;font-size:.98rem;line-height:1.45;padding:14.875px 42.5px;border:0;border-radius:6.375px;box-shadow:0 6px 20px rgba(255,230,0,.28);cursor:pointer;transition:background .2s ease,transform .2s ease,box-shadow .2s ease}.ds-btn-primary:hover{background:var(--color-yelhov,#EFD700);transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,230,0,.38)}.ds-btn-primary:active{transform:translateY(0)}.ds-btn-primary:focus-visible{outline:3px solid #00A9C4;outline-offset:2px}"
+    },
+    {
+      "name": "Cyan Button",
+      "kind": "button",
+      "refersTo": "button-cyan",
+      "description": "Topbar conversion action: system voice applied to a task.",
+      "html": "<button class=\"ds-btn-cyan\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" width=\"16\" height=\"16\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"M8 7h8M8 11h3M8 15h3\"/></svg>Cotizar sitio web</button>",
+      "css": ".ds-btn-cyan{display:inline-flex;align-items:center;gap:6px;background:var(--color-cy,#00E5FF);color:#03222D;font-family:Montserrat,sans-serif;font-weight:800;font-size:.8rem;line-height:1.625;padding:8.5px 15.3px;border:0;border-radius:6.375px;box-shadow:0 4px 16px rgba(0,229,255,.35);cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}.ds-btn-cyan:hover{background:#26EBFF;transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,229,255,.5)}.ds-btn-cyan:focus-visible{outline:3px solid #00A9C4;outline-offset:2px}"
+    },
+    {
+      "name": "Outline Button on Dark",
+      "kind": "button",
+      "refersTo": "button-outline-dark",
+      "description": "Secondary CTA over the dark hero; borrows the cyan only on hover.",
+      "html": "<button class=\"ds-btn-outline\">Ver cómo trabajamos</button>",
+      "css": ".ds-btn-outline{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:#FFFFFF;font-family:Montserrat,sans-serif;font-weight:700;font-size:.98rem;line-height:1.45;padding:14.875px 34px;border:2px solid rgba(255,255,255,.4);border-radius:6.375px;cursor:pointer;transition:border-color .2s ease,color .2s ease}.ds-btn-outline:hover{border-color:#00E5FF;color:#6FE6FF}.ds-btn-outline:focus-visible{outline:3px solid #6FE6FF;outline-offset:2px}"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Form field: cold-tinted fill so the field reads without a heavy border.",
+      "html": "<label class=\"ds-field\">Nombre completo<input class=\"ds-input\" type=\"text\" placeholder=\"Tu nombre\" /></label>",
+      "css": ".ds-field{display:block;font-family:Roboto,sans-serif;font-size:.9rem;font-weight:500;color:var(--color-txt,#2B2F36)}.ds-input{display:block;width:100%;margin-top:5px;background:var(--color-input,#EAF3FB);color:var(--color-txt,#2B2F36);font-family:Roboto,sans-serif;font-size:1rem;line-height:1.625;padding:12.75px 17px;border:1px solid var(--color-line,#E3E6EA);border-radius:6.375px;transition:border-color .2s ease}.ds-input::placeholder{color:var(--color-mut,#5F6B7A)}.ds-input:hover{border-color:#C9CFD6}.ds-input:focus{outline:3px solid #00A9C4;outline-offset:2px;border-color:#00A9C4}.ds-input:disabled{color:var(--color-mut,#5F6B7A);cursor:not-allowed}"
+    },
+    {
+      "name": "Plan Card",
+      "kind": "card",
+      "refersTo": "card-plan",
+      "description": "Hosting plan box; the featured variant swaps to a 2px cyan border, a cyan glow and a protruding badge.",
+      "html": "<article class=\"ds-plan\"><span class=\"ds-plan-badge\">Mas elegido</span><h3 class=\"ds-plan-name\">Pro</h3><p class=\"ds-plan-desc\">Para sitios en crecimiento con correos corporativos.</p><div class=\"ds-plan-price\"><span>$86.990</span><small>CLP / año</small></div><p class=\"ds-plan-legal\">Valor líquido, sin retención (+15,25%)</p><ul class=\"ds-plan-keys\"><li><b>Espacio SSD:</b> 20 GB</li><li><b>Ancho de banda:</b> Ilimitado</li></ul><button class=\"ds-btn-primary\">Contratar</button></article>",
+      "css": ".ds-plan{position:relative;display:flex;flex-direction:column;background:#FFFFFF;color:var(--color-txt,#2B2F36);border:1px solid var(--color-line,#E3E6EA);border-radius:17px;padding:29.75px;box-shadow:0 2px 6px rgba(4,7,13,.05),0 14px 34px rgba(4,7,13,.08);transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}.ds-plan:hover{transform:translateY(-6px);box-shadow:0 6px 14px rgba(4,7,13,.08),0 26px 60px rgba(4,7,13,.14)}.ds-plan:focus-within{outline:3px solid #00A9C4;outline-offset:2px}.ds-plan-badge{position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:var(--color-cy,#00E5FF);color:#04222B;font-family:Montserrat,sans-serif;font-weight:800;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;padding:6px 16px;border-radius:9999px;box-shadow:0 6px 16px rgba(0,169,196,.35);white-space:nowrap}.ds-plan-name{margin:0;font-family:Montserrat,sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:.05em;text-transform:uppercase;color:var(--color-txt,#2B2F36)}.ds-plan-desc{margin:6px 0 0;font-family:Roboto,sans-serif;font-size:.9rem;color:var(--color-mut,#5F6B7A);min-height:2.6rem}.ds-plan-price{margin-top:16px;display:flex;align-items:flex-end;gap:8px}.ds-plan-price span{font-family:Montserrat,sans-serif;font-weight:800;font-size:2.5rem;line-height:1;color:var(--color-txt,#2B2F36)}.ds-plan-price small{font-family:Roboto,sans-serif;font-size:.8rem;color:var(--color-mut,#5F6B7A);margin-bottom:4px}.ds-plan-legal{margin:4px 0 0;font-family:Roboto,sans-serif;font-size:.74rem;color:var(--color-mut,#5F6B7A)}.ds-plan-keys{list-style:none;margin:20px 0 24px;padding:0;border-top:1px solid var(--color-line,#E3E6EA)}.ds-plan-keys li{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--color-line,#E3E6EA);font-family:Roboto,sans-serif;font-size:.9rem;color:var(--color-mut,#5F6B7A)}.ds-plan-keys b{color:var(--color-txt,#2B2F36)}.ds-plan .ds-btn-primary{width:100%;justify-content:center;font-size:.95rem;padding:14.875px 25.5px}"
+    },
+    {
+      "name": "Mega Menu Card",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Panel card inside the header megamenu; hairline border that goes deep-cyan on hover with a 3px lift.",
+      "html": "<div class=\"ds-mega-card\"><span class=\"ds-mega-kicker\">cPanel · Datacenter EE. UU.</span><p class=\"ds-mega-title\">Hosting Global compartido</p><p class=\"ds-mega-body\">cPanel completo, SSL, correos y WordPress optimizado con LiteSpeed.</p></div>",
+      "css": ".ds-mega-card{position:relative;background:#FFFFFF;border:1px solid var(--color-line,#E3E6EA);border-radius:12.75px;padding:25.5px;cursor:pointer;transition:border-color .3s ease,transform .3s ease,box-shadow .3s ease}.ds-mega-card:hover{border-color:#00A9C4;transform:translateY(-3px);box-shadow:0 14px 34px rgba(4,7,13,.12)}.ds-mega-card:focus-visible{outline:3px solid #00A9C4;outline-offset:2px}.ds-mega-kicker{display:block;font-family:Montserrat,sans-serif;font-weight:800;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#00747F}.ds-mega-title{margin:8px 0 6px;font-family:Montserrat,sans-serif;font-weight:800;font-size:1.08rem;color:var(--color-txt,#2B2F36)}.ds-mega-body{margin:0 0 14px;font-family:Roboto,sans-serif;font-size:.88rem;line-height:1.6;color:var(--color-mut,#5F6B7A)}"
+    },
+    {
+      "name": "Kicker",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Signature eyebrow label flanked by two short rules; the most repeated typographic motif on the site.",
+      "html": "<span class=\"ds-kicker\">Servicio de hosting en Punta Arenas</span>",
+      "css": ".ds-kicker{display:inline-flex;align-items:center;gap:12px;font-family:Montserrat,sans-serif;font-weight:700;font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:#00747F}.ds-kicker::before,.ds-kicker::after{content:\"\";width:34px;height:2px;background:currentColor}"
+    },
+    {
+      "name": "Pill Chip",
+      "kind": "chip",
+      "refersTo": "chip-pill",
+      "description": "Glassy informational pill over dark surfaces: guarantee or feature, never a selectable filter.",
+      "html": "<span class=\"ds-chip\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" width=\"16\" height=\"16\"><path d=\"M20 6L9 17l-5-5\"/></svg>Actualización de plugins y plantillas</span>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;gap:8px;padding:8.5px 17px;border-radius:9999px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(4px);color:#EAF1F8;font-family:Roboto,sans-serif;font-size:.9rem;line-height:1.5}.ds-chip svg{color:#6FE6FF;flex:none}.ds-chip:focus-visible{outline:3px solid #6FE6FF;outline-offset:2px}"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Header navigation item; active state is a 34%-opacity cyan-to-yellow gradient underline, not a fill.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-navlink is-active\" href=\"#hosting-global\">Hosting Global</a><a class=\"ds-navlink\" href=\"#servicios\">Servicios</a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:28px}.ds-navlink{position:relative;font-family:Montserrat,sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#E6EDF5;text-decoration:none;padding-bottom:8px;transition:color .2s ease}.ds-navlink:hover{color:#6FE6FF}.ds-navlink.is-active::after{content:\"\";position:absolute;left:0;right:0;bottom:0;height:3px;border-radius:99px;background:linear-gradient(90deg,#00E5FF,#FFE600);box-shadow:0 0 12px rgba(0,229,255,.6)}.ds-navlink:focus-visible{outline:3px solid #6FE6FF;outline-offset:2px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "El Nodo Austral",
+    "overview": "Fractal Host se ve como un nodo de infraestructura encendido en la oscuridad de la Patagonia: fondo casi negro atravesado por nebulosas cian, una rejilla técnica de 54px que se desvanece hacia los bordes, y fotografía de montaña tratada como textura de datos — nunca como postal. La superficie es oscura donde la marca habla (barra superior, header, hero, pie) y clara donde el visitante lee y compara (planes, servicios, FAQ, contacto). Ese contraste — cromo siempre oscuro sobre cuerpo de contenido claro — es la firma estructural del sistema, y el modo oscuro completo no es una inversión de filtros sino una segunda paleta declarada token por token.\n\nLa densidad es alta y deliberada: tipografía en mayúsculas extrabold, tracking amplio, filas de datos con divisores capilares y medidores de ping que se animan al entrar en viewport. Nada flota por costumbre. La profundidad viene de gradientes radiales, ruido fractal y una rejilla enmascarada; la sombra aparece solo como respuesta a estado, y su versión cromática (glow cian o amarillo) es la que realmente comunica elevación sobre fondo oscuro.\n\nLos dos acentos son ortogonales y no se disputan el mismo elemento: el cian es la voz del sistema (estado en vivo, enlaces, iconos, checklists) y el amarillo es la voz de la acción (contratar, cotizar, área de clientes). La marca es de Punta Arenas pero habla como infraestructura seria: precisión, cifras y latencia por encima de decoración.",
+    "keyCharacteristics": [
+      "Cromo fijo siempre oscuro (topbar + header de 70px + hero + footer) sobre cuerpo claro con modo oscuro completo.",
+      "Dos acentos ortogonales: cian = sistema/estado, amarillo = acción/conversión.",
+      "Montserrat extrabold en mayúsculas para toda la jerarquía; Roboto regular para lectura.",
+      "Rejilla técnica, ruido fractal y nebulosas radiales como atmósfera de fondo.",
+      "Glow de estado como única elevación; planas en reposo.",
+      "Pills y chips de borde capilar conviven con cajas de 2xl (17px) — geometría mixta pero disciplinada.",
+      "Formato de precio siempre con la leyenda de valor líquido en tamaño de nota al pie."
+    ],
+    "rules": [
+      { "name": "The Signal Rule", "body": "El cian habla del sistema y el amarillo habla de la acción, y nunca intercambian papeles. Si un elemento describe estado, latencia o característica, es cian; si un elemento pide una decisión de compra, es amarillo. Un screen puede tener varios cianes, pero el amarillo pleno se reserva a la acción primaria de esa pantalla.", "section": "colors" },
+      { "name": "The Two-Palette Rule", "body": "Cada token de color existe en versión clara y versión oscura declaradas (`text`/`text-on-dark`, `line`/`line-on-dark`, `input`/`input-dark`). No se invierte el modo claro con filtros ni opacidad: se cambia de token.", "section": "colors" },
+      { "name": "The Ochre Translation Rule", "body": "Sobre fondo claro, el amarillo nunca es texto: se traduce a Ochre on Light (#8A6D00) o se mantiene como relleno con texto Ink.", "section": "colors" },
+      { "name": "The Command-Case Rule", "body": "Toda jerarquía display (Display, Headline, Title, Nav, Kicker) va en mayúsculas con tracking positivo; el cuerpo va en caja normal y nunca compite. No hay titulares en mayúsculas mixtas ni itálicas de énfasis.", "section": "typography" },
+      { "name": "The Liquid-Price Rule", "body": "Todo precio en pesos se muestra con su leyenda de valor líquido debajo, en Roboto 0.74rem y color muted, sin excepción.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Ninguna superficie lleva sombra permanente fuerte en reposo. Toda sombra o glow es una respuesta a estado (hover, foco, destacado) o una señal de jerarquía (panel flotante, cromo fijo).", "section": "elevation" }
+    ],
+    "dos": [
+      "Do reservar el amarillo pleno (#FFE600) para la acción primaria de la pantalla: contratar, cotizar, área de clientes, ver planes.",
+      "Do usar Deep Cyan (#00747F) -no Signal Cyan puro ni #00A9C4- para texto e iconos de acento sobre fondo claro.",
+      "Do traducir el amarillo a Ochre on Light (#8A6D00) cuando tenga que ser texto sobre fondo claro.",
+      "Do mantener el cromo (topbar, header, hero, footer) en paleta night aunque el resto de la página esté en modo claro.",
+      "Do declarar cada color en su par claro/oscuro y cambiar de token al alternar el modo.",
+      "Do mantener el contenedor en 1180px / 92% y el `scroll-padding-top` en 132px en toda nueva sección anclada.",
+      "Do acompañar cada elevación de estado con su glow de acento en modo oscuro, donde la sombra no se lee.",
+      "Do usar radio 6.375px para controles, 17px para contenedores de contenido y píldora completa para etiquetas y chips.",
+      "Do escribir toda jerarquía display en mayúsculas con su tracking (0.02em / 0.05em / 0.12em / 0.22em según nivel).",
+      "Do mostrar el precio con su leyenda de valor líquido inmediatamente debajo, en 0.74rem muted.",
+      "Do aplicar el foco global de 3px cian con offset 2px en todo elemento interactivo nuevo."
+    ],
+    "donts": [
+      "Don't usar #FFE600 como color de texto sobre fondo claro ni como fondo de texto largo.",
+      "Don't usar #00E5FF como color de texto sobre fondo claro; usar #00747F (AA). #00A9C4 queda solo para foco y acentos no textuales.",
+      "Don't invertir el modo claro con filtros, `invert` u opacidad: usar los tokens `-on-dark` / `-d`.",
+      "Don't dar sombras permanentes fuertes a las superficies en reposo; la sombra y el glow son respuesta a estado.",
+      "Don't usar la fotografía de la Patagonia como postal soleada: va tratada como textura oscura con superposición de degradado night y capas de montaña.",
+      "Don't romper el par de acentos —cian para sistema, amarillo para acción— ni poner ambos acentos plenos compitiendo en el mismo elemento.",
+      "Don't introducir una tercera familia tipográfica ni una monoespaciada para datos: Montserrat manda, Roboto lee.",
+      "Don't llevar titulares a caja mixta ni usar itálicas como énfasis dentro de la jerarquía display.",
+      "Don't exponer un precio sin su leyenda de valor líquido.",
+      "Don't redondear controles a 17px ni contenedores a píldora completa; respetar la jerarquía de formas."
+    ]
+  }
+}
