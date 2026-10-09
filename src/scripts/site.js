@@ -849,3 +849,18 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
     }, 3800);
   }
 })();
+
+/* ============ FLIPBOX SIN HOVER (celulares/tablets) ============
+   En pantallas donde no existe hover, tocar la tarjeta la gira para
+   mostrar el dorso (donde viven los CTA). Un segundo toque sobre un
+   enlace sigue navegando: los clicks dentro de a/button no se interceptan. */
+(function(){
+  if (!window.matchMedia || !window.matchMedia('(hover: none)').matches) return;
+  var boxes = document.querySelectorAll('.flipbox');
+  boxes.forEach(function(box){
+    box.addEventListener('click', function(e){
+      if (e.target.closest('a, button')) return;
+      box.classList.toggle('is-flipped');
+    });
+  });
+})();

@@ -96,6 +96,8 @@ summary::-webkit-details-marker { display:none; }
 .flipbox > .flipbox-inner > .flipbox-back:hover { transform: rotateY(180deg); }
 /* Accesibilidad: teclado da vuelta la tarjeta igual que el mouse */
 .flipbox:focus-within > .flipbox-inner { transform: rotateY(180deg); }
+/* Sin hover (celulares): tocar la tarjeta la gira */
+.flipbox.is-flipped .flipbox-inner { transform: rotateY(180deg); }
 .flipbox.flip-tall { min-height: 380px; }
 #topbar { height: 2.75rem; background: #0B1220; border-bottom: 1px solid rgba(0,240,255,.12); transition: height .3s ease-in-out; }
 header.scrolled #topbar { height: 2.15rem; }
