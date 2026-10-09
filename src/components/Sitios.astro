@@ -45,7 +45,7 @@
       </ol>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div id="sitiosGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="bg-white dark:bg-cardd border border-line dark:border-lined rounded-lg p-5 shadow-[0_10px_30px_rgba(0,0,0,.09)] hover:-translate-y-1.5 hover:border-cydeep dark:hover:border-cy transition-all reveal d1">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" class="w-[23px] h-[23px] stroke-cydeep dark:stroke-cyt mb-2.5" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h6M7 13h10"/></svg>
         <h3 class="font-display font-extrabold uppercase tracking-[.03em] text-[.92rem] mb-1">Micrositio y One Page</h3>
@@ -72,27 +72,36 @@
         <h3 class="font-display font-extrabold uppercase tracking-[.03em] text-[.92rem] mb-1">Eventos y entradas</h3>
         <p class="text-[.86rem] text-mut dark:text-mutd">Tickets digitales con control de acceso por QR.</p>
       </div>
-      <div class="bg-white dark:bg-cardd border border-line dark:border-lined rounded-lg p-5 shadow-[0_10px_30px_rgba(0,0,0,.09)] hover:-translate-y-1.5 hover:border-cydeep dark:hover:border-cy transition-all reveal d1">
+      <div data-more-item hidden class="bg-white dark:bg-cardd border border-line dark:border-lined rounded-lg p-5 shadow-[0_10px_30px_rgba(0,0,0,.09)] hover:-translate-y-1.5 hover:border-cydeep dark:hover:border-cy transition-all reveal d1">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" class="w-[23px] h-[23px] stroke-cydeep dark:stroke-cyt mb-2.5" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M9 15h6"/></svg>
         <h3 class="font-display font-extrabold uppercase tracking-[.03em] text-[.92rem] mb-1">Reserva de horas</h3>
         <p class="text-[.86rem] text-mut dark:text-mutd">Agenda online de horas o servicios.</p>
       </div>
-      <div class="bg-white dark:bg-cardd border border-line dark:border-lined rounded-lg p-5 shadow-[0_10px_30px_rgba(0,0,0,.09)] hover:-translate-y-1.5 hover:border-cydeep dark:hover:border-cy transition-all reveal d2">
+      <div data-more-item hidden class="bg-white dark:bg-cardd border border-line dark:border-lined rounded-lg p-5 shadow-[0_10px_30px_rgba(0,0,0,.09)] hover:-translate-y-1.5 hover:border-cydeep dark:hover:border-cy transition-all reveal d2">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" class="w-[23px] h-[23px] stroke-cydeep dark:stroke-cyt mb-2.5" aria-hidden="true"><path d="M3 11l9-8 9 8M5 9v11h14V9M10 20v-5h4v5"/></svg>
         <h3 class="font-display font-extrabold uppercase tracking-[.03em] text-[.92rem] mb-1">Sitio inmobiliario</h3>
         <p class="text-[.86rem] text-mut dark:text-mutd">Ventas y arriendos con filtros y mapas.</p>
       </div>
-      <div class="bg-white dark:bg-cardd border border-line dark:border-lined rounded-lg p-5 shadow-[0_10px_30px_rgba(0,0,0,.09)] hover:-translate-y-1.5 hover:border-cydeep dark:hover:border-cy transition-all reveal d3">
+      <div data-more-item hidden class="bg-white dark:bg-cardd border border-line dark:border-lined rounded-lg p-5 shadow-[0_10px_30px_rgba(0,0,0,.09)] hover:-translate-y-1.5 hover:border-cydeep dark:hover:border-cy transition-all reveal d3">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" class="w-[23px] h-[23px] stroke-cydeep dark:stroke-cyt mb-2.5" aria-hidden="true"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13 5l-2 14"/></svg>
         <h3 class="font-display font-extrabold uppercase tracking-[.03em] text-[.92rem] mb-1">Proyecto a medida</h3>
         <p class="text-[.86rem] text-mut dark:text-mutd">Funciones únicas con desarrollo personalizado.</p>
       </div>
-      <div class="bg-white dark:bg-cardd border border-line dark:border-lined rounded-lg p-5 shadow-[0_10px_30px_rgba(0,0,0,.09)] hover:-translate-y-1.5 hover:border-cydeep dark:hover:border-cy transition-all reveal d4">
+      <div data-more-item hidden class="bg-white dark:bg-cardd border border-line dark:border-lined rounded-lg p-5 shadow-[0_10px_30px_rgba(0,0,0,.09)] hover:-translate-y-1.5 hover:border-cydeep dark:hover:border-cy transition-all reveal d4">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" class="w-[23px] h-[23px] stroke-cydeep dark:stroke-cyt mb-2.5" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/><path d="M7 15h4"/></svg>
         <h3 class="font-display font-extrabold uppercase tracking-[.03em] text-[.92rem] mb-1">Tarjeta digital</h3>
         <p class="text-[.86rem] text-mut dark:text-mutd">Tu negocio en un enlace para WhatsApp.</p>
       </div>
     </div>
+
+    {/* [P2-D] Divulgación progresiva: 4 tipos a la vista, el resto tras "Ver más" */}
+    <div class="flex justify-center mt-8 reveal">
+      <button type="button" data-more-toggle aria-expanded="false" aria-controls="sitiosGrid" data-more-open="Ver más" data-more-close="Ver menos" class="inline-flex items-center gap-2 border-2 border-cydeep/60 dark:border-cy/60 hover:border-cydeep dark:hover:border-cy hover:bg-cy/10 text-cydeep dark:text-cyt font-display font-bold text-[.95rem] px-7 py-3 rounded-lg transition-colors cursor-pointer">
+        <span data-more-label>Ver más</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" class="w-4 h-4 stroke-current transition-transform aria-expanded:rotate-180" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+    <noscript><style>[data-more-item]{display:block!important}</style></noscript>
 
     <div class="flex flex-wrap justify-center gap-3 mt-12 reveal">
       <a href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/cotizador`} class="inline-flex items-center gap-2 bg-yel hover:bg-yelhov text-ink font-display font-extrabold text-[1rem] px-9 py-4 rounded-lg shadow-[0_12px_30px_rgba(255,230,0,.35)] hover:-translate-y-1 transition-all">Cotizar mi sitio ahora<svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" class="w-4 h-4 stroke-current" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>

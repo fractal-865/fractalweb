@@ -91,16 +91,23 @@ summary::-webkit-details-marker { display:none; }
 .flipbox-back { transform: rotateY(180deg); }
 #topbar { height: 2.75rem; background: #0B1220; border-bottom: 1px solid rgba(0,240,255,.12); transition: height .3s ease-in-out; }
 header.scrolled #topbar { height: 2.15rem; }
-.tb-left { display:flex; align-items:center; gap:1rem; color:rgba(230,240,247,.7); }
+/* [P1-A] Dos pesos visuales en la topbar: las utilidades del cliente (correo,
+   estado, agendar, área clientes) quedan discretas y agrupadas; las acciones de
+   compra (Cotizar, Contratar) quedan rellenas y con más peso. Nada se elimina. */
+.tb-left { display:flex; align-items:center; gap:.75rem; color:rgba(230,240,247,.55); }
 .tb-right { display:flex; align-items:center; gap:.35rem; margin-left:auto; }
-.tb-plain { display:inline-flex; align-items:center; gap:.45rem; padding:.3rem .55rem; color:rgba(230,240,247,.7); font-size:.82rem; text-decoration:none; transition:color .2s ease, font-size .25s ease-in-out, padding .2s ease-in-out; }
+.tb-sec { display:flex; align-items:center; gap:.1rem; }
+.tb-plain { display:inline-flex; align-items:center; gap:.45rem; padding:.3rem .55rem; color:rgba(230,240,247,.55); font-size:.74rem; text-decoration:none; transition:color .2s ease, font-size .25s ease-in-out, padding .2s ease-in-out; }
 .tb-plain:hover { color:#00F0FF; }
-header.scrolled .tb-plain { font-size:.68rem; padding:.25rem .4rem; }
+header.scrolled .tb-plain { font-size:.64rem; padding:.25rem .4rem; }
 header.scrolled .tb-email-text { display:none; }
+header.scrolled .tb-status-text { display:none; }
 .tb-dot { width:.6rem; height:.6rem; border-radius:9999px; background:#00D6C2; display:inline-block; }
-.tb-link { position:relative; display:inline-flex; align-items:center; gap:.4rem; padding:.4rem .55rem; color:rgba(230,240,247,.8); font-size:.82rem; text-decoration:none; transition:color .2s ease, font-size .25s ease-in-out, padding .2s ease-in-out; }
-.tb-link svg { width:1rem; height:1rem; stroke:currentColor; }
-header.scrolled .tb-link { font-size:.68rem; padding:.25rem .4rem; }
+.tb-link { position:relative; display:inline-flex; align-items:center; gap:.35rem; padding:.4rem .5rem; color:rgba(230,240,247,.58); font-size:.74rem; text-decoration:none; transition:color .2s ease, font-size .25s ease-in-out, padding .2s ease-in-out; }
+.tb-link svg { width:.95rem; height:.95rem; stroke:currentColor; }
+header.scrolled .tb-link { font-size:.64rem; padding:.25rem .4rem; }
+/* Al colapsar la topbar, lo secundario queda solo como icono (el aria-label sigue) */
+header.scrolled .tb-sec .tb-link > span { display:none; }
 .tb-link > span { text-decoration: none; border-bottom: 1px solid transparent; transition: border-color .24s ease-in-out; }
 .tb-link:hover, .tb-link:focus-visible { color:#00F0FF; }
 .tb-link:hover > span { border-color:#00F0FF; }
@@ -108,17 +115,17 @@ header.scrolled .tb-link { font-size:.68rem; padding:.25rem .4rem; }
 .tb-secondary svg { width:1rem; height:1rem; stroke:currentColor; }
 .tb-secondary:hover { background:rgba(0,210,255,.12); }
 header.scrolled .tb-secondary { padding:.3rem .6rem; font-size:.68rem; }
-.tb-primary { display:inline-flex; align-items:center; gap:.4rem; padding:.4rem .8rem; border-radius:10px; background:transparent; border:1.5px solid rgba(230,240,247,.25); color:rgba(230,240,247,.8); font-size:.82rem; font-weight:700; text-decoration:none; transition:border-color .25s ease, color .25s ease, background-color .25s ease, padding .2s ease-in-out, font-size .25s ease-in-out; }
+.tb-primary { display:inline-flex; align-items:center; gap:.4rem; padding:.45rem .9rem; border-radius:10px; background:var(--color-cy); border:1.5px solid var(--color-cy); color:var(--color-ink); font-size:.8rem; font-weight:800; text-decoration:none; transition:border-color .25s ease, color .25s ease, background-color .25s ease, padding .2s ease-in-out, font-size .25s ease-in-out; }
 .tb-primary svg { width:1rem; height:1rem; stroke:currentColor; }
-.tb-primary:hover { border-color:#00F0FF; color:#00F0FF; background:rgba(0,210,255,.12); }
-header.scrolled .tb-primary { padding:.3rem .6rem; font-size:.68rem; }
+.tb-primary:hover { border-color:var(--color-cyt); color:var(--color-ink); background:var(--color-cyt); }
+header.scrolled .tb-primary { padding:.3rem .7rem; font-size:.68rem; }
 /* Dropdown "Contratar" tipo carrito de ecommerce (fondo blanco, gatillo sin caja) */
 .tb-drop { position:relative; display:inline-flex; align-items:center; }
-.tb-drop-btn { display:inline-flex; align-items:center; gap:.4rem; padding:.4rem .35rem; background:none; border:0; color:rgba(230,240,247,.85); font-family:inherit; font-size:.82rem; font-weight:600; cursor:pointer; text-decoration:none; transition:color .2s ease, font-size .25s ease-in-out, padding .2s ease-in-out; }
-.tb-drop-btn:hover, .tb-drop-btn:focus-visible { color:#00F0FF; }
+.tb-drop-btn { display:inline-flex; align-items:center; gap:.4rem; padding:.45rem .9rem; border-radius:10px; background:var(--color-yel); border:0; color:var(--color-ink); font-family:inherit; font-size:.8rem; font-weight:800; cursor:pointer; text-decoration:none; transition:background-color .25s ease, padding .2s ease-in-out, font-size .25s ease-in-out; }
+.tb-drop-btn:hover, .tb-drop-btn:focus-visible { background:var(--color-yelhov); color:var(--color-ink); }
 .tb-drop-btn svg { width:1rem; height:1rem; stroke:currentColor; }
 .tb-drop-btn .tb-chev { width:.7rem; height:.7rem; stroke-width:3; transition:transform .25s ease; }
-header.scrolled .tb-drop-btn { font-size:.68rem; padding:.25rem .25rem; }
+header.scrolled .tb-drop-btn { font-size:.68rem; padding:.3rem .7rem; }
 .tb-drop.open .tb-chev, .tb-drop:hover .tb-chev { transform:rotate(180deg); }
 @media (max-width:1023px){ .tb-drop-btn > span { display:none; } }
 .tb-drop-menu { position:absolute; right:0; top:calc(100% + .55rem); width:300px; padding:1rem; background:#fff; color:#0B1220; border:1px solid rgba(4,7,13,.08); border-radius:14px; box-shadow:0 22px 55px rgba(0,0,0,.35); opacity:0; visibility:hidden; transform:translateY(-8px); transition:opacity .22s ease, transform .22s ease, visibility .22s; z-index:130; text-align:left; }
@@ -171,6 +178,14 @@ html.dark body { background-image:
 .inner-depth { box-shadow: inset 0 40px 90px rgba(0,0,0,.55), inset 0 -50px 110px rgba(0,0,0,.6); }
 .slide { position:absolute; inset:0; width:100%; opacity:0; visibility:hidden; transform:translateY(26px) scale(.985); transition: opacity .8s ease, transform .8s ease, visibility .8s ease; pointer-events:none; display:flex; align-items:center; justify-content:center; text-align:center; }
 .slide.is-active { position:relative; opacity:1; visibility:visible; transform:none; pointer-events:auto; }
+/* [P2-C] Control visible del carrusel: pausa/play y indicadores de lámina (WCAG 2.2.2) */
+#slideToggle .ico-play { display:none; }
+#slideToggle.is-paused .ico-pause { display:none; }
+#slideToggle.is-paused .ico-play { display:block; }
+.hero-dot { width:1.5rem; height:1.5rem; padding:0; border:0; background:none; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; }
+.hero-dot::before { content:""; width:.65rem; height:.65rem; border-radius:9999px; background:rgba(255,255,255,.4); transition:background-color .25s ease, transform .25s ease, box-shadow .25s ease; }
+.hero-dot:hover::before { background:rgba(255,255,255,.8); transform:scale(1.12); }
+.hero-dot[aria-current="true"]::before { background:var(--color-yel); transform:scale(1.18); box-shadow:0 0 10px rgba(255,230,0,.55); }
 /* Menú móvil cerrado: fuera del orden de tabulación (visibility:hidden quita los enlaces del focus) */
 #mobileMenu { visibility:hidden; transition: transform .3s ease, visibility .3s ease; }
 #mobileMenu.mm-open { visibility:visible; }

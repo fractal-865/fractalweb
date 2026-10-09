@@ -201,6 +201,15 @@ La paleta es bicolor de acento sobre una base neutra neutro-fría que existe dup
 
 **The Ochre Translation Rule.** Sobre fondo claro, el amarillo nunca es texto: se traduce a Ochre on Light (#8A6D00) o se mantiene como relleno con texto Ink.
 
+**The Pending-Palette Rule (decisión de marca abierta).** Hay dos paletas de marca conviviendo y ninguna debe imponerse a ciegas:
+
+- **Valores de marca declarados** en `AGENTS.md` y en el documento corporativo interno: cian `#00F0FF` y verde azulado `#00D6C2`.
+- **Tokens reales del código** (`@theme` en `src/styles/global.css`): `--color-cy: #00E5FF` y `--color-live: #22E6A8`.
+
+Ambas parejas son visualmente casi idénticas, pero son dos fuentes de verdad: cualquier "corrección" hacia un lado puede estar cambiando la marca en el otro. A esto se suman los **hardcodes legacy** de los valores de marca dentro de las reglas de la topbar en `global.css` — el critique del 09-10-2026 contó 7 (`#00F0FF` en hovers y `#00D6C2` en `.tb-dot`); tras el reordenamiento de la topbar (P1-A) quedan **5** (`#00F0FF` en `.tb-plain`, `.tb-link` ×2 y `.tb-theme`, más `#00D6C2` en `.tb-dot`), porque los dos botones reestilados pasaron a usar los tokens.
+
+**Estado:** pendiente. El dueño de la marca decide con capturas lado a lado cuál es la paleta canónica; hasta esa decisión **no se cambia ningún color**. Si ganan los valores de marca, se normaliza el código a `#00F0FF`/`#00D6C2`; si ganan los tokens, se actualiza `AGENTS.md` y el documento corporativo. No arreglar ninguno de los dos lados por cuenta propia.
+
 ## Typography
 
 **Display Font:** Montserrat (con ui-sans-serif, system-ui, sans-serif)

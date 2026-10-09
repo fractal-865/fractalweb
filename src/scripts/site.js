@@ -341,10 +341,29 @@ document.querySelectorAll('[data-cycle-btn]').forEach(function(btn){
   var idx = 0, timer = null, DELAY = 7000;
   var fillBar = document.getElementById('heroProgressFill');
   var live = document.getElementById('liveRegion');
+  /* [P2-C] El autoplay arranca detenido si el usuario pide movimiento reducido;
+     el botón de pausa siempre queda visible (WCAG 2.2.2, movimiento de >5 s). */
+  var paused = prefersReduced;
+  var toggle = document.getElementById('slideToggle');
+  var dots = Array.prototype.slice.call(slider.querySelectorAll('.hero-dot'));
+  function renderDots(){
+    dots.forEach(function(d, i){
+      if (i === idx) d.setAttribute('aria-current','true');
+      else d.removeAttribute('aria-current');
+    });
+  }
+  function renderToggle(){
+    if (!toggle) return;
+    toggle.classList.toggle('is-paused', paused);
+    var txt = paused ? 'Reanudar el carrusel' : 'Pausar el carrusel';
+    toggle.setAttribute('aria-label', txt);
+    toggle.setAttribute('title', txt);
+  }
   function go(n, manual){
     idx = (n + slides.length) % slides.length;
     slides.forEach(function(s, i){ s.classList.toggle('is-active', i === idx); });
     if (fillBar) fillBar.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    renderDots();
     /* Solo el cambio manual se anuncia: el automático interrumpiría la lectura */
     if (manual && live) {
       var etiqueta = slides[idx].getAttribute('aria-label') || '';
@@ -352,9 +371,17 @@ document.querySelectorAll('[data-cycle-btn]').forEach(function(btn){
     }
     if (manual) restart();
   }
-  function restart(){ clearInterval(timer); if (prefersReduced) return; timer = setInterval(function(){ go(idx + 1); }, DELAY); }
+  function restart(){ clearInterval(timer); if (paused) return; timer = setInterval(function(){ go(idx + 1); }, DELAY); }
   document.getElementById('slidePrev').addEventListener('click', function(){ go(idx - 1, true); });
   document.getElementById('slideNext').addEventListener('click', function(){ go(idx + 1, true); });
+  if (toggle) toggle.addEventListener('click', function(){
+    paused = !paused;
+    renderToggle();
+    if (paused) clearInterval(timer); else restart();
+  });
+  dots.forEach(function(d){
+    d.addEventListener('click', function(){ go(parseInt(d.getAttribute('data-goto'), 10) || 0, true); });
+  });
   slider.addEventListener('mouseenter', function(){ clearInterval(timer); });
   slider.addEventListener('mouseleave', restart);
   /* Teclado: el carrusel se detiene mientras el foco está dentro y se reanuda al salir */
@@ -368,7 +395,9 @@ document.querySelectorAll('[data-cycle-btn]').forEach(function(btn){
     if (Math.abs(dx) > 48) go(idx + (dx < 0 ? 1 : -1), true);
     tx = null;
   }, { passive:true });
-  if (!prefersReduced) restart();
+  renderToggle();
+  renderDots();
+  if (!paused) restart();
 })();
 
 /* ================= DROPDOWN CARRITO (topbar Contratar) ================= */
@@ -466,11 +495,32 @@ document.querySelectorAll('[data-cycle-btn]').forEach(function(btn){
   tabButtons.forEach(function(btn, i){
     btn.addEventListener('click', function(){ activate(btn); });
     btn.addEventListener('keydown', function(e){
-      var dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-      if (!dir) return;
+      /* Mismo patrón que el FAQ: roving tabindex con flechas + Home/End */
+      var next = null;
+      if (e.key === 'ArrowRight') next = tabButtons[(i + 1) % tabButtons.length];
+      else if (e.key === 'ArrowLeft') next = tabButtons[(i - 1 + tabButtons.length) % tabButtons.length];
+      else if (e.key === 'Home') next = tabButtons[0];
+      else if (e.key === 'End') next = tabButtons[tabButtons.length - 1];
+      if (!next) return;
       e.preventDefault();
-      var next = tabButtons[(i + dir + tabButtons.length) % tabButtons.length];
       next.focus(); activate(next);
+    });
+  });
+})();
+
+/* ================= VER MÁS (divulgación progresiva de tarjetas) ================= */
+(function(){
+  var toggles = Array.prototype.slice.call(document.querySelectorAll('[data-more-toggle]'));
+  toggles.forEach(function(btn){
+    var root = document.getElementById(btn.getAttribute('aria-controls'));
+    var items = root ? Array.prototype.slice.call(root.querySelectorAll('[data-more-item]')) : [];
+    var label = btn.querySelector('[data-more-label]');
+    if (!root || !items.length){ btn.hidden = true; return; }
+    btn.addEventListener('click', function(){
+      var abierto = btn.getAttribute('aria-expanded') === 'true';
+      items.forEach(function(it){ it.hidden = abierto; });
+      btn.setAttribute('aria-expanded', abierto ? 'false' : 'true');
+      if (label) label.textContent = abierto ? btn.getAttribute('data-more-open') : btn.getAttribute('data-more-close');
     });
   });
 })();
