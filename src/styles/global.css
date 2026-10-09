@@ -59,9 +59,9 @@ body.modal-open { overflow: hidden; }
 .cyc.active { border-bottom-color: #FFE600; @apply text-txt dark:text-txtd; }
 .tab-in { animation: tabIn .45s ease both; }
 @keyframes tabIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-.ping-bar i { display:block; height:100%; width:0; border-radius:99px; transition: width 1.5s cubic-bezier(.2,.8,.2,1); }
-.ping-demo.visible .ping-usa i { width: 92%; }
-.ping-demo.visible .ping-cl i { width: 22%; }
+.ping-bar i { display:block; height:100%; width:100%; border-radius:99px; transform:scaleX(0); transform-origin:left center; transition: transform 1.5s cubic-bezier(.2,.8,.2,1); }
+.ping-demo.visible .ping-usa i { transform:scaleX(.92); }
+.ping-demo.visible .ping-cl i { transform:scaleX(.22); }
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.visible { opacity: 1; transform: none; }
 /* Estado de error del formulario de contacto (par claro/oscuro, como todo color del sistema) */
@@ -275,6 +275,25 @@ a.tip, button.tip { cursor: pointer; }
 .leg-li { @apply flex gap-2.5 items-start text-[.9rem] text-mut dark:text-mutd mb-2; }
 .legtab { @apply font-display font-bold text-[.82rem] px-4 py-2.5 rounded-lg cursor-pointer border border-line dark:border-lined text-mut dark:text-mutd transition-colors; }
 .legtab.active { @apply bg-cydeep dark:bg-cy text-white dark:text-ink border-cydeep dark:border-cy; }
+/* ===== Objetivos táctiles =====
+   WCAG 2.5.8 (AA, ≥24px) ya se cumplía; esto acerca a 2.5.5 (AAA, ≥44px)
+   sin cambiar el tamaño visual: un pseudo-elemento invisible agranda el
+   área de clic. Solo crece en vertical — en la topbar los vecinos horizontales
+   están a 1–6px — y el espacio vertical sobra (hueco medido ≥17px). */
+.tb-plain, .tb-link, .tb-primary, .tb-secondary, .tb-drop-btn, .tb-theme,
+.drop-btn, .hero-dot, .cb-btn, #burger { position: relative; }
+.tb-plain::after, .tb-link::after, .tb-primary::after, .tb-secondary::after,
+.tb-drop-btn::after, .drop-btn::after, .hero-dot::after, .cb-btn::after,
+#burger::after {
+  content: ""; position: absolute; left: 0; right: 0;
+  top: 50%; transform: translateY(-50%); height: 44px;
+}
+#burger::after { left: -2px; right: -2px; }
+.tb-theme::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%); width: 44px; height: 44px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { animation:none !important; transition:none !important; }
   .reveal { opacity:1; transform:none; }
