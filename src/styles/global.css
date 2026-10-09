@@ -57,6 +57,9 @@ body.modal-open { overflow: hidden; }
 .ping-demo.visible .ping-cl i { width: 22%; }
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.visible { opacity: 1; transform: none; }
+/* Estado de error del formulario de contacto (par claro/oscuro, como todo color del sistema) */
+.note-err { color: #B4232A; }
+.dark .note-err { color: #FF8A8F; }
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
 /* Se desplaza con `transform` (propiedad compuesta) en vez de `bottom`:
    moverlo con bottom forzaba reflow, era una animación no compuesta y sumaba

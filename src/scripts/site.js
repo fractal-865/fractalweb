@@ -49,23 +49,29 @@
   function show(){ banner.hidden = false; document.body.classList.add('cookies-open'); }
   function save(c, msg){ set(c); apply(c, true); hide(); announce(msg || 'Preferencias de cookies guardadas.'); }
   var saved = get();
+  /* Sin el componente de cookies en la página no hay nada que atar aquí:
+     una excepción en este bloque mataría el resto del script (reveal, formularios…). */
+  if (!banner) return;
   if (saved) { apply(saved); } else { show(); }
-  document.getElementById('cbAcceptAll').addEventListener('click', function(){ save({functional:true, analytics:true, marketing:true}, 'Cookies: aceptaste todas las categorías.'); });
-  document.getElementById('cbRejectAll').addEventListener('click', function(){ save({functional:true, analytics:false, marketing:false}, 'Cookies: solo funcionales activas.'); });
+  function al(id, fn){ var el = document.getElementById(id); if (el) el.addEventListener('click', fn); }
+  al('cbAcceptAll', function(){ save({functional:true, analytics:true, marketing:true}, 'Cookies: aceptaste todas las categorías.'); });
+  al('cbRejectAll', function(){ save({functional:true, analytics:false, marketing:false}, 'Cookies: solo funcionales activas.'); });
   var cfgBtn = document.getElementById('cbConfigure');
-  cfgBtn.addEventListener('click', function(){
+  if (cfgBtn && panel) cfgBtn.addEventListener('click', function(){
     var open = panel.hidden;
     panel.hidden = !open;
     cfgBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
-  document.getElementById('cbSave').addEventListener('click', function(){
-    save({ functional:true, analytics: document.getElementById('cbAnalytics').checked, marketing: document.getElementById('cbMarketing').checked });
+  al('cbSave', function(){
+    var ca = document.getElementById('cbAnalytics'), cm = document.getElementById('cbMarketing');
+    save({ functional:true, analytics: !!(ca && ca.checked), marketing: !!(cm && cm.checked) });
   });
-  document.getElementById('cookiePrefs').addEventListener('click', function(){
+  al('cookiePrefs', function(){
     var c = get() || {functional:true, analytics:false, marketing:false};
-    document.getElementById('cbAnalytics').checked = !!c.analytics;
-    document.getElementById('cbMarketing').checked = !!c.marketing;
-    panel.hidden = false;
+    var ca = document.getElementById('cbAnalytics'), cm = document.getElementById('cbMarketing');
+    if (ca) ca.checked = !!c.analytics;
+    if (cm) cm.checked = !!c.marketing;
+    if (panel) panel.hidden = false;
     show();
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   });
@@ -280,16 +286,19 @@ var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').match
 /* ================= PRECIOS POR DURACIÓN ================= */
 function renderCycle(block, cycle){
   var base = parseFloat(block.getAttribute('data-base'));
-  var years = cycle === 'biennial' ? 2 : cycle === 'triennial' ? 3 : 1;
-  var disc = cycle === 'biennial' ? 0.06 : cycle === 'triennial' ? 0.12 : 0;
-  var perYear = Math.round(base * (1 - disc));
-  var total = perYear * years;
-  var save = (base * years) - total;
   var strike = block.querySelector('[data-strike]');
   var main = block.querySelector('[data-main]');
   var badge = block.querySelector('[data-badge]');
   var totalEl = block.querySelector('[data-total]');
   var saveEl = block.querySelector('[data-save]');
+  /* Sin precio base o sin el bloque completo no se calcula nada: mejor el dato
+     tal como está escrito en HTML que un "$NaN" a la vista. */
+  if (isNaN(base) || base < 0 || !strike || !main || !badge || !totalEl || !saveEl) return;
+  var years = cycle === 'biennial' ? 2 : cycle === 'triennial' ? 3 : 1;
+  var disc = cycle === 'biennial' ? 0.06 : cycle === 'triennial' ? 0.12 : 0;
+  var perYear = Math.round(base * (1 - disc));
+  var total = perYear * years;
+  var save = (base * years) - total;
   if (disc > 0) {
     strike.textContent = fmtCLP(base); strike.classList.remove('invisible');
     main.textContent = fmtCLP(perYear);
@@ -328,22 +337,29 @@ document.querySelectorAll('[data-cycle-btn]').forEach(function(btn){
   var slider = document.getElementById('heroSlider');
   if (!slider) return;
   var slides = Array.prototype.slice.call(slider.querySelectorAll('.slide'));
+  if (!slides.length) return;
   var idx = 0, timer = null, DELAY = 7000;
   var fillBar = document.getElementById('heroProgressFill');
+  var live = document.getElementById('liveRegion');
   function go(n, manual){
     idx = (n + slides.length) % slides.length;
     slides.forEach(function(s, i){ s.classList.toggle('is-active', i === idx); });
     if (fillBar) fillBar.style.width = (((idx + 1) / slides.length) * 100) + '%';
+    /* Solo el cambio manual se anuncia: el automático interrumpiría la lectura */
+    if (manual && live) {
+      var etiqueta = slides[idx].getAttribute('aria-label') || '';
+      live.textContent = 'Lámina ' + (idx + 1) + ' de ' + slides.length + (etiqueta ? ': ' + etiqueta : '');
+    }
     if (manual) restart();
   }
-  function restart(){ clearInterval(timer); timer = setInterval(function(){ go(idx + 1); }, DELAY); }
+  function restart(){ clearInterval(timer); if (prefersReduced) return; timer = setInterval(function(){ go(idx + 1); }, DELAY); }
   document.getElementById('slidePrev').addEventListener('click', function(){ go(idx - 1, true); });
   document.getElementById('slideNext').addEventListener('click', function(){ go(idx + 1, true); });
   slider.addEventListener('mouseenter', function(){ clearInterval(timer); });
   slider.addEventListener('mouseleave', restart);
   /* Teclado: el carrusel se detiene mientras el foco está dentro y se reanuda al salir */
   slider.addEventListener('focusin', function(){ clearInterval(timer); });
-  slider.addEventListener('focusout', function(){ if (!prefersReduced) restart(); });
+  slider.addEventListener('focusout', function(){ restart(); });
   var tx = null;
   slider.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, { passive:true });
   slider.addEventListener('touchend', function(e){
@@ -461,56 +477,107 @@ document.querySelectorAll('[data-cycle-btn]').forEach(function(btn){
 
 /* ================= MODALES LEGALES ================= */
 (function(){
-  function openModal(id){
+  var triggerActual = null;
+  function focoUtil(m){
+    return Array.prototype.slice.call(
+      m.querySelectorAll('a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])')
+    ).filter(function(el){ return !el.hasAttribute('hidden'); });
+  }
+  function abiertos(){
+    return Array.prototype.slice.call(document.querySelectorAll('.modal, [id^="modal-"]')).filter(function(m){ return !m.hidden; });
+  }
+  function openModal(id, trigger){
     var m = document.getElementById(id);
+    if (!m) return; /* Página sin ese modal (404, cotizador): el clic no debe lanzar un error */
+    triggerActual = trigger || document.activeElement;
     m.hidden = false;
     document.body.classList.add('modal-open');
     var x = m.querySelector('.modal-x');
-    if (x) x.focus();
+    if (x) x.focus(); else { var f = focoUtil(m); if (f.length) f[0].focus(); }
   }
   function closeModal(m){
+    if (!m) return;
     m.hidden = true;
     document.body.classList.remove('modal-open');
+    if (triggerActual && document.contains(triggerActual)) triggerActual.focus();
+    triggerActual = null;
   }
+  /* Teclado: Tab queda dentro del modal abierto y el foco vuelve al botón que lo abrió */
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Tab') return;
+    var lista = abiertos();
+    if (!lista.length) return;
+    var m = lista[lista.length - 1];
+    var f = focoUtil(m);
+    if (!f.length) return;
+    var primero = f[0], ultimo = f[f.length - 1];
+    var dentro = m.contains(document.activeElement);
+    if (e.shiftKey && (document.activeElement === primero || !dentro)) { e.preventDefault(); ultimo.focus(); }
+    else if (!e.shiftKey && (document.activeElement === ultimo || !dentro)) { e.preventDefault(); primero.focus(); }
+  });
   document.querySelectorAll('[data-modal]').forEach(function(b){
-    b.addEventListener('click', function(){ openModal(b.getAttribute('data-modal')); });
+    b.addEventListener('click', function(){ openModal(b.getAttribute('data-modal'), b); });
   });
   document.querySelectorAll('[data-close]').forEach(function(b){
     b.addEventListener('click', function(){ closeModal(document.getElementById(b.getAttribute('data-close'))); });
   });
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape') {
-      document.querySelectorAll('.modal, [id^="modal-"]').forEach(function(m){ if (!m.hidden) closeModal(m); });
+      var lista = abiertos();
+      for (var i = 0; i < lista.length; i++) closeModal(lista[i]);
     }
   });
   var legTabs = document.querySelectorAll('[data-legtab]');
   legTabs.forEach(function(t){
     t.addEventListener('click', function(){
       legTabs.forEach(function(x){ x.classList.toggle('active', x === t); });
-      document.getElementById('legA').hidden = t.getAttribute('data-legtab') !== 'A';
-      document.getElementById('legB').hidden = t.getAttribute('data-legtab') !== 'B';
+      var a = document.getElementById('legA'), b = document.getElementById('legB');
+      if (a) a.hidden = t.getAttribute('data-legtab') !== 'A';
+      if (b) b.hidden = t.getAttribute('data-legtab') !== 'B';
     });
   });
 })();
 
 /* ================= HEADER / TEMA / MÓVIL ================= */
 var headerEl = document.querySelector('header');
-window.addEventListener('scroll', function(){
+if (headerEl) window.addEventListener('scroll', function(){
   headerEl.classList.toggle('scrolled', window.scrollY > 40);
 }, { passive:true });
-document.getElementById('themeBtn').addEventListener('click', function(){
+var themeBtn = document.getElementById('themeBtn');
+if (themeBtn) themeBtn.addEventListener('click', function(){
   var isDark = document.documentElement.classList.toggle('dark');
   try { localStorage.setItem('fh-theme', isDark ? 'dark' : 'light'); } catch(e){}
 });
 var mobileMenu = document.getElementById('mobileMenu');
 var burgerBtn = document.getElementById('burger');
-burgerBtn.addEventListener('click', function(){
-  var open = mobileMenu.classList.toggle('-translate-y-[130%]') === false;
-  mobileMenu.classList.toggle('mm-open', open);
-  if (open) mobileMenu.removeAttribute('inert'); else mobileMenu.setAttribute('inert', '');
-  burgerBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-});
-mobileMenu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ mobileMenu.classList.add('-translate-y-[130%]'); mobileMenu.classList.remove('mm-open'); mobileMenu.setAttribute('inert', ''); burgerBtn.setAttribute('aria-expanded','false'); }); });
+function cerrarMenuMovil(devolverFoco){
+  if (!mobileMenu) return;
+  mobileMenu.classList.add('-translate-y-[130%]');
+  mobileMenu.classList.remove('mm-open');
+  mobileMenu.setAttribute('inert', '');
+  if (burgerBtn) {
+    burgerBtn.setAttribute('aria-expanded','false');
+    if (devolverFoco) burgerBtn.focus();
+  }
+}
+if (mobileMenu && burgerBtn) {
+  burgerBtn.addEventListener('click', function(){
+    var open = mobileMenu.classList.toggle('-translate-y-[130%]') === false;
+    mobileMenu.classList.toggle('mm-open', open);
+    if (open) mobileMenu.removeAttribute('inert'); else mobileMenu.setAttribute('inert', '');
+    burgerBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mobileMenu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ cerrarMenuMovil(false); }); });
+  /* Escape cierra el menú y devuelve el foco al botón que lo abrió */
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Escape' || !mobileMenu.classList.contains('mm-open')) return;
+    cerrarMenuMovil(true);
+  });
+  /* Al pasar a escritorio el menú queda fuera de pantalla: sincronizamos el estado */
+  window.addEventListener('resize', function(){
+    if (window.innerWidth >= 1024 && mobileMenu.classList.contains('mm-open')) cerrarMenuMovil(false);
+  });
+}
 
 /* ================= PARALLAX ================= */
 (function(){
@@ -531,12 +598,18 @@ mobileMenu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click'
 })();
 
 /* ================= REVEAL + PING ================= */
-var revealObserver = new IntersectionObserver(function(entries){
-  entries.forEach(function(entry){
-    if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
-  });
-}, { threshold:.12 });
-document.querySelectorAll('.reveal, .ping-demo').forEach(function(el){ revealObserver.observe(el); });
+var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal, .ping-demo'));
+if ('IntersectionObserver' in window) {
+  var revealObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
+    });
+  }, { threshold:.12 });
+  revealEls.forEach(function(el){ revealObserver.observe(el); });
+} else {
+  /* Sin IntersectionObserver todo lo que aparece con reveal se muestra de inmediato */
+  revealEls.forEach(function(el){ el.classList.add('visible'); });
+}
 
 /* ================= CONTADORES 0 → N (franja de cifras) ================= */
 var countEls = document.querySelectorAll('[data-count]');
@@ -573,53 +646,108 @@ if (countEls.length) {
 var contactFormEl = document.getElementById('contactForm');
 if (contactFormEl) contactFormEl.addEventListener('submit', function(ev){
   ev.preventDefault();
-  var ok = true;
+  var btn = document.getElementById('formSubmit');
+  var note = document.getElementById('formNote');
+  /* Envío en curso: un segundo clic no vuelve a disparar el POST */
+  if (contactFormEl.getAttribute('data-sending') === '1') return;
+  var ok = true, primerError = null;
   function setErr(id, msg){
     var el = document.getElementById(id);
     var err = document.querySelector('[data-err-for="' + id + '"]');
-    if (msg) { ok = false; err.textContent = msg; err.classList.remove('hidden'); el.setAttribute('aria-invalid','true'); }
+    if (!el || !err) return;
+    if (msg) { ok = false; primerError = primerError || el; err.classList.remove('hidden'); err.textContent = msg; el.setAttribute('aria-invalid','true'); }
     else { err.textContent = ''; err.classList.add('hidden'); el.removeAttribute('aria-invalid'); }
   }
-  var nombre = document.getElementById('fNombre').value.trim();
-  var email = document.getElementById('fEmail').value.trim();
-  var telefono = document.getElementById('fTelefono').value.trim();
-  var mensaje = document.getElementById('fMensaje').value.trim();
-  var consent = document.getElementById('fConsent').checked;
+  var nombre = (document.getElementById('fNombre') || {}).value || '';
+  var email = (document.getElementById('fEmail') || {}).value || '';
+  var telefono = (document.getElementById('fTelefono') || {}).value || '';
+  var mensaje = (document.getElementById('fMensaje') || {}).value || '';
+  var consentEl = document.getElementById('fConsent');
+  nombre = nombre.trim(); email = email.trim(); telefono = telefono.trim(); mensaje = mensaje.trim();
   setErr('fNombre', nombre ? '' : 'Escribe tu nombre para poder responderte.');
   setErr('fEmail', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? '' : 'Escribe un correo válido, por ejemplo nombre@empresa.cl.');
   setErr('fMensaje', mensaje ? '' : 'Cuéntanos brevemente qué necesitas.');
-  setErr('fConsent', consent ? '' : 'Para enviar, marca la casilla de consentimiento.');
-  var note = document.getElementById('formNote');
-  if (!ok) { note.textContent = ''; return; }
+  setErr('fConsent', (consentEl && consentEl.checked) ? '' : 'Para enviar, marca la casilla de consentimiento.');
+  if (!ok) {
+    note.classList.add('note-err');
+    note.textContent = 'Revisa los campos marcados.';
+    if (primerError && primerError.focus) primerError.focus();
+    return;
+  }
+
+  function notaError(msg){ note.classList.add('note-err'); note.textContent = msg; }
+  function linkWhatsApp(prefijo){
+    var texto = 'Hola Fractal Host, soy ' + nombre + '.\nEmail: ' + email + (telefono ? '\nTeléfono: ' + telefono : '') + '\n' + mensaje;
+    var url = 'https://wa.me/56954132014?text=' + encodeURIComponent(texto);
+    var w = null;
+    try { w = window.open(url, '_blank'); } catch (e) { w = null; }
+    if (w) { notaError(prefijo + ' Abriendo WhatsApp como respaldo…'); return; }
+    /* Popup bloqueado o ventana no disponible: dejamos el enlace a la vista */
+    note.classList.add('note-err');
+    note.textContent = '';
+    note.appendChild(document.createTextNode(prefijo + ' '));
+    var a = document.createElement('a');
+    a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.textContent = 'Abrir WhatsApp';
+    a.className = 'font-bold underline underline-offset-4';
+    note.appendChild(a);
+  }
+  function terminando(){
+    contactFormEl.removeAttribute('data-sending');
+    if (btn) { btn.disabled = false; btn.textContent = btn.getAttribute('data-label') || 'Enviar mensaje'; }
+  }
+
+  contactFormEl.setAttribute('data-sending', '1');
+  if (btn) {
+    btn.setAttribute('data-label', btn.textContent);
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+  }
+  note.classList.remove('note-err');
+  note.textContent = 'Enviando mensaje…';
+
+  if (navigator.onLine === false) {
+    notaError('No hay conexión a internet en este equipo.');
+    linkWhatsApp('Tu mensaje no se envió:');
+    terminando();
+    return;
+  }
+
   var fd = new FormData();
   fd.append('nombre', nombre);
   fd.append('email', email);
   fd.append('telefono', telefono);
   fd.append('mensaje', mensaje);
   fd.append('consent', 'si');
-  note.style.color = '';
-  note.textContent = 'Enviando mensaje…';
-  function fallback(){
-    note.textContent = 'No se pudo enviar por correo; abriendo WhatsApp como respaldo…';
-    var texto = 'Hola Fractal Host, soy ' + encodeURIComponent(nombre) + '.%0AEmail: ' + encodeURIComponent(email) + (telefono ? '%0ATeléfono: ' + encodeURIComponent(telefono) : '') + '%0A' + encodeURIComponent(mensaje);
-    window.open('https://wa.me/56954132014?text=' + texto, '_blank');
-  }
-  fetch('enviar.php', { method: 'POST', body: fd })
-    .then(function(r){ return r.json(); })
+
+  var ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+  var reloj = ctrl ? window.setTimeout(function(){ ctrl.abort(); }, 15000) : null;
+
+  fetch('enviar.php', { method: 'POST', body: fd, signal: ctrl ? ctrl.signal : undefined })
+    .then(function(r){
+      return r.json().then(
+        function(data){ return { status: r.status, data: data }; },
+        function(){ throw new Error('Respuesta inválida del servidor (' + r.status + ')'); }
+      );
+    })
     .then(function(res){
-      if (res && res.ok) {
-        note.textContent = res.msg || 'Mensaje enviado. Te responderemos a la brevedad.';
-        ev.target.reset();
+      var data = res.data;
+      if (res.status >= 200 && res.status < 300 && data && data.ok) {
+        note.classList.remove('note-err');
+        note.textContent = data.msg || 'Mensaje enviado. Te responderemos a la brevedad.';
+        contactFormEl.reset();
       } else {
-        note.textContent = (res && res.msg ? res.msg + ' ' : '') + 'Abriendo WhatsApp como respaldo…';
-        var texto = 'Hola Fractal Host, soy ' + encodeURIComponent(nombre) + '.%0AEmail: ' + encodeURIComponent(email) + (telefono ? '%0ATeléfono: ' + encodeURIComponent(telefono) : '') + '%0A' + encodeURIComponent(mensaje);
-        window.open('https://wa.me/56954132014?text=' + texto, '_blank');
+        linkWhatsApp((data && data.msg ? data.msg + ' ' : 'No se pudo enviar el mensaje.'));
       }
     })
-    .catch(fallback);
+    .catch(function(){
+      linkWhatsApp(navigator.onLine === false ? 'Se cortó la conexión.' : 'No se pudo enviar por correo.');
+    })
+    .then(function(){ if (reloj) window.clearTimeout(reloj); terminando(); });
 });
 
-document.getElementById('year').textContent = new Date().getFullYear();
+var yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 /* ================= INTRODUCCIÓN AL COTIZADOR: llega a #paso1 y muestra flecha guía ================= */
 (function(){

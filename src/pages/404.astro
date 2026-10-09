@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Cookies from '../components/Cookies.astro';
+import Modales from '../components/Modales.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const H = `${base}/#`;
@@ -73,5 +74,6 @@ const H = `${base}/#`;
   </main>
 
   <Footer />
+  <Modales />
   <Cookies />
 </Layout>

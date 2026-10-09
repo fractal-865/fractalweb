@@ -52,32 +52,35 @@
       <form id="contactForm" class="bg-white dark:bg-cardd border border-line dark:border-lined rounded-xl p-7 shadow-[0_10px_30px_rgba(0,0,0,.09)] flex flex-col gap-4 reveal d2" novalidate>
         <div>
           <label for="fNombre" class="block text-[.88rem] font-bold mb-1.5">Nombre</label>
-          <input id="fNombre" name="nombre" type="text" autocomplete="name" required class="w-full bg-input dark:bg-inputd border border-line dark:border-lined focus:border-cydeep dark:focus:border-cy rounded-md px-4 py-3 text-[1rem] outline-none transition-colors">
-          <p class="err hidden mt-1 text-[.8rem] font-bold text-[#B4232A] dark:text-[#FF8A8F]" data-err-for="fNombre"></p>
+          <input id="fNombre" name="nombre" type="text" autocomplete="name" required maxlength="120" aria-describedby="err-fNombre" class="w-full bg-input dark:bg-inputd border border-line dark:border-lined focus:border-cydeep dark:focus:border-cy rounded-md px-4 py-3 text-[1rem] outline-none transition-colors">
+          <p id="err-fNombre" class="err hidden mt-1 text-[.8rem] font-bold text-[#B4232A] dark:text-[#FF8A8F]" role="alert" data-err-for="fNombre"></p>
         </div>
         <div>
           <label for="fEmail" class="block text-[.88rem] font-bold mb-1.5">Correo electrónico</label>
-          <input id="fEmail" name="email" type="email" autocomplete="email" required class="w-full bg-input dark:bg-inputd border border-line dark:border-lined focus:border-cydeep dark:focus:border-cy rounded-md px-4 py-3 text-[1rem] outline-none transition-colors">
-          <p class="err hidden mt-1 text-[.8rem] font-bold text-[#B4232A] dark:text-[#FF8A8F]" data-err-for="fEmail"></p>
+          <input id="fEmail" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="160" aria-describedby="err-fEmail" class="w-full bg-input dark:bg-inputd border border-line dark:border-lined focus:border-cydeep dark:focus:border-cy rounded-md px-4 py-3 text-[1rem] outline-none transition-colors">
+          <p id="err-fEmail" class="err hidden mt-1 text-[.8rem] font-bold text-[#B4232A] dark:text-[#FF8A8F]" role="alert" data-err-for="fEmail"></p>
         </div>
         <div>
           <label for="fTelefono" class="block text-[.88rem] font-bold mb-1.5">Teléfono (opcional)</label>
-          <input id="fTelefono" name="telefono" type="tel" autocomplete="tel" class="w-full bg-input dark:bg-inputd border border-line dark:border-lined focus:border-cydeep dark:focus:border-cy rounded-md px-4 py-3 text-[1rem] outline-none transition-colors">
+          <input id="fTelefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" class="w-full bg-input dark:bg-inputd border border-line dark:border-lined focus:border-cydeep dark:focus:border-cy rounded-md px-4 py-3 text-[1rem] outline-none transition-colors">
         </div>
         <div>
           <label for="fMensaje" class="block text-[.88rem] font-bold mb-1.5">Mensaje</label>
-          <textarea id="fMensaje" name="mensaje" required class="w-full min-h-[110px] resize-y bg-input dark:bg-inputd border border-line dark:border-lined focus:border-cydeep dark:focus:border-cy rounded-md px-4 py-3 text-[1rem] outline-none transition-colors"></textarea>
-          <p class="err hidden mt-1 text-[.8rem] font-bold text-[#B4232A] dark:text-[#FF8A8F]" data-err-for="fMensaje"></p>
+          <textarea id="fMensaje" name="mensaje" required maxlength="3000" aria-describedby="err-fMensaje" class="w-full min-h-[110px] resize-y bg-input dark:bg-inputd border border-line dark:border-lined focus:border-cydeep dark:focus:border-cy rounded-md px-4 py-3 text-[1rem] outline-none transition-colors"></textarea>
+          <p id="err-fMensaje" class="err hidden mt-1 text-[.8rem] font-bold text-[#B4232A] dark:text-[#FF8A8F]" role="alert" data-err-for="fMensaje"></p>
         </div>
         <div>
           <label class="flex items-start gap-3 text-[.85rem] text-mut dark:text-mutd cursor-pointer">
-            <input id="fConsent" type="checkbox" class="mt-1 w-4 h-4 accent-[#00A9C4]">
+            <input id="fConsent" type="checkbox" name="consent" class="mt-1 w-4 h-4 accent-[#00A9C4]" aria-describedby="err-fConsent">
             <span>Acepto que Fractal Host use mi nombre, correo y teléfono solo para responder este mensaje. Más detalles en la Política de Privacidad (pie de página).</span>
           </label>
-          <p class="err hidden mt-1 text-[.8rem] font-bold text-[#B4232A] dark:text-[#FF8A8F]" data-err-for="fConsent"></p>
+          <p id="err-fConsent" class="err hidden mt-1 text-[.8rem] font-bold text-[#B4232A] dark:text-[#FF8A8F]" role="alert" data-err-for="fConsent"></p>
         </div>
-        <button type="submit" class="w-full inline-flex justify-center bg-yel hover:bg-yelhov text-ink font-display font-bold text-[1rem] px-6 py-3.5 rounded-md shadow-[0_4px_16px_rgba(255,230,0,.45)] hover:-translate-y-0.5 transition-all cursor-pointer">Enviar mensaje</button>
-        <span id="formNote" class="text-[.84rem] text-okd dark:text-live text-center min-h-[20px]" role="status"></span>
+        <noscript>
+          <p class="text-[.85rem] text-mut dark:text-mutd border border-line dark:border-lined rounded-md p-3">Para enviar el formulario necesitas JavaScript. Si no lo tienes, escríbenos a <a href="mailto:hola@fractalhost.cl" class="text-cydeep dark:text-cyt font-semibold underline underline-offset-4">hola@fractalhost.cl</a> o al <a href="https://wa.me/56954132014" class="text-cydeep dark:text-cyt font-semibold underline underline-offset-4">WhatsApp +56 9 5413 2014</a>.</p>
+        </noscript>
+        <button type="submit" id="formSubmit" class="w-full inline-flex justify-center bg-yel hover:bg-yelhov text-ink font-display font-bold text-[1rem] px-6 py-3.5 rounded-md shadow-[0_4px_16px_rgba(255,230,0,.45)] hover:-translate-y-0.5 transition-all cursor-pointer disabled:opacity-60 disabled:cursor-wait disabled:hover:translate-y-0">Enviar mensaje</button>
+        <span id="formNote" class="text-[.84rem] text-okd dark:text-live text-center min-h-[20px]" role="status" aria-live="polite"></span>
       </form>
     </div>
   </div>
