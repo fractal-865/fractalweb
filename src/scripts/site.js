@@ -45,8 +45,15 @@
     if (c.analytics) loadAnalytics();
     if (c.marketing) { if (inmediato) loadMarketing(); else scheduleMarketing(); }
   }
+  function syncFabOffset(){
+    /* Los iconos flotantes (WhatsApp, chat) deben subir justo por encima del
+       banner. La altura del banner cambia al abrir el panel de configuración
+       y según el viewport, así que la medimos en vez de usar un valor fijo. */
+    var off = banner.offsetHeight + 16; /* 16px = separación cómoda */
+    document.documentElement.style.setProperty('--cb-off', off + 'px');
+  }
   function hide(){ banner.hidden = true; document.body.classList.remove('cookies-open'); }
-  function show(){ banner.hidden = false; document.body.classList.add('cookies-open'); }
+  function show(){ banner.hidden = false; document.body.classList.add('cookies-open'); syncFabOffset(); }
   function save(c, msg){ set(c); apply(c, true); hide(); announce(msg || 'Preferencias de cookies guardadas.'); }
   var saved = get();
   /* Sin el componente de cookies en la página no hay nada que atar aquí:
@@ -61,7 +68,11 @@
     var open = panel.hidden;
     panel.hidden = !open;
     cfgBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    syncFabOffset();
   });
+  /* Al cambiar el tamaño de ventana el banner puede crecer o encoger:
+     recalculamos el offset de los iconos flotantes. */
+  window.addEventListener('resize', function(){ if (!banner.hidden) syncFabOffset(); }, { passive:true });
   al('cbSave', function(){
     var ca = document.getElementById('cbAnalytics'), cm = document.getElementById('cbMarketing');
     save({ functional:true, analytics: !!(ca && ca.checked), marketing: !!(cm && cm.checked) });
@@ -86,7 +97,7 @@
     if (host && host.shadowRoot && !host.shadowRoot.querySelector('#fhFabFix')){
       var st = document.createElement('style');
       st.id = 'fhFabFix';
-      st.textContent = '.bpFabWrapper { bottom: calc(24px + var(--fp-off, 0px)) !important; transition: bottom .35s ease !important; }';
+      st.textContent = '.bpFabWrapper { bottom: calc(24px + var(--fp-off, 0px) + env(safe-area-inset-bottom, 0px)) !important; transition: bottom .35s ease !important; }';
       host.shadowRoot.appendChild(st);
     }
     /* Efecto de llamar la atención ahora va en el botón de Botpress (estilo especial: va inyectado al shadow root) */

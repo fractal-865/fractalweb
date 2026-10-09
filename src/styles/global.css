@@ -68,15 +68,16 @@ body.modal-open { overflow: hidden; }
 .note-err { color: #B4232A; }
 .dark .note-err { color: #FF8A8F; }
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
-/* Se desplaza con `transform` (propiedad compuesta) en vez de `bottom`:
-   moverlo con bottom forzaba reflow, era una animación no compuesta y sumaba
-   CLS. 110px = la diferencia entre bottom:20px (base) y bottom:130px. */
-body.cookies-open .wa-ring { transform: translateY(-110px); }
-.wa-ring { transition: transform .35s ease, scale .3s ease; }
+/* WhatsApp flotante: usa bottom (no transform) para evitar doble-count de
+   safe-area en iOS. El offset --cb-off se actualiza en site.js con la
+   altura real del banner; bottom=0 está en la base del viewport,
+   safe-area ya está en bottom:max(1.25rem,env(...)). */
+body.cookies-open .wa-ring { bottom: calc(var(--cb-off, 110px) + 1.25rem); }
+.wa-ring { transition: bottom .35s ease, scale .3s ease; }
 
 /* Burbuja de chat Botpress (fab): que suba junto con la caja de cookies */
 #fab-root { --fp-off: 0px; }
-body.cookies-open #fab-root { --fp-off: 106px; }
+body.cookies-open #fab-root { --fp-off: var(--cb-off, 106px); }
 
 summary::-webkit-details-marker { display:none; }
 
