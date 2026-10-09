@@ -203,6 +203,28 @@ html.dark body { background-image:
 .hero-dot::before { content:""; width:.65rem; height:.65rem; border-radius:9999px; background:rgba(255,255,255,.4); transition:background-color .25s ease, transform .25s ease, box-shadow .25s ease; }
 .hero-dot:hover::before { background:rgba(255,255,255,.8); transform:scale(1.12); }
 .hero-dot[aria-current="true"]::before { background:var(--color-yel); transform:scale(1.18); box-shadow:0 0 10px rgba(255,230,0,.55); }
+/* [P2-B] Controles del hero agrupados en una capa (no interceptan el texto
+   ni los CTA: pasan-el-clic). En ≥1024px conservan la posición lateral; por
+   debajo los rails se cruzaban con el párrafo (`.wrap` w-[92%] ⇒ el bloque de
+   760px queda con <56px de aire en pantallas angostas) y pasan a una fila
+   inferior bajo el slider: el texto usa el ancho completo y nada flota
+   encima. La pausa sigue visible en todos los anchos (WCAG 2.2.2). */
+#heroControls { position:absolute; inset:0; z-index:20; pointer-events:none; }
+#heroControls > * { pointer-events:auto; }
+@media (max-width: 1023.98px) {
+  #heroControls {
+    inset: auto 0 -2.5rem; height: 2.5rem; padding: 0 .75rem;
+    display: flex; align-items: center; justify-content: center; gap: .5rem;
+  }
+  /* Tailwind emite `translate: var(--tw-translate-x) var(--tw-translate-y)`;
+     pisar las variables (ID > clase) resetea el vertical de los costados.
+     `translate: 0 0` queda además por si el minificador conserva shorthand. */
+  #slidePrev, #slideNext, #slideToggle, #heroDots {
+    position: static; transform: none; translate: 0 0;
+    --tw-translate-x: 0; --tw-translate-y: 0;
+  }
+  #slidePrev { order: 1; } #slideToggle { order: 2; } #heroDots { order: 3; } #slideNext { order: 4; }
+}
 /* Menú móvil cerrado: fuera del orden de tabulación (visibility:hidden quita los enlaces del focus) */
 #mobileMenu { visibility:hidden; transition: transform .3s ease, visibility .3s ease; }
 #mobileMenu.mm-open { visibility:visible; }
