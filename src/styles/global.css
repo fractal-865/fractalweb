@@ -2,6 +2,11 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Controles nativos y scrollbars siguen al tema (la clase .dark, no el SO):
+   sin esto, el modo oscuro se ve con scrollbars y selects en claro. */
+:root { color-scheme: light; }
+:root.dark { color-scheme: dark; }
+
 @theme {
   --color-cy: #00E5FF;
   /* #00A9C4 solo alcanza 2,6:1 sobre fondos claros (mínimo AA: 4,5:1).
@@ -38,8 +43,10 @@ html { scroll-behavior: smooth; scroll-padding-top: 132px; font-size: 17px; }
 ::selection { background: rgba(0,229,255,.35); }
 [hidden] { display: none !important; }
 .wrap { @apply max-w-[1180px] mx-auto w-[92%]; }
-:focus-visible { outline: 3px solid #00A9C4; outline-offset: 2px; border-radius: 4px; }
-.dark :focus-visible { outline-color: #6FE6FF; }
+/* Foco visible: Deep Cyan en tema claro (4,6:1 sobre #EBEBEB; #00A9C4 solo
+   daba 2,6:1 y exige 3:1 como indicador no textual) y Bright Cyan en oscuro. */
+:focus-visible { outline: 3px solid var(--color-cydeep); outline-offset: 2px; border-radius: 4px; }
+.dark :focus-visible { outline-color: var(--color-cyt); }
 body.modal-open { overflow: hidden; }
 .kicker { @apply inline-flex items-center gap-3 font-display font-bold text-[.74rem] tracking-[.22em] uppercase text-cydeep; }
 .kicker::before, .kicker::after { content: ""; @apply w-[34px] h-[2px] bg-cydeep; }
@@ -272,6 +279,8 @@ a.tip, button.tip { cursor: pointer; }
   * { animation:none !important; transition:none !important; }
   .reveal { opacity:1; transform:none; }
   [data-px] { transform:none !important; }
-  .slide { position:relative; opacity:1; visibility:visible; transform:none; pointer-events:auto; }
+  /* Las slides NO se apilan: se conserva position:absolute (solo .is-active
+     queda en flujo) y se mata la transición. Reducir movimiento congela el
+     estado, no reescena el layout; el autoplay ya se detiene en site.js. */
   .price-block { transition:none; }
 }

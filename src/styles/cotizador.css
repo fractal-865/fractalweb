@@ -235,7 +235,7 @@ body.cookies-open #cotPct { bottom: 130px; }
   transition: width .45s cubic-bezier(.4, 0, .2, 1);
 }
 .cot-lbl { font-family: var(--font-display); font-weight: 700; font-size: .74rem; letter-spacing: .04em; text-transform: uppercase; color: var(--color-mut); transition: color .2s ease; text-align: left; cursor: pointer; }
-.dark .cot-lbl { color: rgba(167, 180, 194, .55); }
+.dark .cot-lbl { color: rgba(167, 180, 194, .8); } /* .55 daba 3,39:1; .8 = 5,7:1 (AA) sobre #141C2C */
 .cot-lbl:hover { color: var(--color-cydeep); }
 .dark .cot-lbl:hover { color: var(--color-cyt); }
 .cot-lbl.done { color: var(--color-cydeep); }

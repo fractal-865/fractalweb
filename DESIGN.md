@@ -4,7 +4,7 @@ description: Sistema visual de Fractal Host — infraestructura técnica con ace
 colors:
   primary: "#00E5FF"
   primary-deep: "#00747F"
-  focus-ring: "#00A9C4"
+  focus-ring: "#00747F"  /* tema claro; en oscuro #6FE6FF */
   primary-on-dark: "#6FE6FF"
   primary-ink: "#03222D"
   secondary: "#FFE600"
@@ -165,7 +165,7 @@ La paleta es bicolor de acento sobre una base neutra neutro-fría que existe dup
 
 - **Signal Cyan** (#00E5FF): voz del sistema. Estados en vivo, iconos de feature, bordes de panel oscuro, glow, subrayados activos. Es el color que aparece en indicadores de ping, checklists y "Estado de servidores".
 - **Deep Cyan** (`--color-cydeep`, #00747F): el único cian válido como **texto** sobre fondo claro — 5,1:1 sobre blanco, 5,0:1 sobre #F7F8FA, 4,6:1 sobre #EBEBEB (AA). Texto de enlace, kickers en modo claro, iconos de fila.
-- **Cyan Focus** (#00A9C4): borde de foco de 3px y acento de checkboxes — **nunca texto** (solo 2,6:1 sobre fondo claro, documentado en `global.css`).
+- **Cyan Focus** (#00A9C4): acento de checkboxes y bordes de muestra — **nunca texto** y **ya no es el foco visible** (solo 2,6:1 sobre fondo claro, exige 3:1 como indicador no textual). El anillo de foco usa **Deep Cyan** en tema claro (#00747F, 4,6:1 sobre #EBEBEB) y **Bright Cyan** en oscuro (#6FE6FF), vía `var(--color-cydeep)`/`var(--color-cyt)` en `global.css`.
 - **Bright Cyan on Dark** (#6FE6FF): equivalente del cian para fondo oscuro; es el color de los kickers y enlaces cuando el fondo es night.
 - **Cyan Ink** (#03222D): texto sobre botón cian. El cian es demasiado luminoso para llevar texto blanco.
 
@@ -282,7 +282,7 @@ Carácter general: **técnico y contundente**. Bordes de 1–2px, mayúsculas ex
 - **Primary (amarillo):** fondo Voltage Yellow, texto Ink, Montserrat 700 a 0.98rem; en hero `padding: 14.875px 42.5px`, en topbar compacto `8.5px 15.3px`. Hover: `#EFD700` + `translateY(-1px)` + glow amarillo.
 - **Cyan:** fondo Signal Cyan, texto Cyan Ink, mismo radio y padding compacto. Uso de conversión secundaria en cromo (cotizar sitio).
 - **Outline on dark:** transparente con borde blanco al 40% y texto blanco; hover lleva borde y texto a cian. También existe una variante con borde de 1px blanco al 35% y fondo blanco al 10% con `backdrop-blur` (pills de garantía).
-- **Hover / Focus:** `transition-all` de 0.3s a `translateY(-1px)` o `-0.5px`; foco global de 3px cian con offset 2px.
+- **Hover / Focus:** `transition-all` de 0.3s a `translateY(-1px)` o `-0.5px`; foco global de 3px en Deep Cyan (Bright Cyan en oscuro) con offset 2px.
 - **Topbar ghosts:** ícono + texto en Roboto 700 a 0.8rem, color `#B9C6D4`, hover al acento de su canal (cian, verde WhatsApp o live).
 
 ### Chips (si se usan)
@@ -334,7 +334,7 @@ Carácter general: **técnico y contundente**. Bordes de 1–2px, mayúsculas ex
 - **Do** usar radio 6.375px para controles, 17px para contenedores de contenido y píldora completa para etiquetas y chips.
 - **Do** escribir toda jerarquía display en mayúsculas con su tracking (0.02em / 0.05em / 0.12em / 0.22em según nivel).
 - **Do** mostrar el precio con su leyenda de valor líquido inmediatamente debajo, en 0.74rem muted.
-- **Do** aplicar el foco global de 3px cian con offset 2px en todo elemento interactivo nuevo.
+- **Do** aplicar el foco global de 3px en Deep Cyan (Bright Cyan en oscuro) con offset 2px en todo elemento interactivo nuevo.
 
 ### Don't:
 
