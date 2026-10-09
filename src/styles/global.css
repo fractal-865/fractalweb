@@ -89,6 +89,14 @@ summary::-webkit-details-marker { display:none; }
 .flipbox:hover .flipbox-inner { transform: rotateY(180deg); }
 .flipbox-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: .5rem; }
 .flipbox-back { transform: rotateY(180deg); }
+/* Flipbox de áreas (Mantención): las caras heredan el look .spot-card sin romper el 3D */
+.flipbox > .flipbox-inner > .spot-card { position: absolute; inset: 0; border-radius: 1.25rem; padding: 1.6rem 1.3rem; transform: none; }
+.flipbox > .flipbox-inner > .spot-card:hover { transform: none; }
+.flipbox > .flipbox-inner > .flipbox-back { transform: rotateY(180deg); }
+.flipbox > .flipbox-inner > .flipbox-back:hover { transform: rotateY(180deg); }
+/* Accesibilidad: teclado da vuelta la tarjeta igual que el mouse */
+.flipbox:focus-within > .flipbox-inner { transform: rotateY(180deg); }
+.flipbox.flip-tall { min-height: 380px; }
 #topbar { height: 2.75rem; background: #0B1220; border-bottom: 1px solid rgba(0,240,255,.12); transition: height .3s ease-in-out; }
 header.scrolled #topbar { height: 2.15rem; }
 /* [P1-A] Dos pesos visuales en la topbar: las utilidades del cliente (correo,
