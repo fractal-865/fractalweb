@@ -28,7 +28,7 @@ const titleId = `noticia-${noticia.slug}-titulo`;
   data-noticia-id={noticia.id}
   aria-labelledby={titleId}
 >
-  <div class="noticia-card__cover">
+  <a href={href} class="noticia-card__cover" aria-label={`Leer artículo: ${noticia.title}`}>
     <NoticiaCover
       slug={noticia.slug}
       alt={noticia.cover.alt}
@@ -36,7 +36,7 @@ const titleId = `noticia-${noticia.slug}-titulo`;
       loading={eager ? 'eager' : 'lazy'}
       fetchpriority={eager ? 'high' : 'auto'}
     />
-  </div>
+  </a>
 
   <div class="noticia-card__body">
     <div class="noticia-card__top">
