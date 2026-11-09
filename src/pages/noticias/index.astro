@@ -115,18 +115,15 @@ const schema = [
         <button type="button" data-noticias-reset>Limpiar filtros</button>
       </p>
 
-      <nav class="noticias-pagination" data-noticias-pagination aria-label="Paginación de noticias" hidden>
-        <button type="button" class="noticias-pagination__arrow" data-page-prev aria-label="Página anterior">
-          <Icon name="arrow" cls="w-4 h-4 rotate-180" />
+      <div class="noticias-loadmore" data-noticias-loadmore hidden>
+        <button type="button" class="noticias-loadmore__btn" data-noticias-more aria-controls="noticias-grid">
+          Cargar más noticias
         </button>
-        <div class="noticias-pagination__numbers" data-page-numbers></div>
-        <button type="button" class="noticias-pagination__arrow" data-page-next aria-label="Página siguiente">
-          <Icon name="arrow" cls="w-4 h-4" />
-        </button>
-      </nav>
+        <p class="noticias-loadmore__hint" data-noticias-more-hint>Se cargan automáticamente al llegar al final.</p>
+      </div>
 
       <noscript>
-        <p class="noticias-noscript">Todas las noticias están disponibles en esta página. El buscador y la paginación necesitan JavaScript.</p>
+        <p class="noticias-noscript">Todas las noticias están disponibles en esta página. El buscador y la carga progresiva necesitan JavaScript.</p>
       </noscript>
     </div>
   </section>
@@ -141,15 +138,14 @@ const schema = [
       const result = document.querySelector<HTMLElement>('[data-noticias-resultado]');
       const empty = document.querySelector<HTMLElement>('[data-noticias-empty]');
       const reset = document.querySelector<HTMLButtonElement>('[data-noticias-reset]');
-      const pagination = document.querySelector<HTMLElement>('[data-noticias-pagination]');
-      const pageNumbers = document.querySelector<HTMLElement>('[data-page-numbers]');
-      const pagePrev = document.querySelector<HTMLButtonElement>('[data-page-prev]');
-      const pageNext = document.querySelector<HTMLButtonElement>('[data-page-next]');
+      const loadmore = document.querySelector<HTMLElement>('[data-noticias-loadmore]');
+      const moreBtn = document.querySelector<HTMLButtonElement>('[data-noticias-more]');
+      const moreHint = document.querySelector<HTMLElement>('[data-noticias-more-hint]');
       const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.noticias-filtro'));
       const PAGE_SIZE = 9;
       let category = '';
       let query = '';
-      let page = 1;
+      let shown = PAGE_SIZE;
 
       const normalize = (value: string) =>
         value
@@ -179,60 +175,43 @@ const schema = [
         history.replaceState(null, '', `${location.pathname}${location.search}${hash}`);
       };
 
-      const renderPages = (pages: number) => {
-        if (!pageNumbers) return;
-        pageNumbers.innerHTML = '';
-        for (let i = 1; i <= pages; i += 1) {
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.className = 'noticias-pagination__page';
-          button.textContent = String(i);
-          if (i === page) {
-            button.classList.add('is-active');
-            button.setAttribute('aria-current', 'page');
-          }
-          button.setAttribute('aria-label', `Página ${i}`);
-          button.addEventListener('click', () => {
-            page = i;
-            render();
-            scrollToGrid();
-          });
-          pageNumbers.appendChild(button);
-        }
-      };
-
-      const scrollToGrid = () => {
-        const heading = document.querySelector<HTMLElement>('#noticias-listado-title');
-        if (!heading) return;
-        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        heading.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-      };
-
       const render = () => {
         const list = filtered();
-        const pages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
-        page = Math.min(page, pages);
+        shown = Math.max(PAGE_SIZE, Math.min(shown, list.length));
         cards.forEach((card) => {
           card.hidden = true;
         });
-        list.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).forEach((card) => {
+        list.slice(0, shown).forEach((card) => {
           card.hidden = false;
         });
+        const remaining = Math.max(0, list.length - shown);
         if (result) {
           result.textContent =
             list.length === 0
               ? 'No encontramos noticias con ese criterio.'
-              : `${list.length} ${list.length === 1 ? 'noticia encontrada' : 'noticias encontradas'}`;
+              : remaining > 0
+                ? `Mostrando ${shown} de ${list.length} noticias`
+                : `${list.length} ${list.length === 1 ? 'noticia encontrada' : 'noticias encontradas'}`;
         }
         if (empty) empty.hidden = list.length !== 0;
-        if (pagination) pagination.hidden = pages <= 1;
-        if (pagePrev) pagePrev.disabled = page <= 1;
-        if (pageNext) pageNext.disabled = page >= pages;
-        renderPages(pages);
+        if (loadmore) loadmore.hidden = remaining === 0;
+        if (moreHint) {
+          moreHint.textContent =
+            remaining > 0
+              ? `Quedan ${remaining} ${remaining === 1 ? 'noticia' : 'noticias'} por cargar. Se cargan automáticamente al llegar al final.`
+              : '';
+        }
+      };
+
+      const loadMore = () => {
+        const list = filtered();
+        if (shown >= list.length) return;
+        shown = Math.min(shown + PAGE_SIZE, list.length);
+        render();
       };
 
       const apply = () => {
-        page = 1;
+        shown = PAGE_SIZE;
         render();
         updateHash();
       };
@@ -256,7 +235,7 @@ const schema = [
       reset?.addEventListener('click', () => {
         category = '';
         query = '';
-        page = 1;
+        shown = PAGE_SIZE;
         if (input) input.value = '';
         if (clear) clear.hidden = true;
         setPressed('');
@@ -272,22 +251,23 @@ const schema = [
         });
       });
 
-      pagePrev?.addEventListener('click', () => {
-        if (page > 1) {
-          page -= 1;
-          render();
-          scrollToGrid();
-        }
-      });
+      moreBtn?.addEventListener('click', loadMore);
 
-      pageNext?.addEventListener('click', () => {
-        const pages = Math.max(1, Math.ceil(filtered().length / PAGE_SIZE));
-        if (page < pages) {
-          page += 1;
-          render();
-          scrollToGrid();
-        }
-      });
+      if (loadmore && 'IntersectionObserver' in window) {
+        let pending = 0;
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (!entries.some((entry) => entry.isIntersecting)) return;
+            if (pending) return;
+            pending = window.setTimeout(() => {
+              pending = 0;
+              loadMore();
+            }, 120);
+          },
+          { rootMargin: '240px 0px' }
+        );
+        observer.observe(loadmore);
+      }
 
       const initialHash = location.hash.replace('#', '');
       if (initialHash && filterButtons.some((button) => button.dataset.categoria === initialHash)) {
