@@ -1,0 +1,69 @@
+---
+import '../styles/noticias.css';
+import Layout from './Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Modales from '../components/Modales.astro';
+import Cookies from '../components/Cookies.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageType?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  section?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  schema = [],
+  image,
+  imageAlt,
+  imageWidth,
+  imageHeight,
+  imageType,
+  ogType = 'article',
+  publishedTime,
+  modifiedTime,
+  section,
+  noindex = false,
+} = Astro.props;
+const path = canonical.replace(/^\//, '');
+---
+
+<Layout
+  title={title}
+  description={description}
+  path={path}
+  noindex={noindex}
+  schema={schema}
+  image={image}
+  imageAlt={imageAlt}
+  imageWidth={imageWidth}
+  imageHeight={imageHeight}
+  imageType={imageType}
+  ogType={ogType}
+  publishedTime={publishedTime}
+  modifiedTime={modifiedTime}
+  section={section}
+>
+  <Header />
+  <main id="contenido">
+    <slot />
+  </main>
+  <Footer />
+
+  <Modales />
+  <Cookies />
+</Layout>

@@ -1,0 +1,94 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  url: string;
+  title: string;
+}
+
+const { url, title } = Astro.props;
+const whatsapp = `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`;
+---
+
+<div class="article-share" data-share data-url={url} data-title={title}>
+  <span class="article-share__label">Compartir</span>
+  <a
+    href={whatsapp}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="article-share__btn"
+    aria-label="Compartir por WhatsApp"
+  >
+    <Icon name="whatsapp" cls="w-4 h-4" />
+    <span>WhatsApp</span>
+  </a>
+  <button type="button" class="article-share__btn" data-share-copy aria-label="Copiar enlace del artículo">
+    <Icon name="copy" cls="w-4 h-4" />
+    <span>Copiar enlace</span>
+  </button>
+  <button type="button" class="article-share__btn" data-share-native hidden aria-label="Compartir con otra aplicación">
+    <Icon name="share" cls="w-4 h-4" />
+    <span>Compartir</span>
+  </button>
+  <p class="article-share__status" data-share-status role="status" aria-live="polite"></p>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-share]');
+  if (root) {
+    const url = root.dataset.url || window.location.href;
+    const title = root.dataset.title || document.title;
+    const copyButton = root.querySelector<HTMLButtonElement>('[data-share-copy]');
+    const nativeButton = root.querySelector<HTMLButtonElement>('[data-share-native]');
+    const status = root.querySelector<HTMLElement>('[data-share-status]');
+
+    const announce = (message: string) => {
+      if (!status) return;
+      status.textContent = message;
+      window.setTimeout(() => {
+        status.textContent = '';
+      }, 3000);
+    };
+
+    const copyFallback = () => {
+      const area = document.createElement('textarea');
+      area.value = url;
+      area.setAttribute('readonly', '');
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.appendChild(area);
+      area.select();
+      try {
+        document.execCommand('copy');
+        announce('Enlace copiado');
+      } catch {
+        announce('No se pudo copiar. Seleccione el enlace manualmente.');
+      }
+      area.remove();
+    };
+
+    copyButton?.addEventListener('click', async () => {
+      if (navigator.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(url);
+          announce('Enlace copiado');
+          return;
+        } catch {
+          // Continúa con el respaldo.
+        }
+      }
+      copyFallback();
+    });
+
+    if (nativeButton && typeof navigator.share === 'function') {
+      nativeButton.hidden = false;
+      nativeButton.addEventListener('click', async () => {
+        try {
+          await navigator.share({ title, url });
+        } catch {
+          // El usuario canceló o el sistema no completó la acción.
+        }
+      });
+    }
+  }
+</script>

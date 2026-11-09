@@ -1,0 +1,41 @@
+---
+import { Picture } from 'astro:assets';
+import { getPortada } from '../lib/noticias-imagenes';
+
+interface Props {
+  slug: string;
+  alt: string;
+  sizes?: string;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  class?: string;
+}
+
+const {
+  slug,
+  alt,
+  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
+  loading = 'lazy',
+  fetchpriority = 'auto',
+  class: className = '',
+} = Astro.props;
+
+const src = getPortada(slug);
+if (!src) throw new Error(`No se encontró la portada de ${slug}`);
+---
+
+<Picture
+  src={src}
+  alt={alt}
+  formats={['avif', 'webp']}
+  fallbackFormat="webp"
+  widths={[480, 800, 1200, 1672]}
+  sizes={sizes}
+  width={1672}
+  height={941}
+  quality={90}
+  loading={loading}
+  fetchpriority={fetchpriority}
+  decoding={loading === 'eager' ? 'sync' : 'async'}
+  class={className}
+/>

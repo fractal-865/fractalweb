@@ -1,0 +1,67 @@
+---
+import NoticiaCover from './NoticiaCover.astro';
+import Icon from './Icon.astro';
+import { formatFecha, type Noticia } from '../lib/noticias';
+import { link } from '../lib/url';
+
+interface Props {
+  noticia: Noticia;
+  variant?: 'default' | 'compact' | 'carousel';
+  eager?: boolean;
+}
+
+const { noticia, variant = 'default', eager = false } = Astro.props;
+const href = link(noticia.path);
+const sizes =
+  variant === 'carousel'
+    ? '(max-width: 640px) 85vw, (max-width: 1024px) 45vw, 300px'
+    : variant === 'compact'
+      ? '(max-width: 640px) 100vw, 220px'
+      : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
+const titleId = `noticia-${noticia.slug}-titulo`;
+---
+
+<article
+  class={`noticia-card noticia-card--${variant}${!noticia.isPublished ? ' is-draft' : ''}`}
+  data-categoria={noticia.categorySlug}
+  data-search={noticia.searchText}
+  data-noticia-id={noticia.id}
+  aria-labelledby={titleId}
+>
+  <div class="noticia-card__cover">
+    <NoticiaCover
+      slug={noticia.slug}
+      alt={noticia.cover.alt}
+      sizes={sizes}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : 'auto'}
+    />
+  </div>
+
+  <div class="noticia-card__body">
+    <div class="noticia-card__top">
+      <span class="noticia-card__cat">{noticia.category}</span>
+      {!noticia.isPublished && <span class="noticia-card__draft">Borrador</span>}
+    </div>
+
+    <h3 id={titleId} class="noticia-card__title">
+      <a href={href}>{noticia.title}</a>
+    </h3>
+
+    <p class="noticia-card__excerpt">{noticia.excerpt}</p>
+
+    <div class="noticia-card__meta">
+      {noticia.isPublished && noticia.datePublished ? (
+        <time datetime={noticia.datePublished}>{formatFecha(noticia.datePublished)}</time>
+      ) : (
+        <span>Fecha por asignar</span>
+      )}
+      <span aria-hidden="true">·</span>
+      <span>{noticia.readingTime} min de lectura</span>
+    </div>
+
+    <a href={href} class="noticia-card__link" aria-label={`Leer artículo: ${noticia.title}`}>
+      Leer artículo <Icon name="arrow" cls="w-3.5 h-3.5" />
+    </a>
+  </div>
+</article>

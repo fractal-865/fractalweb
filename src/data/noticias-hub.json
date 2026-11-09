@@ -1,0 +1,26 @@
+{
+  "path": "/noticias/",
+  "canonical": "https://fractalhost.cl/noticias/",
+  "title": "Noticias y guías de hosting y sitios web",
+  "seoTitle": "Noticias de hosting y diseño web | Fractal Host",
+  "metaDescription": "Guías de Fractal Host sobre hosting, sitios web, dominio, correo y mantención. Información para negocios de Punta Arenas, la Patagonia y Chile.",
+  "intro": "Resuelve dudas sobre alojamiento web, creación de sitios, correo y mantención. Encuentra orientación para organizar la presencia online de tu negocio.",
+  "categories": [
+    "Sitios web",
+    "Mantención",
+    "Hosting",
+    "Ciudades",
+    "Dominios",
+    "Seguridad",
+    "Privacidad",
+    "Correo"
+  ],
+  "onlyPublished": true,
+  "featuredIds": [
+    28,
+    1,
+    2,
+    3
+  ],
+  "note": "Mostrar destacados solo si están publicados; el orden del listado puede ser por fecha real. No mostrar tarjetas que lleven a borradores."
+}

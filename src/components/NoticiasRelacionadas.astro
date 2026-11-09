@@ -1,0 +1,26 @@
+---
+import NoticiaCard from './NoticiaCard.astro';
+import { getRelacionadas, type Noticia } from '../lib/noticias';
+import { link } from '../lib/url';
+
+interface Props {
+  noticia: Noticia;
+}
+
+const { noticia } = Astro.props;
+const relacionadas = getRelacionadas(noticia, 3);
+---
+
+{relacionadas.length > 0 && (
+  <section class="article-related" aria-labelledby="article-related-title">
+    <div class="article-related__head">
+      <h2 id="article-related-title">Sigue leyendo</h2>
+      <a href={link('/noticias/')}>Ver todas las noticias</a>
+    </div>
+    <div class="noticias-grid noticias-grid--related">
+      {relacionadas.map((item) => (
+        <NoticiaCard noticia={item} variant="compact" />
+      ))}
+    </div>
+  </section>
+)}

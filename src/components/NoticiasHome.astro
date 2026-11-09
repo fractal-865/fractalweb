@@ -1,0 +1,138 @@
+---
+import '../styles/noticias.css';
+import NoticiaCard from './NoticiaCard.astro';
+import Icon from './Icon.astro';
+import { getDestacadas } from '../lib/noticias';
+import { link } from '../lib/url';
+
+const destacadas = getDestacadas(8);
+---
+
+{destacadas.length > 0 && (
+  <section class="noticias-home on-dark relative overflow-hidden bg-deep noise gridlines" aria-labelledby="noticias-home-title">
+    <div class="wrap relative z-10">
+      <div class="noticias-home__head">
+        <div>
+          <span class="kicker">Noticias y guías</span>
+          <h2 id="noticias-home-title">Ideas para decidir mejor sobre su presencia online</h2>
+          <p>Guías claras sobre hosting, sitios web, correo y mantención. Sin tecnicismos y con ejemplos para negocios de la Patagonia y todo Chile.</p>
+        </div>
+        <a href={link('/noticias/')} class="noticias-home__all">
+          Ver todas las noticias <Icon name="arrow" cls="w-4 h-4" />
+        </a>
+      </div>
+
+      <div class="noticias-carousel" data-carousel>
+        <div
+          class="noticias-carousel__viewport"
+          data-carousel-track
+          tabindex="0"
+          role="region"
+          aria-roledescription="carrusel"
+          aria-label="Noticias destacadas"
+          aria-describedby="noticias-carousel-help"
+        >
+          {destacadas.map((noticia, index) => (
+            <div
+              class="noticias-carousel__slide"
+              role="group"
+              aria-roledescription="diapositiva"
+              aria-label={`${index + 1} de ${destacadas.length}`}
+            >
+              <NoticiaCard noticia={noticia} variant="carousel" />
+            </div>
+          ))}
+        </div>
+
+        <p id="noticias-carousel-help" class="sr-only">
+          Use los botones anteriores y siguientes, las flechas del teclado o el desplazamiento táctil para recorrer las noticias.
+        </p>
+
+        <div class="noticias-carousel__footer">
+          <p class="noticias-carousel__status" data-carousel-status aria-live="polite"></p>
+          <div class="noticias-carousel__controls">
+            <button type="button" class="noticias-carousel__btn" data-carousel-prev aria-label="Noticias anteriores">
+              <Icon name="arrow" cls="w-4 h-4 rotate-180" />
+            </button>
+            <button type="button" class="noticias-carousel__btn" data-carousel-next aria-label="Noticias siguientes">
+              <Icon name="arrow" cls="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const root = document.querySelector<HTMLElement>('[data-carousel]');
+      if (root) {
+        const track = root.querySelector<HTMLElement>('[data-carousel-track]');
+        const prev = root.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+        const next = root.querySelector<HTMLButtonElement>('[data-carousel-next]');
+        const status = root.querySelector<HTMLElement>('[data-carousel-status]');
+
+        if (track && prev && next) {
+          const slides = Array.from(track.children) as HTMLElement[];
+          const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+          const metrics = () => {
+            const style = getComputedStyle(track);
+            const gap = parseFloat(style.columnGap || style.gap || '16') || 16;
+            const cardWidth = slides[0]?.getBoundingClientRect().width || 1;
+            const visible = Math.max(1, Math.floor((track.clientWidth + gap) / (cardWidth + gap)));
+            return { gap, cardWidth, visible, step: (cardWidth + gap) * visible };
+          };
+
+          const update = () => {
+            const { step } = metrics();
+            const pages = Math.max(1, Math.ceil(slides.length / metrics().visible));
+            const page = Math.min(pages, Math.round(track.scrollLeft / Math.max(step, 1)) + 1);
+            const maxScroll = track.scrollWidth - track.clientWidth;
+            prev.disabled = track.scrollLeft <= 2;
+            next.disabled = track.scrollLeft >= maxScroll - 2;
+            if (status) status.textContent = `Página ${page} de ${pages}`;
+            const controls = root.querySelector<HTMLElement>('.noticias-carousel__controls');
+            if (controls) controls.hidden = pages <= 1;
+          };
+
+          const scroll = (direction: 1 | -1) => {
+            const { step } = metrics();
+            track.scrollBy({
+              left: direction * step,
+              behavior: reduceMotion.matches ? 'auto' : 'smooth',
+            });
+          };
+
+          prev.addEventListener('click', () => scroll(-1));
+          next.addEventListener('click', () => scroll(1));
+          track.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight') {
+              event.preventDefault();
+              scroll(1);
+            }
+            if (event.key === 'ArrowLeft') {
+              event.preventDefault();
+              scroll(-1);
+            }
+          });
+          track.addEventListener('scroll', update, { passive: true });
+          window.addEventListener('resize', update);
+          window.setTimeout(update, 100);
+
+          const section = root.closest('section');
+          const whatsapp = document.querySelector<HTMLElement>('.wa-ring');
+          if (section && whatsapp && 'IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(
+              (entries) => {
+                entries.forEach((entry) => {
+                  whatsapp.classList.toggle('noticias-float-oculto', entry.isIntersecting);
+                });
+              },
+              { threshold: 0.12 }
+            );
+            observer.observe(section);
+          }
+        }
+      }
+    </script>
+  </section>
+)}

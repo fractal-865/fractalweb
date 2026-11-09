@@ -1,0 +1,20 @@
+---
+import type { TocItem } from '../lib/noticias-markdown';
+
+interface Props {
+  items: TocItem[];
+}
+
+const { items } = Astro.props;
+---
+
+{items.length >= 3 && (
+  <nav class="article-toc" aria-labelledby="article-toc-title">
+    <h2 id="article-toc-title">En este artículo</h2>
+    <ol>
+      {items.map((item) => (
+        <li><a href={`#${item.id}`}>{item.text}</a></li>
+      ))}
+    </ol>
+  </nav>
+)}

@@ -4,12 +4,13 @@ import Icon from '../components/Icon.astro';
 import { paginasSitios } from '../data/paginas-sitios';
 import { paginasServicios } from '../data/paginas-servicios';
 import { BORRADOR } from '../config';
+import { noticiasVisibles } from '../lib/noticias';
 import { link } from '../lib/url';
 ---
 
 <PageLayout
   title="Vista previa de páginas nuevas | Fractal Host"
-  description="Índice interno para revisar las páginas de productos y servicios antes de publicarlas."
+  description="Índice interno para revisar las páginas de productos, servicios y noticias antes de publicarlas."
   canonical="/preview/"
 >
   <section class="page-hero relative overflow-hidden text-white">
@@ -78,6 +79,33 @@ import { link } from '../lib/url';
           </a>
         ))}
       </div>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Noticias</span>
+        <h2 class="section-title">Noticias y guías</h2>
+        <p class="section-lead">{noticiasVisibles.length} artículos importados. Están en borrador, con `noindex`, para revisarlos antes de publicar. El índice interno está en <code>/noticias/</code>.</p>
+      </div>
+      <div class="hub-grid">
+        <a href={link('/noticias/')} class="hub-card">
+          <span class="hub-ico"><Icon name="file" cls="w-5 h-5" /></span>
+          <h3>Listado de noticias</h3>
+          <p>Buscador, categorías y paginación sobre las 29 guías.</p>
+          <span class="hub-more">Abrir noticias <Icon name="arrow" cls="w-3.5 h-3.5" /></span>
+        </a>
+        {noticiasVisibles.slice(0, 5).map((noticia) => (
+          <a href={link(noticia.path)} class="hub-card">
+            <span class="hub-ico"><Icon name="file" cls="w-5 h-5" /></span>
+            <h3>{noticia.title}</h3>
+            <p>{noticia.category} · {noticia.readingTime} min de lectura · {noticia.isPublished ? 'Publicada' : 'Borrador'}</p>
+            <span class="hub-more">Abrir artículo <Icon name="arrow" cls="w-3.5 h-3.5" /></span>
+          </a>
+        ))}
+      </div>
+      <p class="mt-5 text-[.86rem] text-mut">Para publicar, complete el estado y la fecha real en <code>src/data/noticias-estado.ts</code> y cambie <code>NOTICIAS_MODO_PREVIA</code> a <code>false</code> en <code>src/config.ts</code>.</p>
     </div>
   </section>
 

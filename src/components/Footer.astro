@@ -1,6 +1,10 @@
 ---
+import { noticiasVisibles } from '../lib/noticias';
+import { NOTICIAS_MODO_PREVIA } from '../config';
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const H = `${base}/#`;
+const mostrarNoticias = NOTICIAS_MODO_PREVIA || noticiasVisibles.length > 0;
 ---
 <footer class="relative bg-deep-3 noise text-[#A7B4C2] pt-16 pb-7 border-t border-cy/10 overflow-hidden">
   <div class="relative z-10 wrap">
@@ -57,6 +61,19 @@ const H = `${base}/#`;
         <li><a class="hover:text-cyt" href={`${base}/sitios-web/sitio-a-medida/`}>Proyecto a medida</a></li>
       </ul>
     </nav>
+
+    {mostrarNoticias && (
+      <nav aria-label="Noticias" class="mb-10">
+        <h3 class="font-display text-[.78rem] tracking-[.18em] uppercase text-cyt mb-4">Noticias y guías</h3>
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-[.88rem]">
+          <li><a class="hover:text-cyt" href={`${base}/noticias/`}>Todas las noticias</a></li>
+          <li><a class="hover:text-cyt" href={`${base}/noticias/#hosting`}>Hosting</a></li>
+          <li><a class="hover:text-cyt" href={`${base}/noticias/#sitios-web`}>Sitios web</a></li>
+          <li><a class="hover:text-cyt" href={`${base}/noticias/#mantencion`}>Mantención</a></li>
+          <li><a class="hover:text-cyt" href={`${base}/noticias/#ciudades`}>Ciudades</a></li>
+        </ul>
+      </nav>
+    )}
 
     <div class="border-t border-white/10 pt-6 flex flex-wrap justify-between gap-4 text-[.8rem] text-[#7E8B99]">
       <span>Punta Arenas – Chile <span id="year"></span></span>

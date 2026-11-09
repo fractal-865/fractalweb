@@ -1,0 +1,306 @@
+---
+import NoticiaLayout from '../../layouts/NoticiaLayout.astro';
+import NoticiaCard from '../../components/NoticiaCard.astro';
+import Icon from '../../components/Icon.astro';
+import { hubNoticias, getCategorias, noticiasVisibles } from '../../lib/noticias';
+import { NOTICIAS_MODO_PREVIA, SITE_URL } from '../../config';
+import { link } from '../../lib/url';
+
+const canonical = '/noticias/';
+const url = `${SITE_URL}/noticias/`;
+const noindex = NOTICIAS_MODO_PREVIA || noticiasVisibles.length === 0;
+const categorias = getCategorias().filter((categoria) => categoria.count > 0);
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    '@id': `${url}#pagina`,
+    url,
+    name: hubNoticias.seoTitle,
+    description: hubNoticias.metaDescription,
+    isPartOf: { '@id': `${SITE_URL}/#web` },
+    inLanguage: 'es-CL',
+  },
+  {
+    '@type': 'BreadcrumbList',
+    '@id': `${url}#breadcrumb`,
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Noticias', item: url },
+    ],
+  },
+  {
+    '@type': 'ItemList',
+    itemListElement: noticiasVisibles.map((noticia, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: noticia.title,
+      url: noticia.canonical,
+    })),
+  },
+];
+---
+
+<NoticiaLayout
+  title={hubNoticias.seoTitle}
+  description={hubNoticias.metaDescription}
+  canonical={canonical}
+  schema={schema}
+  ogType="website"
+  noindex={noindex}
+>
+  <section class="noticias-hero on-dark relative overflow-hidden bg-deep noise gridlines">
+    <div class="wrap relative z-10">
+      <nav class="noticias-breadcrumb" aria-label="Miga de pan">
+        <a href={link('/')}>Inicio</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Noticias</span>
+      </nav>
+
+      <div class="noticias-hero__inner">
+        <span class="kicker">Noticias y guías</span>
+        <h1>{hubNoticias.title}</h1>
+        <p>{hubNoticias.intro}</p>
+
+        <form class="noticias-search" role="search" data-noticias-search>
+          <label for="buscar-noticias" class="sr-only">Buscar noticias</label>
+          <span class="noticias-search__icon" aria-hidden="true"><Icon name="search" cls="w-5 h-5" /></span>
+          <input
+            id="buscar-noticias"
+            name="q"
+            type="search"
+            placeholder="Buscar noticias"
+            autocomplete="off"
+            data-noticias-input
+          />
+          <button type="button" class="noticias-search__clear" data-noticias-clear hidden>Limpiar</button>
+        </form>
+        <p class="noticias-search__hint">Puede buscar por título, categoría o palabra clave.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="noticias-listado" aria-labelledby="noticias-listado-title">
+    <div class="wrap">
+      <div class="noticias-listado__head">
+        <h2 id="noticias-listado-title">Todas las guías</h2>
+        <p>Ordene por tema o busque una palabra clave. Los artículos están pensados para resolver dudas concretas, sin tecnicismos innecesarios.</p>
+      </div>
+
+      {categorias.length > 0 && (
+        <div class="noticias-filtros" role="group" aria-label="Filtrar noticias por categoría">
+          <button type="button" class="noticias-filtro is-active" data-categoria="" aria-pressed="true">
+            Todas <span>{noticiasVisibles.length}</span>
+          </button>
+          {categorias.map((categoria) => (
+            <button type="button" class="noticias-filtro" data-categoria={categoria.slug} aria-pressed="false">
+              {categoria.name} <span>{categoria.count}</span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      <p class="noticias-resultado" data-noticias-resultado aria-live="polite">
+        {noticiasVisibles.length} noticias disponibles
+      </p>
+
+      <div class="noticias-grid" id="noticias-grid" data-noticias-grid>
+        {noticiasVisibles.map((noticia) => (
+          <NoticiaCard noticia={noticia} />
+        ))}
+      </div>
+
+      <p class="noticias-empty" data-noticias-empty hidden>
+        No encontramos noticias con ese criterio.
+        <button type="button" data-noticias-reset>Limpiar filtros</button>
+      </p>
+
+      <nav class="noticias-pagination" data-noticias-pagination aria-label="Paginación de noticias" hidden>
+        <button type="button" class="noticias-pagination__arrow" data-page-prev aria-label="Página anterior">
+          <Icon name="arrow" cls="w-4 h-4 rotate-180" />
+        </button>
+        <div class="noticias-pagination__numbers" data-page-numbers></div>
+        <button type="button" class="noticias-pagination__arrow" data-page-next aria-label="Página siguiente">
+          <Icon name="arrow" cls="w-4 h-4" />
+        </button>
+      </nav>
+
+      <noscript>
+        <p class="noticias-noscript">Todas las noticias están disponibles en esta página. El buscador y la paginación necesitan JavaScript.</p>
+      </noscript>
+    </div>
+  </section>
+
+  <script>
+    const grid = document.querySelector<HTMLElement>('[data-noticias-grid]');
+    if (grid) {
+      const cards = Array.from(grid.querySelectorAll<HTMLElement>('.noticia-card'));
+      const input = document.querySelector<HTMLInputElement>('[data-noticias-input]');
+      const clear = document.querySelector<HTMLButtonElement>('[data-noticias-clear]');
+      const form = document.querySelector<HTMLFormElement>('[data-noticias-search]');
+      const result = document.querySelector<HTMLElement>('[data-noticias-resultado]');
+      const empty = document.querySelector<HTMLElement>('[data-noticias-empty]');
+      const reset = document.querySelector<HTMLButtonElement>('[data-noticias-reset]');
+      const pagination = document.querySelector<HTMLElement>('[data-noticias-pagination]');
+      const pageNumbers = document.querySelector<HTMLElement>('[data-page-numbers]');
+      const pagePrev = document.querySelector<HTMLButtonElement>('[data-page-prev]');
+      const pageNext = document.querySelector<HTMLButtonElement>('[data-page-next]');
+      const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.noticias-filtro'));
+      const PAGE_SIZE = 9;
+      let category = '';
+      let query = '';
+      let page = 1;
+
+      const normalize = (value: string) =>
+        value
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, ' ')
+          .trim();
+
+      const filtered = () =>
+        cards.filter((card) => {
+          const matchesCategory = !category || card.dataset.categoria === category;
+          const matchesQuery = !query || (card.dataset.search || '').includes(query);
+          return matchesCategory && matchesQuery;
+        });
+
+      const setPressed = (value: string) => {
+        filterButtons.forEach((button) => {
+          const active = button.dataset.categoria === value;
+          button.classList.toggle('is-active', active);
+          button.setAttribute('aria-pressed', String(active));
+        });
+      };
+
+      const updateHash = () => {
+        const hash = category ? `#${category}` : '';
+        history.replaceState(null, '', `${location.pathname}${location.search}${hash}`);
+      };
+
+      const renderPages = (pages: number) => {
+        if (!pageNumbers) return;
+        pageNumbers.innerHTML = '';
+        for (let i = 1; i <= pages; i += 1) {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'noticias-pagination__page';
+          button.textContent = String(i);
+          if (i === page) {
+            button.classList.add('is-active');
+            button.setAttribute('aria-current', 'page');
+          }
+          button.setAttribute('aria-label', `Página ${i}`);
+          button.addEventListener('click', () => {
+            page = i;
+            render();
+            scrollToGrid();
+          });
+          pageNumbers.appendChild(button);
+        }
+      };
+
+      const scrollToGrid = () => {
+        const heading = document.querySelector<HTMLElement>('#noticias-listado-title');
+        if (!heading) return;
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        heading.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      };
+
+      const render = () => {
+        const list = filtered();
+        const pages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+        page = Math.min(page, pages);
+        cards.forEach((card) => {
+          card.hidden = true;
+        });
+        list.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).forEach((card) => {
+          card.hidden = false;
+        });
+        if (result) {
+          result.textContent =
+            list.length === 0
+              ? 'No encontramos noticias con ese criterio.'
+              : `${list.length} ${list.length === 1 ? 'noticia encontrada' : 'noticias encontradas'}`;
+        }
+        if (empty) empty.hidden = list.length !== 0;
+        if (pagination) pagination.hidden = pages <= 1;
+        if (pagePrev) pagePrev.disabled = page <= 1;
+        if (pageNext) pageNext.disabled = page >= pages;
+        renderPages(pages);
+      };
+
+      const apply = () => {
+        page = 1;
+        render();
+        updateHash();
+      };
+
+      form?.addEventListener('submit', (event) => event.preventDefault());
+
+      input?.addEventListener('input', () => {
+        query = normalize(input.value);
+        if (clear) clear.hidden = input.value.length === 0;
+        apply();
+      });
+
+      clear?.addEventListener('click', () => {
+        if (input) input.value = '';
+        query = '';
+        if (clear) clear.hidden = true;
+        apply();
+        input?.focus();
+      });
+
+      reset?.addEventListener('click', () => {
+        category = '';
+        query = '';
+        page = 1;
+        if (input) input.value = '';
+        if (clear) clear.hidden = true;
+        setPressed('');
+        apply();
+        input?.focus();
+      });
+
+      filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          category = button.dataset.categoria || '';
+          setPressed(category);
+          apply();
+        });
+      });
+
+      pagePrev?.addEventListener('click', () => {
+        if (page > 1) {
+          page -= 1;
+          render();
+          scrollToGrid();
+        }
+      });
+
+      pageNext?.addEventListener('click', () => {
+        const pages = Math.max(1, Math.ceil(filtered().length / PAGE_SIZE));
+        if (page < pages) {
+          page += 1;
+          render();
+          scrollToGrid();
+        }
+      });
+
+      const initialHash = location.hash.replace('#', '');
+      if (initialHash && filterButtons.some((button) => button.dataset.categoria === initialHash)) {
+        category = initialHash;
+        setPressed(category);
+      }
+      const initialQuery = new URLSearchParams(location.search).get('q');
+      if (initialQuery && input) {
+        input.value = initialQuery;
+        query = normalize(initialQuery);
+        if (clear) clear.hidden = false;
+      }
+      render();
+    }
+  </script>
+</NoticiaLayout>

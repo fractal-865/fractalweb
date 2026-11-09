@@ -1,0 +1,35 @@
+---
+import { Picture, getImage } from 'astro:assets';
+import { getImagenInterna } from '../lib/noticias-imagenes';
+
+interface Props {
+  slug: string;
+  alt: string;
+  caption: string;
+}
+
+const { slug, alt, caption } = Astro.props;
+const src = getImagenInterna(slug);
+if (!src) throw new Error(`No se encontró la imagen interna de ${slug}`);
+const full = await getImage({ src, width: 1672, format: 'webp', quality: 92 });
+---
+
+<figure class="article-figure">
+  <Picture
+    src={src}
+    alt={alt}
+    formats={['avif', 'webp']}
+    fallbackFormat="webp"
+    widths={[480, 800, 1200, 1672]}
+    sizes="(max-width: 768px) 100vw, 900px"
+    width={1672}
+    height={941}
+    quality={90}
+    loading="lazy"
+    decoding="async"
+  />
+  <figcaption>
+    {caption}
+    <a href={full.src} target="_blank" rel="noopener noreferrer">Ampliar imagen</a>
+  </figcaption>
+</figure>
