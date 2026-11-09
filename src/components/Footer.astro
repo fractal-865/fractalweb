@@ -8,13 +8,24 @@ const mostrarNoticias = NOTICIAS_MODO_PREVIA || noticiasVisibles.length > 0;
 ---
 <footer class="relative bg-deep-3 noise text-[#A7B4C2] pt-16 pb-7 border-t border-cy/10 overflow-hidden">
   <div class="relative z-10 wrap">
-    <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-10 mb-11">
+    <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-x-10 gap-y-12 mb-10 items-start">
       <div>
         <a href={`${H}inicio`} aria-label="Fractal Host, ir al inicio">
           <img src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/logo.webp`} alt="Fractal Host" width="148" height="44" class="h-[44px] w-auto object-contain">
         </a>
         <p class="mt-4 text-[.88rem] max-w-[300px]">Patagonia conectada. Servicio de hosting, creación de sitios web y correo corporativo con trato humano, desde Punta Arenas para todo Chile.</p>
+
+        <nav aria-label="Clientes" class="mt-8">
+          <h3 class="font-display text-[.78rem] tracking-[.18em] uppercase text-cyt mb-4">Clientes</h3>
+          <ul class="flex flex-col gap-2 text-[.88rem]">
+            <li><a class="hover:text-cyt" href="https://clientes.fractalhost.cl/" target="_blank" rel="noopener noreferrer">Área clientes</a></li>
+            <li><a class="hover:text-live flex items-center gap-2" href="https://clientes.fractalhost.cl/serverstatus.php" target="_blank" rel="noopener noreferrer"><span class="w-2 h-2 rounded-full bg-live animate-pulse" aria-hidden="true"></span>Estado de servidores</a></li>
+            <li><a class="hover:text-cyt" href={`${H}faq`}>Preguntas frecuentes</a></li>
+            <li><a class="hover:text-cyt" href="https://calendar.app.google/W9CqbvXdKMzcAWHN8" target="_blank" rel="noopener noreferrer">Agendar videollamada</a></li>
+          </ul>
+        </nav>
       </div>
+
       <nav aria-label="Servicios">
         <h3 class="font-display text-[.78rem] tracking-[.18em] uppercase text-cyt mb-4">Hosting y servicios</h3>
         <ul class="flex flex-col gap-2 text-[.88rem]">
@@ -28,56 +39,53 @@ const mostrarNoticias = NOTICIAS_MODO_PREVIA || noticiasVisibles.length > 0;
           <li><a class="hover:text-cyt" href={`${base}/cotizador/`}>Cotizador de sitios web y mantención</a></li>
         </ul>
       </nav>
-      <nav aria-label="Clientes">
-        <h3 class="font-display text-[.78rem] tracking-[.18em] uppercase text-cyt mb-4">Clientes</h3>
-        <ul class="flex flex-col gap-2 text-[.88rem]">
-          <li><a class="hover:text-cyt" href="https://clientes.fractalhost.cl/" target="_blank" rel="noopener noreferrer">Área clientes</a></li>
-          <li><a class="hover:text-live flex items-center gap-2" href="https://clientes.fractalhost.cl/serverstatus.php" target="_blank" rel="noopener noreferrer"><span class="w-2 h-2 rounded-full bg-live animate-pulse" aria-hidden="true"></span>Estado de servidores</a></li>
-          <li><a class="hover:text-cyt" href={`${H}faq`}>Preguntas frecuentes</a></li>
-          <li><a class="hover:text-cyt" href="https://calendar.app.google/W9CqbvXdKMzcAWHN8" target="_blank" rel="noopener noreferrer">Agendar videollamada</a></li>
+
+      <nav aria-label="Sitios web">
+        <h3 class="font-display text-[.78rem] tracking-[.18em] uppercase text-cyt mb-4">Sitios web</h3>
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-[.88rem] xl:flex-col xl:gap-x-2 xl:gap-y-2">
+          <li><a class="hover:text-cyt" href={`${base}/sitios-web/`}>Todos los tipos de sitio</a></li>
+          <li><a class="hover:text-cyt" href={`${base}/sitios-web/micrositio/`}>Micrositio en 24 h</a></li>
+          <li><a class="hover:text-cyt" href={`${base}/sitios-web/one-page/`}>One Page</a></li>
+          <li><a class="hover:text-cyt" href={`${base}/sitios-web/sitio-corporativo/`}>Sitio corporativo</a></li>
+          <li><a class="hover:text-cyt" href={`${base}/sitios-web/tienda-online/`}>Tienda online</a></li>
+          <li><a class="hover:text-cyt" href={`${base}/sitios-web/eventos-y-entradas/`}>Eventos y entradas</a></li>
+          <li><a class="hover:text-cyt" href={`${base}/sitios-web/reserva-de-horas/`}>Reserva de horas</a></li>
+          <li><a class="hover:text-cyt" href={`${base}/sitios-web/sitio-inmobiliario/`}>Sitio inmobiliario</a></li>
+          <li><a class="hover:text-cyt" href={`${base}/sitios-web/sitio-a-medida/`}>Proyecto a medida</a></li>
         </ul>
       </nav>
+
       <div>
-        <h3 class="font-display text-[.78rem] tracking-[.18em] uppercase text-cyt mb-4">Pagos y legal</h3>
-        <p class="text-[.88rem] mb-3">Paga con Flow: tarjetas de crédito y débito, Webpay Plus, transferencia y MACH. Hasta 3 cuotas sin interés solo con tarjeta de crédito.</p>
-        <ul class="flex flex-col gap-2 text-[.88rem]">
-          <li><button type="button" data-modal="modal-privacidad" class="hover:text-cyt underline underline-offset-4 text-left cursor-pointer">Política de Privacidad</button></li>
-          <li><button type="button" data-modal="modal-legal" class="hover:text-cyt underline underline-offset-4 text-left cursor-pointer">Términos y Condiciones</button></li>
-          <li><button id="cookiePrefs" type="button" class="hover:text-cyt underline underline-offset-4 text-left cursor-pointer">Preferencias de cookies</button></li>
-        </ul>
+        {mostrarNoticias && (
+          <nav aria-label="Noticias">
+            <h3 class="font-display text-[.78rem] tracking-[.18em] uppercase text-cyt mb-4">Noticias y guías</h3>
+            <ul class="flex flex-wrap gap-x-6 gap-y-2 text-[.88rem] xl:flex-col xl:gap-x-2 xl:gap-y-2">
+              <li><a class="hover:text-cyt" href={`${base}/noticias/`}>Todas las noticias</a></li>
+              <li><a class="hover:text-cyt" href={`${base}/noticias/#hosting`}>Hosting</a></li>
+              <li><a class="hover:text-cyt" href={`${base}/noticias/#sitios-web`}>Sitios web</a></li>
+              <li><a class="hover:text-cyt" href={`${base}/noticias/#mantencion`}>Mantención</a></li>
+              <li><a class="hover:text-cyt" href={`${base}/noticias/#ciudades`}>Ciudades</a></li>
+            </ul>
+          </nav>
+        )}
+
+        <nav aria-label="Legal" class={mostrarNoticias ? 'mt-8' : ''}>
+          <h3 class="font-display text-[.78rem] tracking-[.18em] uppercase text-cyt mb-4">Pagos y legal</h3>
+          <ul class="flex flex-col gap-2 text-[.88rem]">
+            <li><button type="button" data-modal="modal-privacidad" class="hover:text-cyt underline underline-offset-4 text-left cursor-pointer">Política de Privacidad</button></li>
+            <li><button type="button" data-modal="modal-legal" class="hover:text-cyt underline underline-offset-4 text-left cursor-pointer">Términos y Condiciones</button></li>
+            <li><button id="cookiePrefs" type="button" class="hover:text-cyt underline underline-offset-4 text-left cursor-pointer">Preferencias de cookies</button></li>
+          </ul>
+        </nav>
       </div>
     </div>
-    <nav aria-label="Sitios web" class="mb-10">
-      <h3 class="font-display text-[.78rem] tracking-[.18em] uppercase text-cyt mb-4">Sitios web</h3>
-      <ul class="flex flex-wrap gap-x-6 gap-y-2 text-[.88rem]">
-        <li><a class="hover:text-cyt" href={`${base}/sitios-web/`}>Todos los tipos de sitio</a></li>
-        <li><a class="hover:text-cyt" href={`${base}/sitios-web/micrositio/`}>Micrositio en 24 h</a></li>
-        <li><a class="hover:text-cyt" href={`${base}/sitios-web/one-page/`}>One Page</a></li>
-        <li><a class="hover:text-cyt" href={`${base}/sitios-web/sitio-corporativo/`}>Sitio corporativo</a></li>
-        <li><a class="hover:text-cyt" href={`${base}/sitios-web/tienda-online/`}>Tienda online</a></li>
-        <li><a class="hover:text-cyt" href={`${base}/sitios-web/eventos-y-entradas/`}>Eventos y entradas</a></li>
-        <li><a class="hover:text-cyt" href={`${base}/sitios-web/reserva-de-horas/`}>Reserva de horas</a></li>
-        <li><a class="hover:text-cyt" href={`${base}/sitios-web/sitio-inmobiliario/`}>Sitio inmobiliario</a></li>
-        <li><a class="hover:text-cyt" href={`${base}/sitios-web/sitio-a-medida/`}>Proyecto a medida</a></li>
-      </ul>
-    </nav>
 
-    {mostrarNoticias && (
-      <nav aria-label="Noticias" class="mb-10">
-        <h3 class="font-display text-[.78rem] tracking-[.18em] uppercase text-cyt mb-4">Noticias y guías</h3>
-        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-[.88rem]">
-          <li><a class="hover:text-cyt" href={`${base}/noticias/`}>Todas las noticias</a></li>
-          <li><a class="hover:text-cyt" href={`${base}/noticias/#hosting`}>Hosting</a></li>
-          <li><a class="hover:text-cyt" href={`${base}/noticias/#sitios-web`}>Sitios web</a></li>
-          <li><a class="hover:text-cyt" href={`${base}/noticias/#mantencion`}>Mantención</a></li>
-          <li><a class="hover:text-cyt" href={`${base}/noticias/#ciudades`}>Ciudades</a></li>
-        </ul>
-      </nav>
-    )}
-
-    <div class="border-t border-white/10 pt-6 flex flex-wrap justify-between gap-4 text-[.8rem] text-[#7E8B99]">
-      <span>Punta Arenas – Chile <span id="year"></span></span>
-      <span>Desarrollado por <a href="https://trianguloweb.cl/" target="_blank" rel="noopener noreferrer" class="text-cyt hover:text-white transition-colors font-bold">trianguloweb.cl</a></span>
+    <div class="border-t border-white/10 pt-5">
+      <p class="text-[.8rem] leading-relaxed text-[#7E8B99]">Paga con Flow: tarjetas de crédito y débito, Webpay Plus, transferencia y MACH. Hasta 3 cuotas sin interés solo con tarjeta de crédito.</p>
+      <div class="mt-4 flex flex-wrap justify-between gap-4 text-[.8rem] text-[#7E8B99]">
+        <span>Punta Arenas – Chile <span id="year"></span></span>
+        <span>Desarrollado por <a href="https://trianguloweb.cl/" target="_blank" rel="noopener noreferrer" class="text-cyt hover:text-white transition-colors font-bold">trianguloweb.cl</a></span>
+      </div>
     </div>
   </div>
 </footer>
