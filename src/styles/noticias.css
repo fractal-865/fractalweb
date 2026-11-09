@@ -753,6 +753,37 @@
 }
 .dark .article-back { color: #6fe6ff; }
 
+/* ---------- Botones de contacto dentro del artículo ---------- */
+.article-contact-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.35rem 0 .5rem; }
+.article-body .article-contact-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
+  min-height: 46px; padding: .8rem 1.1rem; border-radius: .65rem;
+  font-family: var(--font-display); font-weight: 800; font-size: .86rem;
+  text-decoration: none; border: 1.5px solid transparent;
+  transition: transform .2s ease, background-color .2s ease, border-color .2s ease, color .2s ease, filter .2s ease;
+}
+.article-body .article-contact-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+.article-body .article-contact-btn:hover { transform: translateY(-1px); }
+.article-body .article-contact-btn--primary { background: var(--color-yel); color: var(--color-ink); }
+.article-body .article-contact-btn--primary:hover { background: var(--color-yelhov); color: var(--color-ink); }
+.article-body .article-contact-btn--wa {
+  background: linear-gradient(135deg, #25D366, #128C4B); color: #fff;
+  box-shadow: 0 8px 20px rgba(37, 211, 102, .3);
+}
+.article-body .article-contact-btn--wa:hover { color: #fff; filter: brightness(1.05); }
+.article-body .article-contact-btn--ghost {
+  border-color: var(--color-line); color: var(--color-cydeep); background: #fff;
+}
+.dark .article-body .article-contact-btn--ghost {
+  border-color: var(--color-lined); color: var(--color-cyt); background: var(--color-cardd);
+}
+.article-body .article-contact-btn--ghost:hover { border-color: var(--color-cydeep); color: var(--color-cydeep); }
+.dark .article-body .article-contact-btn--ghost:hover { border-color: var(--color-cyt); color: var(--color-cyt); }
+@media (max-width: 560px) {
+  .article-contact-actions { flex-direction: column; }
+  .article-body .article-contact-btn { width: 100%; }
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1023px) {
   .noticias-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
