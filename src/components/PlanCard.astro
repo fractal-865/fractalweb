@@ -8,7 +8,7 @@ const { plan: p, tag: Tag } = Astro.props;
 const fmt = (n: number) => '$' + Math.round(n).toLocaleString('es-CL');
 ---
 
-<article class={`plan-box${p.feat ? ' is-featured max-md:order-first' : ''}`}>
+<article class={`plan-box${p.feat ? ' is-featured' : ''}`}>
   {p.feat && <span class="plan-badge">Más elegido</span>}
   <Tag class="font-display font-extrabold uppercase tracking-[.05em] text-[1.2rem] text-txt dark:text-txtd">{p.name}</Tag>
   <p class="text-[.9rem] text-mut dark:text-mutd mt-1.5 min-h-[2.6rem]">{p.desc}</p>
