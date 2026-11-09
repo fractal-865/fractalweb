@@ -248,7 +248,7 @@ const categoriasMenu = getCategorias().filter((categoria) => categoria.count > 0
               <li>
                 <a href={`${base}/noticias/${noticia.slug}/`} data-mega-link class="flex items-start gap-3 text-[.86rem] text-txt hover:text-cydeep transition-colors">
                   <span class="shrink-0 w-[72px] h-[40px] rounded-md overflow-hidden bg-night">
-                    <img src={noticia.cover.ogPath} alt="" width="72" height="40" loading="lazy" class="w-full h-full object-cover" />
+                    <img src={`${base}${noticia.cover.ogPath}`} alt="" width="72" height="40" loading="lazy" class="w-full h-full object-cover" />
                   </span>
                   <span>
                     <b class="block font-display text-[.84rem] leading-snug">{noticia.title}</b>
