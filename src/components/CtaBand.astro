@@ -1,0 +1,35 @@
+---
+import Icon from './Icon.astro';
+import { link } from '../lib/url';
+
+interface Props {
+  title?: string;
+  text?: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+}
+const {
+  title = 'Conversemos sobre su proyecto',
+  text = 'Cuéntenos qué necesita. Le respondemos con una propuesta clara, sin tecnicismos y sin compromiso.',
+  primaryLabel = 'Cotizar mi sitio',
+  primaryHref = '/cotizador/',
+  secondaryLabel = 'Agendar videollamada',
+  secondaryHref = 'https://calendar.app.google/W9CqbvXdKMzcAWHN8',
+} = Astro.props;
+---
+
+<section class="cta-band">
+  <div class="wrap cta-band-inner">
+    <div>
+      <span class="kicker on-dark">Siguiente paso</span>
+      <h2>{title}</h2>
+      <p>{text}</p>
+    </div>
+    <div class="cta-actions">
+      <a href={link(primaryHref)} class="btn-primary">{primaryLabel} <Icon name="arrow" cls="w-4 h-4" /></a>
+      <a href={link(secondaryHref)} class="btn-ghost" target={secondaryHref.startsWith('http') ? '_blank' : undefined} rel={secondaryHref.startsWith('http') ? 'noopener noreferrer' : undefined}>{secondaryLabel}</a>
+    </div>
+  </div>
+</section>

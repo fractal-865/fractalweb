@@ -1,0 +1,215 @@
+---
+interface Props {
+  type: string;
+}
+const { type } = Astro.props;
+---
+
+<div class={`mock mock-${type}`} aria-hidden="true">
+  {type === 'micrositio' && (
+    <div class="mock-phone">
+      <div class="mock-phone-top"><span></span><b>Mi negocio</b><span></span></div>
+      <div class="mock-phone-hero">
+        <span class="mock-kicker">Servicios profesionales</span>
+        <strong>Soluciones para su empresa</strong>
+        <p></p>
+        <p class="short"></p>
+        <span class="mock-btn">Conversemos</span>
+      </div>
+      <div class="mock-phone-grid">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="mock-phone-card">
+        <span class="mock-dot"></span>
+        <div><b>Escríbanos</b><i></i></div>
+      </div>
+    </div>
+  )}
+
+  {type === 'onepage' && (
+    <div class="mock-browser">
+      <div class="mock-bar"><span class="mock-dots"><i></i><i></i><i></i></span><span class="mock-url">sunegocio.cl</span></div>
+      <div class="mock-body">
+        <div class="mock-nav"><b>Marca</b><span></span><span></span><span></span><em>Contacto</em></div>
+        <div class="mock-hero-split">
+          <div>
+            <span class="mock-kicker">Diseño a medida</span>
+            <strong class="mock-title"></strong>
+            <strong class="mock-title short"></strong>
+            <p class="mock-copy"></p>
+            <p class="mock-copy short"></p>
+            <span class="mock-btn">Cotizar</span>
+          </div>
+          <div class="mock-art"><span></span><span></span><span></span></div>
+        </div>
+        <div class="mock-cards3"><span></span><span></span><span></span></div>
+        <div class="mock-band"></div>
+      </div>
+    </div>
+  )}
+
+  {type === 'corporativo' && (
+    <div class="mock-browser">
+      <div class="mock-bar"><span class="mock-dots"><i></i><i></i><i></i></span><span class="mock-url">empresa.cl</span></div>
+      <div class="mock-body">
+        <div class="mock-nav"><b>EMPRESA</b><span>Inicio</span><span>Servicios</span><span>Nosotros</span><em>Contacto</em></div>
+        <div class="mock-corp-hero">
+          <div><span class="mock-kicker">Desde 2008</span><strong class="mock-title"></strong><p class="mock-copy"></p><span class="mock-btn">Conocer más</span></div>
+          <div class="mock-corp-img"></div>
+        </div>
+        <div class="mock-cards4"><span></span><span></span><span></span><span></span></div>
+        <div class="mock-news"><i></i><i></i><i></i></div>
+      </div>
+    </div>
+  )}
+
+  {type === 'tienda' && (
+    <div class="mock-browser">
+      <div class="mock-bar"><span class="mock-dots"><i></i><i></i><i></i></span><span class="mock-url">tienda.cl</span></div>
+      <div class="mock-body">
+        <div class="mock-nav"><b>TIENDA</b><span>Catálogo</span><span>Ofertas</span><em class="mock-cart-pill">Carrito · 3</em></div>
+        <div class="mock-shop-hero"><div><span class="mock-kicker">Nueva temporada</span><strong class="mock-title"></strong><span class="mock-btn">Ver productos</span></div><div class="mock-shop-art"></div></div>
+        <div class="mock-products">
+          <div><span class="mock-prod"></span><b></b><i></i><em>$19.990</em></div>
+          <div><span class="mock-prod"></span><b></b><i></i><em>$24.990</em></div>
+          <div><span class="mock-prod"></span><b></b><i></i><em>$14.990</em></div>
+        </div>
+      </div>
+    </div>
+  )}
+
+  {type === 'eventos' && (
+    <div class="mock-ticket-wrap">
+      <div class="mock-ticket">
+        <div class="mock-ticket-head"><span>ENTRADA GENERAL</span><b>EVENTO 2026</b><small>Sábado 21 · 20:00 h</small></div>
+        <div class="mock-ticket-body">
+          <div><span class="mock-kicker">Teatro Municipal</span><strong>Noche de música</strong><p></p><p class="short"></p><em>1 entrada · $15.000</em></div>
+          <div class="mock-qr"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="mock-ticket-foot"><span>Válida solo una vez</span><b>#A-01284</b></div>
+      </div>
+      <div class="mock-scan"><span></span><b>QR validado</b></div>
+    </div>
+  )}
+
+  {type === 'reservas' && (
+    <div class="mock-cal">
+      <div class="mock-cal-head"><b>Reservar hora</b><span>Marzo 2026</span></div>
+      <div class="mock-cal-days"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+      <div class="mock-cal-grid">
+        {['', '', '', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'].map((d) => (
+          <span class={d === '18' ? 'active' : d === '19' || d === '20' ? 'muted' : ''}>{d}</span>
+        ))}
+      </div>
+      <div class="mock-times"><b>Horas disponibles</b><span>09:00</span><span class="active">10:30</span><span>12:00</span><span>15:30</span></div>
+    </div>
+  )}
+
+  {type === 'inmobiliario' && (
+    <div class="mock-inmo">
+      <div class="mock-inmo-head"><b>Propiedades</b><span class="mock-search">Buscar por comuna…</span></div>
+      <div class="mock-props">
+        <div class="mock-prop"><span class="mock-prop-img"></span><b>Casa en venta</b><small>Coyhaique · 3D · 2B</small><em>UF 7.900</em></div>
+        <div class="mock-prop"><span class="mock-prop-img alt"></span><b>Departamento</b><small>Punta Arenas · 2D · 1B</small><em>$ 650.000</em></div>
+        <div class="mock-prop"><span class="mock-prop-img third"></span><b>Parcela</b><small>Puerto Ibáñez · 5.000 m²</small><em>UF 1.200</em></div>
+      </div>
+      <div class="mock-map"><span class="mock-pin"></span><span class="mock-pin two"></span><span class="mock-pin three"></span></div>
+    </div>
+  )}
+
+  {type === 'medida' && (
+    <div class="mock-dash">
+      <div class="mock-dash-side"><b>Panel</b><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="mock-dash-main">
+        <div class="mock-dash-top"><b>Resumen</b><span>Exportar</span></div>
+        <div class="mock-dash-cards"><span></span><span></span><span></span></div>
+        <div class="mock-chart"><i style="height:28%"></i><i style="height:46%"></i><i style="height:38%"></i><i style="height:64%"></i><i style="height:52%"></i><i style="height:78%"></i><i style="height:70%"></i><i style="height:90%"></i></div>
+        <div class="mock-table"><span></span><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  )}
+
+  {type === 'hosting' && (
+    <div class="mock-servers">
+      <div class="mock-server"><span class="mock-led"></span><b>CPU</b><i></i><i></i><i></i><em>24%</em></div>
+      <div class="mock-server"><span class="mock-led"></span><b>RAM</b><i></i><i></i><i></i><em>41%</em></div>
+      <div class="mock-server"><span class="mock-led"></span><b>SSD</b><i></i><i></i><i></i><em>18%</em></div>
+      <div class="mock-server"><span class="mock-led"></span><b>SSL</b><i></i><i></i><i></i><em class="ok">Activo</em></div>
+      <div class="mock-server-note"><span></span> cPanel · LiteSpeed · SSD NVMe</div>
+    </div>
+  )}
+
+  {type === 'conosur' && (
+    <div class="mock-ping">
+      <div class="mock-ping-head"><b>Latencia desde Chile</b><span>Menos es mejor</span></div>
+      <div class="mock-ping-row"><span>EE. UU.</span><div><i style="width:92%"></i></div><b>~240 ms</b></div>
+      <div class="mock-ping-row ok"><span>Cono Sur</span><div><i style="width:24%"></i></div><b>~60 ms</b></div>
+      <div class="mock-ping-note"><span class="mock-led"></span> Servidor más cerca de sus visitantes</div>
+    </div>
+  )}
+
+  {type === 'correo' && (
+    <div class="mock-mail">
+      <div class="mock-mail-side"><b>Correo</b><span class="mock-compose">Redactar</span><span>Recibidos</span><span>Enviados</span><span>Archivo</span></div>
+      <div class="mock-mail-list">
+        <div class="mock-mail-item active"><i></i><div><b>Cotización solicitada</b><small>María Pérez · 10:24</small><p></p></div></div>
+        <div class="mock-mail-item"><i></i><div><b>Consulta por servicio</b><small>Juan Soto · 09:12</small><p></p></div></div>
+        <div class="mock-mail-item"><i></i><div><b>Factura de marzo</b><small>Administración · Ayer</small><p></p></div></div>
+        <div class="mock-mail-item"><i></i><div><b>Reunión confirmada</b><small>Equipo · Ayer</small><p></p></div></div>
+      </div>
+    </div>
+  )}
+
+  {type === 'mantencion' && (
+    <div class="mock-mant">
+      <div class="mock-mant-head"><b>Estado del sitio</b><span class="mock-live">En línea</span></div>
+      <div class="mock-mant-ring"><span>99,9%</span><small>uptime</small></div>
+      <ul>
+        <li><span class="mock-check">✓</span> WordPress actualizado <em>hoy</em></li>
+        <li><span class="mock-check">✓</span> Respaldo completado <em>03:00</em></li>
+        <li><span class="mock-check">✓</span> SSL vigente <em>142 días</em></li>
+        <li><span class="mock-check">✓</span> Sin malware <em>ok</em></li>
+      </ul>
+    </div>
+  )}
+
+  {type === 'seguridad' && (
+    <div class="mock-sec">
+      <div class="mock-shield"><span>✓</span></div>
+      <div class="mock-sec-list">
+        <div><b>Malware eliminado</b><small>14 archivos</small></div>
+        <div><b>Accesos reforzados</b><small>5 credenciales</small></div>
+        <div><b>WordPress limpio</b><small>Core + plugins</small></div>
+        <div><b>SSL verificado</b><small>Activo</small></div>
+      </div>
+      <div class="mock-sec-scan"></div>
+    </div>
+  )}
+
+  {type === 'ley' && (
+    <div class="mock-ley">
+      <div class="mock-browser small">
+        <div class="mock-bar"><span class="mock-dots"><i></i><i></i><i></i></span><span class="mock-url">sunegocio.cl</span></div>
+        <div class="mock-body">
+          <div class="mock-nav"><b>Marca</b><span></span><span></span><span></span></div>
+          <div class="mock-ley-page"><strong></strong><p></p><p class="short"></p><div class="mock-form"><span></span><span></span><span></span></div></div>
+        </div>
+      </div>
+      <div class="mock-cookie">
+        <b>Su privacidad</b>
+        <p>Usamos cookies para mejorar su experiencia.</p>
+        <div><span class="on">Necesarias</span><span>Analíticas</span><span>Marketing</span></div>
+        <em>Guardar preferencias</em>
+      </div>
+    </div>
+  )}
+
+  {type === 'migracion' && (
+    <div class="mock-migra">
+      <div class="mock-server-box"><span class="mock-led"></span><b>Origen</b><small>cPanel</small><i></i><i></i></div>
+      <div class="mock-arrow"><span></span><b>→</b></div>
+      <div class="mock-server-box destino"><span class="mock-led"></span><b>Destino</b><small>Fractal Host</small><i></i><i></i></div>
+      <div class="mock-migra-bar"><i></i><span>Migrando sitio, correos y bases de datos…</span></div>
+    </div>
+  )}
+</div>

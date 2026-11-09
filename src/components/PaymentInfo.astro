@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  slug: string;
+}
+const { slug } = Astro.props;
+const grande = ['tienda-online', 'eventos-y-entradas', 'reserva-de-horas', 'sitio-inmobiliario', 'sitio-a-medida'].includes(slug);
+const anticipo = grande ? '30%' : '50%';
+---
+
+<section class="section section-soft">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Condiciones claras</span>
+      <h2 class="section-title">Cómo se paga y qué necesitamos para empezar</h2>
+      <p class="section-lead">Sin letra chica. El anticipo reserva el trabajo y el plazo; el saldo se coordina según las etapas del proyecto.</p>
+    </div>
+    <div class="payment-box">
+      <div class="payment-card">
+        <h3>Pago y boleta</h3>
+        <p>El valor de la cotización es líquido, sin retención. Emitimos Boleta de Honorarios; el impuesto legal (+15,25%) lo declara y paga su empresa directamente al SII.</p>
+        <ul>
+          <li><Icon name="check" cls="w-4 h-4" /> Anticipo del {anticipo} para iniciar.</li>
+          <li><Icon name="check" cls="w-4 h-4" /> Saldo según las etapas acordadas.</li>
+          <li><Icon name="check" cls="w-4 h-4" /> Pago online por Flow, con hasta 3 cuotas sin interés con tarjeta de crédito.</li>
+          <li><Icon name="check" cls="w-4 h-4" /> Transferencia bancaria disponible; la activación es manual.</li>
+        </ul>
+      </div>
+      <div class="payment-card">
+        <h3>Qué necesitamos de su parte</h3>
+        <ul>
+          <li><Icon name="check" cls="w-4 h-4" /> La información base de su negocio: servicios, textos, fotos y datos de contacto.</li>
+          <li><Icon name="check" cls="w-4 h-4" /> Logo y colores, si los tiene. Si no, lo conversamos antes de empezar.</li>
+          <li><Icon name="check" cls="w-4 h-4" /> Una persona de contacto para revisar avances y aprobar contenidos.</li>
+          <li><Icon name="check" cls="w-4 h-4" /> Responder los avances dentro de 10 días para no detener el proyecto.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

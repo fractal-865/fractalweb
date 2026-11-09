@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+import { link } from '../lib/url';
+import type { Related } from '../data/paginas-sitios';
+
+interface Props {
+  title: string;
+  items: Related[];
+}
+const { title, items } = Astro.props;
+---
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Siga explorando</span>
+      <h2 class="section-title">{title}</h2>
+    </div>
+    <div class="related-grid">
+      {items.map((r) => (
+        <a href={link(r.href)} class="related-card">
+          <span class="related-arrow"><Icon name="arrow" cls="w-4 h-4" /></span>
+          <h3>{r.title}</h3>
+          <p>{r.text}</p>
+          <span class="related-more">Ver más <Icon name="arrow" cls="w-3.5 h-3.5" /></span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

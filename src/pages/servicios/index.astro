@@ -1,0 +1,195 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import ProcessSteps from '../../components/ProcessSteps.astro';
+import PageFaq from '../../components/PageFaq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import TrustBand from '../../components/TrustBand.astro';
+import { paginasServicios } from '../../data/paginas-servicios';
+import type { PageData } from '../../data/paginas-sitios';
+import { SITE_URL } from '../../config';
+import { link } from '../../lib/url';
+
+const canonical = '/servicios/';
+const url = `${SITE_URL}${canonical}`;
+
+const hub: PageData = {
+  slug: '',
+  kind: 'servicio',
+  name: 'Servicios',
+  h1: 'Servicios para que su sitio funcione y esté seguro',
+  metaTitle: 'Servicios de hosting, correo y seguridad | Fractal Host',
+  metaDescription:
+    'Correo corporativo, mantención web, seguridad informática, Ley 21.719 y migración. Servicios independientes con atención directa.',
+  kicker: 'Más que hosting',
+  intro:
+    'El hosting es solo una parte. También nos encargamos del correo, la mantención, la seguridad, la protección de datos y la migración. Servicios independientes, con la misma atención directa de siempre.',
+  heroBullets: [
+    'Atención directa, sin call center',
+    'Servicios independientes del hosting',
+    'Cobertura en Punta Arenas y todo Chile',
+  ],
+  specs: [
+    { label: 'Servicios', value: '7 especialidades' },
+    { label: 'Cobertura', value: 'Todo Chile' },
+    { label: 'Atención', value: 'Directa' },
+    { label: 'Respuesta', value: '2 a 3 horas' },
+  ],
+  audienceTitle: '',
+  audience: [],
+  featuresTitle: '',
+  features: [],
+  processTitle: '',
+  process: [],
+  notIncludedTitle: '',
+  notIncluded: [],
+  faqs: [],
+  relatedTitle: '',
+  related: [],
+  mockup: 'hosting',
+  accent: 'cy',
+  ctaLabel: 'Cotizar un servicio',
+  ctaHref: '/cotizador/',
+  secondaryLabel: 'Hablar por WhatsApp',
+  secondaryHref: 'https://wa.me/56954132014?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20un%20servicio',
+};
+
+const crumbs = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Servicios' },
+];
+
+const icons: Record<string, string> = {
+  'hosting-global': 'server',
+  'hosting-cono-sur': 'gauge',
+  'correo-corporativo': 'mail',
+  'mantencion-web': 'wrench',
+  'seguridad-informatica': 'shield',
+  'ley-21719': 'cookie',
+  migracion: 'refresh',
+};
+
+const process = [
+  { n: '01', title: 'Conversamos', text: 'Nos cuenta qué necesita y qué problema quiere resolver. Sin tecnicismos y sin compromiso.' },
+  { n: '02', title: 'Diagnosticamos', text: 'Revisamos el sitio, el dominio, el correo o el caso puntual para dimensionar el trabajo.' },
+  { n: '03', title: 'Propuesta', text: 'Le entregamos alcance, plazo y valor. Si aprueba, coordinamos el inicio y el anticipo.' },
+  { n: '04', title: 'Ejecutamos', text: 'Hacemos el trabajo, probamos y le explicamos qué quedó y cómo mantenerlo.' },
+];
+
+const faqs = [
+  {
+    q: '¿Los servicios son independientes del hosting?',
+    a: 'Sí. Puede contratar mantención, seguridad, adecuación a la Ley 21.719 o migración aunque su sitio esté alojado en otro proveedor. Algunos servicios tienen condiciones según la plataforma y el acceso disponible.',
+  },
+  {
+    q: '¿Cómo sé qué servicio necesito?',
+    a: 'Escríbanos y le hacemos un diagnóstico inicial. Si su sitio está lento, probablemente necesite mantención; si fue hackeado, seguridad; si recopila datos, adecuación a la Ley 21.719; si cambia de proveedor, migración.',
+  },
+  {
+    q: '¿Atienden urgencias fuera de horario?',
+    a: 'Las emergencias por servidor caído o sitio hackeado se atienden fuera de horario, todos los días, tanto para clientes como para no clientes. Escríbanos por WhatsApp y lo revisamos.',
+  },
+  {
+    q: '¿Trabajan con sitios que no hicieron ustedes?',
+    a: 'Sí, siempre que podamos revisarlos y tengamos los accesos necesarios. Primero hacemos un diagnóstico para ver el estado y detectar riesgos antes de intervenir.',
+  },
+  {
+    q: '¿Puedo contratar varios servicios a la vez?',
+    a: 'Sí. De hecho, mantener el hosting, la mantención y el correo con el mismo proveedor simplifica la coordinación. Armamos una propuesta conjunta según lo que necesite.',
+  },
+  {
+    q: '¿Cómo se paga?',
+    a: 'Según el servicio y el alcance. Los proyectos puntuales se pagan con anticipo y saldo; los servicios continuos, de forma periódica. Emitimos Boleta de Honorarios y el impuesto legal (+15,25%) lo declara su empresa al SII.',
+  },
+];
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    '@id': `${url}#coleccion`,
+    url,
+    name: hub.metaTitle,
+    description: hub.metaDescription,
+    isPartOf: { '@id': `${SITE_URL}/#web` },
+    inLanguage: 'es-CL',
+  },
+  {
+    '@type': 'ItemList',
+    itemListElement: paginasServicios.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: p.name,
+      url: `${SITE_URL}/${p.slug}/`,
+    })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Servicios', item: url },
+    ],
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+---
+
+<PageLayout title={hub.metaTitle} description={hub.metaDescription} canonical={canonical} schema={schema}>
+  <PageHero page={hub} crumbs={crumbs} />
+  <TrustBand />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Elija lo que necesita</span>
+        <h2 class="section-title">Hosting, correo, mantención y seguridad</h2>
+        <p class="section-lead">Cada servicio resuelve una parte distinta. Puede contratarlos por separado o combinarlos según el estado de su sitio.</p>
+      </div>
+      <div class="hub-grid">
+        {paginasServicios.map((p) => (
+          <a href={link(`/${p.slug}/`)} class="hub-card">
+            <span class="hub-ico"><Icon name={icons[p.slug] ?? 'settings'} cls="w-5 h-5" /></span>
+            <h3>{p.name}</h3>
+            <p>{p.metaDescription}</p>
+            <div class="hub-meta">
+              {p.specs.slice(0, 2).map((s) => <span>{s.value}</span>)}
+            </div>
+            <span class="hub-more">Ver detalle <Icon name="arrow" cls="w-3.5 h-3.5" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ProcessSteps title="Cómo trabajamos los servicios" items={process} />
+
+  <section class="section section-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Si no sabe qué necesita</span>
+        <h2 class="section-title">Le hacemos un diagnóstico inicial</h2>
+        <p class="section-lead">Cuéntenos qué está pasando con su sitio, su correo o su dominio. Revisamos el caso y le decimos qué conviene hacer, sin compromiso.</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="https://wa.me/56954132014?text=Hola%2C%20necesito%20ayuda%20con%20mi%20sitio" target="_blank" rel="noopener noreferrer" class="btn-primary">Hablar por WhatsApp <Icon name="arrow" cls="w-4 h-4" /></a>
+        <a href="https://calendar.app.google/W9CqbvXdKMzcAWHN8" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 border-2 border-[#007a8f]/60 dark:border-cy/60 hover:bg-cy/10 text-[#007a8f] dark:text-cyt font-display font-bold text-[.95rem] px-6 py-3.5 rounded-lg transition-colors">Agendar videollamada</a>
+      </div>
+    </div>
+  </section>
+
+  <PageFaq faqs={faqs} />
+
+  <CtaBand
+    primaryLabel="Cotizar un servicio"
+    primaryHref="/cotizador/"
+    secondaryLabel="Hablar por WhatsApp"
+    secondaryHref="https://wa.me/56954132014?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20un%20servicio"
+  />
+</PageLayout>

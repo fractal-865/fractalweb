@@ -1,0 +1,28 @@
+---
+import type { Step } from '../data/paginas-sitios';
+
+interface Props {
+  title: string;
+  items: Step[];
+}
+const { title, items } = Astro.props;
+---
+
+<section class="section section-dark">
+  <div class="wrap">
+    <div class="section-head on-dark">
+      <span class="kicker">Paso a paso</span>
+      <h2 class="section-title">{title}</h2>
+      <p class="section-lead">Sin sorpresas: usted sabe qué pasa en cada etapa y qué necesitamos de su parte.</p>
+    </div>
+    <div class="steps-grid">
+      {items.map((s) => (
+        <article class="step-card">
+          <span class="step-n">{s.n}</span>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

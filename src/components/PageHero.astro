@@ -1,0 +1,71 @@
+---
+import Icon from './Icon.astro';
+import Mockup from './Mockup.astro';
+import { BORRADOR } from '../config';
+import { link } from '../lib/url';
+import type { PageData } from '../data/paginas-sitios';
+
+interface Props {
+  page: PageData;
+  crumbs: { label: string; href?: string }[];
+}
+const { page, crumbs } = Astro.props;
+---
+
+<section class="page-hero relative overflow-hidden text-white">
+  <div class="absolute inset-0 z-0 page-hero-bg" aria-hidden="true"></div>
+  <div class="absolute inset-0 z-[1] gridlines" aria-hidden="true"></div>
+  <div class="absolute inset-0 z-[2] page-hero-shade" aria-hidden="true"></div>
+
+  <div class="wrap relative z-10 pt-[150px] pb-14 lg:pt-[178px] lg:pb-20">
+    <nav class="breadcrumbs" aria-label="Miga de pan">
+      {crumbs.map((c, i) => (
+        <>
+          {i > 0 && <span aria-hidden="true">/</span>}
+          {c.href ? <a href={link(c.href)}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+        </>
+      ))}
+    </nav>
+
+    <div class="hero-grid">
+      <div class="hero-copy">
+        {BORRADOR && <span class="draft-pill"><span></span> Borrador · Vista previa</span>}
+        <span class="kicker on-dark">{page.kicker}</span>
+        <h1 class="font-display font-extrabold uppercase tracking-[.01em] text-[clamp(2rem,4.4vw,3.5rem)] leading-[1.04] mt-4">
+          {page.h1}
+        </h1>
+        <p class="mt-5 max-w-[620px] text-[1.05rem] leading-relaxed text-[#DCE6F0]">{page.intro}</p>
+
+        <ul class="hero-bullets mt-6">
+          {page.heroBullets.map((b) => (
+            <li><Icon name="check" cls="w-4 h-4" /> {b}</li>
+          ))}
+        </ul>
+
+        <div class="flex flex-wrap gap-3 mt-8">
+          <a href={link(page.ctaHref)} class="btn-primary">
+            {page.ctaLabel} <Icon name="arrow" cls="w-4 h-4" />
+          </a>
+          {page.secondaryHref && (
+            <a href={link(page.secondaryHref)} class="btn-ghost" target={page.secondaryHref.startsWith('http') ? '_blank' : undefined} rel={page.secondaryHref.startsWith('http') ? 'noopener noreferrer' : undefined}>
+              {page.secondaryLabel ?? 'Hablar por WhatsApp'}
+            </a>
+          )}
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <Mockup type={page.mockup} />
+      </div>
+    </div>
+
+    <div class="spec-strip">
+      {page.specs.map((s) => (
+        <div>
+          <span>{s.label}</span>
+          <b>{s.value}</b>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

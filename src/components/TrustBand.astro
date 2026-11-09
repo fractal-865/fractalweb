@@ -1,0 +1,19 @@
+---
+const stats = [
+  { n: '13', l: 'años de trayectoria' },
+  { n: '150+', l: 'proyectos entregados' },
+  { n: '35+', l: 'sitios alojados' },
+  { n: '1:1', l: 'soporte directo, sin call center' },
+];
+---
+
+<section class="trust-band">
+  <div class="wrap trust-grid">
+    {stats.map((s) => (
+      <div class="trust-item">
+        <b>{s.n}</b>
+        <span>{s.l}</span>
+      </div>
+    ))}
+  </div>
+</section>

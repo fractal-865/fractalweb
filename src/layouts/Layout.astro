@@ -7,11 +7,48 @@ interface Props {
   description: string;
   path?: string;
   noindex?: boolean;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, path = '', noindex = false } = Astro.props;
+const { title, description, path = '', noindex = false, schema = [] } = Astro.props;
 const canonical = path ? `https://fractalhost.cl/${path}` : 'https://fractalhost.cl/';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const schemas = Array.isArray(schema) ? schema : [schema];
+const graph = [
+  {
+    '@type': 'LocalBusiness',
+    '@id': 'https://fractalhost.cl/#negocio',
+    name: 'Fractal Host',
+    slogan: 'Patagonia conectada',
+    url: 'https://fractalhost.cl/',
+    logo: '/logo.webp',
+    email: 'hola@fractalhost.cl',
+    telephone: '+56954132014',
+    priceRange: '$',
+    currenciesAccepted: 'CLP',
+    paymentAccepted: 'Flow, tarjetas de crédito y débito, Webpay Plus, transferencia, MACH',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Punta Arenas',
+      addressRegion: 'Región de Magallanes y de la Antártica Chilena',
+      addressCountry: 'CL',
+    },
+    geo: { '@type': 'GeoCoordinates', latitude: -53.1638, longitude: -70.9171 },
+    areaServed: [
+      { '@type': 'City', name: 'Punta Arenas' },
+      { '@type': 'Country', name: 'Chile' },
+    ],
+  },
+  {
+    '@type': 'WebSite',
+    '@id': 'https://fractalhost.cl/#web',
+    url: 'https://fractalhost.cl/',
+    name: 'Fractal Host — Hosting en Punta Arenas y Sitios Web',
+    inLanguage: 'es-CL',
+    publisher: { '@id': 'https://fractalhost.cl/#negocio' },
+  },
+  ...schemas,
+];
 ---
 
 <!doctype html>
@@ -63,15 +100,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       try { if (localStorage.getItem('fh-theme') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
     </script>
     <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
-    <script type="application/ld+json" is:inline>
-      {"@context":"https://schema.org","@graph":[
-        {"@type":"LocalBusiness","@id":"https://fractalhost.cl/#negocio","name":"Fractal Host","slogan":"Patagonia conectada","url":"https://fractalhost.cl/","logo":"/logo.webp","email":"hola@fractalhost.cl","telephone":"+56954132014","priceRange":"$","currenciesAccepted":"CLP","paymentAccepted":"Flow, tarjetas de crédito y débito, Webpay Plus, transferencia, MACH",
-        "address":{"@type":"PostalAddress","addressLocality":"Punta Arenas","addressRegion":"Región de Magallanes y de la Antártica Chilena","addressCountry":"CL"},
-        "geo":{"@type":"GeoCoordinates","latitude":-53.1638,"longitude":-70.9171},
-        "areaServed":[{"@type":"City","name":"Punta Arenas"},{"@type":"Country","name":"Chile"}]},
-        {"@type":"WebSite","@id":"https://fractalhost.cl/#web","url":"https://fractalhost.cl/","name":"Fractal Host — Hosting en Punta Arenas y Sitios Web","inLanguage":"es-CL","publisher":{"@id":"https://fractalhost.cl/#negocio"}}
-      ]}
-    </script>
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })} />
   </head>
   <body class="bg-page text-txt dark:bg-paged dark:text-txtd font-body antialiased overflow-x-hidden transition-colors duration-300 text-[1.02rem] leading-relaxed">
     <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[200] focus:bg-yel focus:text-ink focus:px-4 focus:py-2 focus:rounded-md font-display font-bold">Saltar al contenido</a>

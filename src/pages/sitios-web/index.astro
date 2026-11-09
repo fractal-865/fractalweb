@@ -1,0 +1,283 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import ProcessSteps from '../../components/ProcessSteps.astro';
+import PageFaq from '../../components/PageFaq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import TrustBand from '../../components/TrustBand.astro';
+import Related from '../../components/Related.astro';
+import { paginasSitios, type PageData } from '../../data/paginas-sitios';
+import { SITE_URL } from '../../config';
+import { link } from '../../lib/url';
+
+const canonical = '/sitios-web/';
+const url = `${SITE_URL}${canonical}`;
+
+const hub: PageData = {
+  slug: '',
+  kind: 'sitio',
+  name: 'Sitios web',
+  h1: 'Creación de sitios web en Punta Arenas y todo Chile',
+  metaTitle: 'Creación de sitios web en Punta Arenas | Fractal Host',
+  metaDescription:
+    'Micrositio, One Page, sitio corporativo, tienda online, reservas e inmobiliario. Compare tipos de sitio y elija el que su negocio necesita.',
+  kicker: 'Diseño y desarrollo web',
+  intro:
+    'No todos los negocios necesitan lo mismo. Elegimos el tipo de sitio según su objetivo, su plazo y quién va a administrarlo. Así no paga por funciones que no va a usar ni se queda corto cuando el negocio crece.',
+  heroBullets: [
+    'Ocho tipos de sitio, una sola conversación',
+    'Hosting y dominio .cl el primer año',
+    'Diseño responsive y soporte directo',
+  ],
+  specs: [
+    { label: 'Tipos de sitio', value: '8 alternativas' },
+    { label: 'Plazo', value: 'Desde 24 horas' },
+    { label: 'Incluye', value: 'Hosting y dominio .cl' },
+    { label: 'Cobertura', value: 'Punta Arenas y todo Chile' },
+  ],
+  audienceTitle: '',
+  audience: [],
+  featuresTitle: '',
+  features: [],
+  processTitle: '',
+  process: [],
+  notIncludedTitle: '',
+  notIncluded: [],
+  faqs: [],
+  relatedTitle: '',
+  related: [],
+  mockup: 'onepage',
+  accent: 'cy',
+  ctaLabel: 'Cotizar mi sitio',
+  ctaHref: '/cotizador/',
+  secondaryLabel: 'Hablar por WhatsApp',
+  secondaryHref: 'https://wa.me/56954132014?text=Hola%2C%20quiero%20cotizar%20un%20sitio%20web',
+};
+
+const crumbs = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Sitios web' },
+];
+
+const icons: Record<string, string> = {
+  micrositio: 'smartphone',
+  'one-page': 'layers',
+  'sitio-corporativo': 'building',
+  'tienda-online': 'cart',
+  'eventos-y-entradas': 'ticket',
+  'reserva-de-horas': 'calendar',
+  'sitio-inmobiliario': 'home',
+  'sitio-a-medida': 'code',
+};
+
+const compare = [
+  { tipo: 'Micrositio', ideal: 'Presencia urgente', plazo: '24 horas', admin: 'No', href: '/sitios-web/micrositio/' },
+  { tipo: 'One Page', ideal: 'Servicios y profesionales', plazo: '3 a 7 días', admin: 'No', href: '/sitios-web/one-page/' },
+  { tipo: 'Corporativo', ideal: 'Empresas e instituciones', plazo: '1 a 3 semanas', admin: 'Sí', href: '/sitios-web/sitio-corporativo/' },
+  { tipo: 'Tienda online', ideal: 'Vender productos', plazo: '15 a 45 días', admin: 'Sí', href: '/sitios-web/tienda-online/' },
+  { tipo: 'Eventos y entradas', ideal: 'Vender tickets con QR', plazo: 'Según alcance', admin: 'Sí', href: '/sitios-web/eventos-y-entradas/' },
+  { tipo: 'Reserva de horas', ideal: 'Agendar servicios', plazo: 'Según alcance', admin: 'Sí', href: '/sitios-web/reserva-de-horas/' },
+  { tipo: 'Inmobiliario', ideal: 'Corredoras y propiedades', plazo: 'Según alcance', admin: 'Sí', href: '/sitios-web/sitio-inmobiliario/' },
+  { tipo: 'A medida', ideal: 'Procesos especiales', plazo: 'Según alcance', admin: 'Sí', href: '/sitios-web/sitio-a-medida/' },
+];
+
+const usps = [
+  { t: 'Hosting y dominio .cl', d: 'El primer año va incluido en los proyectos de sitio web.' },
+  { t: 'Diseño responsive', d: 'Se ve bien en celular, tablet y computador, sin versiones aparte.' },
+  { t: 'SSL y SEO básico', d: 'HTTPS, títulos, descripción y una base técnica ordenada.' },
+  { t: 'Soporte directo', d: 'Hable con quien administra el hosting y desarrolla su sitio.' },
+];
+
+const process = [
+  { n: '01', title: 'Conversamos', text: 'Nos cuenta qué necesita, a quién atiende y qué quiere lograr. Puede ser por WhatsApp o videollamada.' },
+  { n: '02', title: 'Cotice y diseñamos', text: 'Reciba una propuesta con alcance, plazo y valor. Si aprueba, diseñamos un demo navegable.' },
+  { n: '03', title: 'Publicamos', text: 'Ajustamos contenidos, probamos formularios y dejamos el dominio, el correo y el SSL funcionando.' },
+  { n: '04', title: 'Lo acompañamos', text: 'Le explicamos cómo usar el sitio y quedamos disponibles para soporte y mantención.' },
+];
+
+const faqs = [
+  {
+    q: '¿Cómo elijo el tipo de sitio que necesito?',
+    a: 'Depende de tres cosas: qué quiere lograr, en cuánto tiempo y si necesita administrar los contenidos usted mismo. Si no está seguro, escríbanos y lo orientamos sin compromiso.',
+  },
+  {
+    q: '¿Todos los sitios incluyen hosting y dominio .cl?',
+    a: 'Sí, el primer año de hosting y el dominio .cl van incluidos en los proyectos de sitio web. En proyectos de alta envergadura o ecommerce complejos, lo confirmamos en la cotización. Desde el segundo año, el dominio se renueva en NIC Chile y el hosting según el plan que elija.',
+  },
+  {
+    q: '¿Cuánto cuesta un sitio web?',
+    a: 'No publicamos un precio único porque cada proyecto tiene distinto alcance. Usamos el cotizador para ordenar lo que necesita y después enviamos una propuesta formal. El valor depende del tipo de sitio, las secciones y las funciones.',
+  },
+  {
+    q: '¿Puedo cambiar de tipo de sitio después?',
+    a: 'Sí. Muchos clientes parten con un micrositio o un One Page y después pasan a un sitio corporativo o a una tienda. El dominio y los contenidos se conservan; lo que cambia es la estructura y el desarrollo.',
+  },
+  {
+    q: '¿Trabajan fuera de Punta Arenas?',
+    a: 'Sí. Trabajamos de forma remota con todo Chile y el extranjero. Las reuniones son por videollamada y el material se envía por correo. Si está en Punta Arenas, podemos coordinar una reunión presencial según disponibilidad.',
+  },
+  {
+    q: '¿Qué necesito para cotizar?',
+    a: 'Una idea de qué quiere lograr, el rubro de su negocio y, si lo tiene, un sitio de referencia que le guste. No necesita tener los textos ni las fotos listos para cotizar.',
+  },
+  {
+    q: '¿Los sitios son administrables?',
+    a: 'El micrositio y el One Page no son administrables. El sitio corporativo, la tienda, los eventos, las reservas, el inmobiliario y el desarrollo a medida sí se entregan con panel y capacitación.',
+  },
+  {
+    q: '¿Qué pasa con la mantención?',
+    a: 'Los sitios desarrollados y alojados con nosotros incluyen mantención técnica de WordPress, plugins y plantillas, además de recuperación ante hackeos. La carga de contenidos y las funciones nuevas se cotizan aparte.',
+  },
+];
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    '@id': `${url}#coleccion`,
+    url,
+    name: hub.metaTitle,
+    description: hub.metaDescription,
+    isPartOf: { '@id': `${SITE_URL}/#web` },
+    inLanguage: 'es-CL',
+  },
+  {
+    '@type': 'ItemList',
+    itemListElement: paginasSitios.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: p.name,
+      url: `${SITE_URL}/sitios-web/${p.slug}/`,
+    })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Sitios web', item: url },
+    ],
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+---
+
+<PageLayout title={hub.metaTitle} description={hub.metaDescription} canonical={canonical} schema={schema}>
+  <PageHero page={hub} crumbs={crumbs} />
+  <TrustBand />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Elija por objetivo</span>
+        <h2 class="section-title">¿Qué tipo de sitio necesita?</h2>
+        <p class="section-lead">Cada opción resuelve un problema distinto. Si no sabe cuál elegir, parta por el objetivo y no por el nombre técnico.</p>
+      </div>
+      <div class="hub-grid">
+        {paginasSitios.map((p) => (
+          <a href={link(`/sitios-web/${p.slug}/`)} class="hub-card">
+            <span class="hub-ico"><Icon name={icons[p.slug] ?? 'layers'} cls="w-5 h-5" /></span>
+            <h3>{p.name}</h3>
+            <p>{p.intro.split('. ')[0]}.</p>
+            <div class="hub-meta">
+              {p.specs.slice(0, 2).map((s) => <span>{s.value}</span>)}
+            </div>
+            <span class="hub-more">Ver detalle <Icon name="arrow" cls="w-3.5 h-3.5" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Comparador</span>
+        <h2 class="section-title">Los ocho tipos, lado a lado</h2>
+        <p class="section-lead">Una vista rápida para descartar lo que no necesita y profundizar en lo que sí.</p>
+      </div>
+      <p class="compare-hint">En celular, deslice la tabla para ver todas las columnas.</p>
+      <div class="compare-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th scope="col">Tipo de sitio</th>
+              <th scope="col">Ideal para</th>
+              <th scope="col">Plazo</th>
+              <th scope="col">Administrable</th>
+              <th scope="col">Más información</th>
+            </tr>
+          </thead>
+          <tbody>
+            {compare.map((c) => (
+              <tr>
+                <td>{c.tipo}</td>
+                <td>{c.ideal}</td>
+                <td>{c.plazo}</td>
+                <td>{c.admin}</td>
+                <td><a href={link(c.href)} class="text-[#007a8f] dark:text-cyt font-bold underline underline-offset-2">Ver más</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Incluido en todos</span>
+        <h2 class="section-title">La base que no debería faltar</h2>
+      </div>
+      <div class="usp-row">
+        {usps.map((u) => (
+          <div class="usp">
+            <Icon name="check" cls="w-5 h-5" />
+            <div><b>{u.t}</b><span>{u.d}</span></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ProcessSteps title="Cómo trabajamos su sitio web" items={process} />
+
+  <section class="section section-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Si no sabe por dónde partir</span>
+        <h2 class="section-title">Conversemos y le decimos qué le sirve</h2>
+        <p class="section-lead">No necesita llegar con la solución decidida. Cuéntenos qué hace y qué quiere lograr; nosotros le proponemos el tipo de sitio y el alcance.</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href={link('/cotizador/')} class="btn-primary">Usar el cotizador <Icon name="arrow" cls="w-4 h-4" /></a>
+        <a href="https://calendar.app.google/W9CqbvXdKMzcAWHN8" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 border-2 border-[#007a8f]/60 dark:border-cy/60 hover:bg-cy/10 text-[#007a8f] dark:text-cyt font-display font-bold text-[.95rem] px-6 py-3.5 rounded-lg transition-colors">Agendar videollamada de 15 minutos</a>
+      </div>
+    </div>
+  </section>
+
+  <PageFaq faqs={faqs} />
+
+  <Related
+    title="Servicios que complementan su sitio"
+    items={[
+      { title: 'Hosting Global', text: 'cPanel, LiteSpeed y respaldos para su sitio WordPress.', href: '/hosting-global/' },
+      { title: 'Correo corporativo', text: 'Cuentas con su dominio configuradas y probadas.', href: '/correo-corporativo/' },
+      { title: 'Mantención web', text: 'Actualizaciones, respaldos y monitoreo después de publicar.', href: '/mantencion-web/' },
+    ]}
+  />
+
+  <CtaBand
+    primaryLabel="Cotizar mi sitio"
+    primaryHref="/cotizador/"
+    secondaryLabel="Hablar por WhatsApp"
+    secondaryHref="https://wa.me/56954132014?text=Hola%2C%20quiero%20cotizar%20un%20sitio%20web"
+  />
+</PageLayout>

@@ -1,0 +1,10 @@
+export const SITE_URL = 'https://fractalhost.cl';
+export const BORRADOR = true;
+export const WHATSAPP = 'https://wa.me/56954132014';
+export const WHATSAPP_COTIZAR = 'https://wa.me/56954132014?text=Hola%2C%20quiero%20cotizar%20un%20sitio%20web';
+export const COTIZADOR = '/cotizador/';
+export const AREA_CLIENTES = 'https://clientes.fractalhost.cl/';
+export const STORE_PLANES = 'https://clientes.fractalhost.cl/store/planes';
+export const STORE_CONOSUR = 'https://clientes.fractalhost.cl/store/enlace-nacional-patagonia-cloud-server';
+export const AGENDA = 'https://calendar.app.google/W9CqbvXdKMzcAWHN8';
+export const EMAIL = 'hola@fractalhost.cl';

@@ -1,0 +1,58 @@
+---
+import { hostingGlobal, hostingConoSur } from '../data/planes';
+
+interface Props {
+  line: 'global' | 'conosur';
+}
+const { line } = Astro.props;
+const fmt = (n: number) => '$' + Math.round(n).toLocaleString('es-CL');
+
+const groups =
+  line === 'global'
+    ? [
+        { name: 'Línea Starter', plans: hostingGlobal.starter },
+        { name: 'Línea Pro', plans: hostingGlobal.pro },
+        { name: 'Línea Master', plans: hostingGlobal.master },
+      ]
+    : [{ name: 'Planes Cono Sur', plans: hostingConoSur }];
+
+---
+
+<section class="section section-soft plan-section" id="planes">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Planes y precios</span>
+      <h2 class="section-title">Elija el plan según el tamaño de su proyecto</h2>
+      <p class="section-lead">Todos los planes incluyen SSL, correos, bases de datos, respaldos y migración gratis. Los precios son anuales y en pesos chilenos.</p>
+    </div>
+
+    {groups.map((g) => (
+      <div class="mb-10">
+        <h3 class="font-display font-extrabold text-[1.1rem] text-txt dark:text-txtd mb-4">{g.name}</h3>
+        <div class={`plan-grid${line === 'conosur' ? ' conosur' : ''}`}>
+          {g.plans.map((p) => (
+            <article class={`plan-card-host${p.feat ? ' featured' : ''}`}>
+              {p.feat && <span class="badge">Recomendado</span>}
+              <h3>{p.name}</h3>
+              <p class="desc">{p.desc}</p>
+              <div class="price">{fmt(p.base)} <small>CLP / año</small></div>
+              <p class="net">Valor líquido, sin retención (+15,25%)</p>
+              <ul>
+                <li><span>Espacio SSD</span><b>{p.gb}</b></li>
+                <li><span>Transferencia</span><b>{p.tr}</b></li>
+                <li><span>Correos</span><b>{p.mail}</b></li>
+                <li><span>Bases de datos</span><b>{p.db}</b></li>
+              </ul>
+              <a href={p.url} target="_blank" rel="noopener noreferrer">Contratar en línea</a>
+            </article>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <p class="plan-note">
+      Precios en CLP, valor líquido. Se emite Boleta de Honorarios; el impuesto legal (+15,25%) lo declara y paga su empresa directamente al SII.
+      Contratando 2 años obtiene un 6% de descuento; a 3 años, un 12%. La renovación es anual y se avisa 15 días antes del vencimiento.
+    </p>
+  </div>
+</section>

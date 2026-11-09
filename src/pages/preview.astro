@@ -1,0 +1,93 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Icon from '../components/Icon.astro';
+import { paginasSitios } from '../data/paginas-sitios';
+import { paginasServicios } from '../data/paginas-servicios';
+import { BORRADOR } from '../config';
+import { link } from '../lib/url';
+---
+
+<PageLayout
+  title="Vista previa de páginas nuevas | Fractal Host"
+  description="Índice interno para revisar las páginas de productos y servicios antes de publicarlas."
+  canonical="/preview/"
+>
+  <section class="page-hero relative overflow-hidden text-white">
+    <div class="absolute inset-0 z-0 page-hero-bg" aria-hidden="true"></div>
+    <div class="absolute inset-0 z-[1] gridlines" aria-hidden="true"></div>
+    <div class="wrap relative z-10 pt-[150px] pb-14">
+      <span class="draft-pill"><span></span> {BORRADOR ? 'Modo borrador activo' : 'Páginas publicadas'}</span>
+      <span class="kicker on-dark">Índice interno</span>
+      <h1 class="font-display font-extrabold uppercase tracking-[.01em] text-[clamp(2rem,4.4vw,3.2rem)] leading-[1.05] mt-4">
+        Vista previa de páginas nuevas
+      </h1>
+      <p class="mt-5 max-w-[700px] text-[1.05rem] leading-relaxed text-[#DCE6F0]">
+        Este índice no se publica en el menú ni en el sitemap. Sirve para revisar el hub, las ocho fichas de sitios web y las siete páginas de servicios antes de aprobarlas.
+      </p>
+      <div class="flex flex-wrap gap-3 mt-8">
+        <a href={link('/sitios-web/')} class="btn-primary">Ver hub de sitios web <Icon name="arrow" cls="w-4 h-4" /></a>
+        <a href={link('/servicios/')} class="btn-ghost">Ver hub de servicios</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Sitios web</span>
+        <h2 class="section-title">Hub y ocho fichas</h2>
+      </div>
+      <div class="hub-grid">
+        <a href={link('/sitios-web/')} class="hub-card">
+          <span class="hub-ico"><Icon name="layers" cls="w-5 h-5" /></span>
+          <h3>Hub de sitios web</h3>
+          <p>Comparador de los ocho tipos de sitio, con plazos, para quién es cada uno y enlaces a las fichas.</p>
+          <span class="hub-more">Abrir hub <Icon name="arrow" cls="w-3.5 h-3.5" /></span>
+        </a>
+        {paginasSitios.map((p) => (
+          <a href={link(`/sitios-web/${p.slug}/`)} class="hub-card">
+            <span class="hub-ico"><Icon name="file" cls="w-5 h-5" /></span>
+            <h3>{p.name}</h3>
+            <p>{p.metaDescription}</p>
+            <span class="hub-more">Abrir ficha <Icon name="arrow" cls="w-3.5 h-3.5" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Servicios</span>
+        <h2 class="section-title">Hub y siete páginas</h2>
+      </div>
+      <div class="hub-grid">
+        <a href={link('/servicios/')} class="hub-card">
+          <span class="hub-ico"><Icon name="settings" cls="w-5 h-5" /></span>
+          <h3>Hub de servicios</h3>
+          <p>Hosting, correo, mantención, seguridad, Ley 21.719 y migración en un solo lugar.</p>
+          <span class="hub-more">Abrir hub <Icon name="arrow" cls="w-3.5 h-3.5" /></span>
+        </a>
+        {paginasServicios.map((p) => (
+          <a href={link(`/${p.slug}/`)} class="hub-card">
+            <span class="hub-ico"><Icon name="file" cls="w-5 h-5" /></span>
+            <h3>{p.name}</h3>
+            <p>{p.metaDescription}</p>
+            <span class="hub-more">Abrir página <Icon name="arrow" cls="w-3.5 h-3.5" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="payment-card max-w-[780px]">
+        <h3>Cómo publicar</h3>
+        <p>Cuando las páginas estén aprobadas, cambie <code class="font-mono text-[.9em]">BORRADOR = true</code> a <code class="font-mono text-[.9em]">false</code> en <code class="font-mono text-[.9em]">src/config.ts</code>. Eso quita el <code class="font-mono text-[.9em]">noindex</code>, elimina la etiqueta de borrador y agrega las páginas al sitemap.</p>
+        <p class="mt-3">El índice <code class="font-mono text-[.9em]">/preview/</code> no se enlaza desde el sitio y no se incluye en el sitemap.</p>
+      </div>
+    </div>
+  </section>
+</PageLayout>

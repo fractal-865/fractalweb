@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+import type { Faq } from '../data/paginas-sitios';
+
+interface Props {
+  faqs: Faq[];
+  title?: string;
+}
+const { faqs, title = 'Preguntas frecuentes' } = Astro.props;
+---
+
+<section class="section section-soft" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Resolvemos sus dudas</span>
+      <h2 class="section-title">{title}</h2>
+      <p class="section-lead">Respuestas directas. Si prefiere conversarlo, escríbanos por WhatsApp o agende una videollamada de 15 minutos.</p>
+    </div>
+
+    <div class="faq-grid">
+      {faqs.map((f, i) => (
+        <details class="faq-item" open={i === 0}>
+          <summary>
+            <span>{f.q}</span>
+            <span class="faq-ico" aria-hidden="true"><Icon name="arrow" cls="w-4 h-4" /></span>
+          </summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

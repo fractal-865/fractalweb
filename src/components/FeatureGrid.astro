@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+import type { Feature } from '../data/paginas-sitios';
+
+interface Props {
+  title: string;
+  kicker?: string;
+  lead?: string;
+  items: Feature[];
+  columns?: 2 | 3 | 4;
+}
+const { title, kicker = 'Lo que recibe', lead, items, columns = 3 } = Astro.props;
+---
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">{kicker}</span>
+      <h2 class="section-title">{title}</h2>
+      {lead && <p class="section-lead">{lead}</p>}
+    </div>
+    <div class={`feature-grid cols-${columns}`}>
+      {items.map((f) => (
+        <article class="feature-card">
+          <span class="feature-ico"><Icon name={f.icon} cls="w-5 h-5" /></span>
+          <h3>{f.title}</h3>
+          <p>{f.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

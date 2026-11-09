@@ -1,0 +1,119 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import PageFaq from '../components/PageFaq.astro';
+import Related from '../components/Related.astro';
+import CtaBand from '../components/CtaBand.astro';
+import TrustBand from '../components/TrustBand.astro';
+import PlanGrid from '../components/PlanGrid.astro';
+import { paginasServicios } from '../data/paginas-servicios';
+import { SITE_URL } from '../config';
+
+export function getStaticPaths() {
+  return paginasServicios.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props;
+const canonical = `/${page.slug}/`;
+const url = `${SITE_URL}${canonical}`;
+const crumbs = [
+  { label: 'Inicio', href: '/' },
+  { label: page.kind === 'hosting' ? 'Hosting' : 'Servicios', href: '/servicios/' },
+  { label: page.name },
+];
+
+const schema = [
+  {
+    '@type': 'Service',
+    '@id': `${url}#servicio`,
+    name: page.name,
+    description: page.metaDescription,
+    serviceType: page.name,
+    provider: { '@id': `${SITE_URL}/#negocio` },
+    areaServed: [
+      { '@type': 'City', name: 'Punta Arenas' },
+      { '@type': 'Country', name: 'Chile' },
+    ],
+    url,
+    inLanguage: 'es-CL',
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Servicios', item: `${SITE_URL}/servicios/` },
+      { '@type': 'ListItem', position: 3, name: page.name, item: url },
+    ],
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: page.faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@type': 'WebPage',
+    '@id': `${url}#pagina`,
+    url,
+    name: page.metaTitle,
+    description: page.metaDescription,
+    isPartOf: { '@id': `${SITE_URL}/#web` },
+    inLanguage: 'es-CL',
+    about: { '@id': `${url}#servicio` },
+  },
+];
+---
+
+<PageLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  canonical={canonical}
+  schema={schema}
+>
+  <PageHero page={page} crumbs={crumbs} />
+  <TrustBand />
+
+  <FeatureGrid
+    title={page.audienceTitle}
+    kicker="Para quién es"
+    items={page.audience}
+    columns={3}
+  />
+
+  <FeatureGrid
+    title={page.featuresTitle}
+    kicker="Lo que incluye"
+    items={page.features}
+    columns={3}
+  />
+
+  {page.host && <PlanGrid line={page.host} />}
+
+  <ProcessSteps title={page.processTitle} items={page.process} />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="not-included">
+        <h3>{page.notIncludedTitle}</h3>
+        <ul>
+          {page.notIncluded.map((n) => <li>{n}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <PageFaq faqs={page.faqs} />
+
+  <Related title={page.relatedTitle} items={page.related} />
+
+  <CtaBand
+    primaryLabel={page.ctaLabel}
+    primaryHref={page.ctaHref}
+    secondaryLabel={page.secondaryLabel}
+    secondaryHref={page.secondaryHref}
+  />
+</PageLayout>
