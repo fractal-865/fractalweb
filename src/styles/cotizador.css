@@ -414,6 +414,42 @@ body.cookies-open #cotPct { bottom: 130px; }
 .sf-input-icon .cot-input { padding-left: 2.75rem; }
 .sf-help { margin: .35rem 0 0; font-size: .72rem; color: var(--color-mut); }
 .dark .sf-help { color: var(--color-mutd); }
+.sf-help--tight { margin-top: .15rem; }
+
+/* ---------- Tipos de sitio ---------- */
+.sf-types { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; margin-top: .6rem; }
+.sf-type { display: block; cursor: pointer; }
+.sf-type__inner {
+  display: flex; flex-direction: column; gap: .1rem; height: 100%;
+  padding: .65rem .8rem; border: 1px solid var(--color-line); border-radius: .7rem;
+  background: var(--color-input); color: var(--color-txt);
+  transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+}
+.dark .sf-type__inner { background: var(--color-inputd); border-color: var(--color-lined); color: var(--color-txtd); }
+.sf-type__name { font-weight: 700; font-size: .8rem; line-height: 1.25; }
+.sf-type__desc { font-size: .68rem; line-height: 1.35; color: var(--color-mut); }
+.dark .sf-type__desc { color: var(--color-mutd); }
+.sf-type:hover .sf-type__inner { border-color: var(--color-cydeep); }
+.sf-type input:checked + .sf-type__inner {
+  border-color: var(--color-yel); background: rgba(255,230,0,.10);
+  box-shadow: 0 6px 16px rgba(255,230,0,.10);
+}
+.dark .sf-type input:checked + .sf-type__inner { background: rgba(255,230,0,.08); }
+.sf-type input:focus-visible + .sf-type__inner { outline: 3px solid var(--color-cy); outline-offset: 2px; }
+.sf-type--wide { grid-column: 1 / -1; }
+.sf-type--wide .sf-type__inner { flex-direction: row; align-items: center; justify-content: space-between; gap: 1rem; }
+
+/* ---------- Contador de teléfono ---------- */
+.sf-counter { margin: .3rem 0 0; font-size: .72rem; line-height: 1.4; color: var(--color-mut); }
+.dark .sf-counter { color: var(--color-mutd); }
+.sf-counter.is-complete { color: #0f7a3d; font-weight: 600; }
+.dark .sf-counter.is-complete { color: #22e6a8; }
+
+@media (max-width: 380px) {
+  .sf-types { grid-template-columns: 1fr; }
+  .sf-type--wide { grid-column: auto; }
+  .sf-type--wide .sf-type__inner { flex-direction: column; align-items: flex-start; gap: .1rem; }
+}
 #sfTipoWrap, #sfSiteUrlWrap { animation: cotFade .3s ease both; }
 
 /* ---------- Consentimiento de datos ---------- */

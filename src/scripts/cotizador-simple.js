@@ -88,12 +88,13 @@
   var mensaje = $('sfMensaje');
   var website = $('sfWebsite');
   var tipoWrap = $('sfTipoWrap');
-  var tipoSitio = $('sfTipoSitio');
+  var radiosTipo = Array.prototype.slice.call(form.querySelectorAll('input[name="sfTipoSitio"]'));
   var siteUrlWrap = $('sfSiteUrlWrap');
   var siteUrl = $('sfSiteUrl');
   var privacidad = $('sfPrivacidad');
   var actions = $('sfActions');
   var waSubmit = $('sfWhatsAppSubmit');
+  var fonoHint = $('sfFonoHint');
   var submit = $('sfSubmit');
   var success = $('sfSuccess');
   var successTitle = $('sfSuccessTitle');
@@ -131,18 +132,51 @@
     return el ? el.value : '';
   }
 
+  function tipoElegido(){
+    var el = form.querySelector('input[name="sfTipoSitio"]:checked');
+    return el ? el.value : '';
+  }
+
   function telefonoDigitos(){
-    return String(fono.value || '').replace(/\D/g, '');
+    var d = String(fono.value || '').replace(/\D/g, '');
+    if (d.indexOf('56') === 0 && d.length > 9) d = d.slice(2);
+    return d.slice(0, 9);
   }
 
   function telefonoValido(){
-    var d = telefonoDigitos();
-    return d.length >= 8 && d.length <= 12;
+    return telefonoDigitos().length === 9;
   }
 
   function telefonoOpcionalValido(){
     var d = telefonoDigitos();
-    return d.length === 0 || (d.length >= 8 && d.length <= 12);
+    return d.length === 0 || d.length === 9;
+  }
+
+  function limpiarEntradaFono(){
+    var raw = fono.value;
+    var rawDigitos = raw.replace(/\D/g, '');
+    var d = rawDigitos;
+    if (d.indexOf('56') === 0 && d.length > 9) d = d.slice(2);
+    if (d.length > 9) d = d.slice(0, 9);
+    if (/[^\d\s]/.test(raw) || d.length !== rawDigitos.length) fono.value = d;
+  }
+
+  function actualizarFonoHint(){
+    if (!fonoHint) return;
+    var d = telefonoDigitos();
+    if (!fono.value.trim()) {
+      fonoHint.textContent = '9 dígitos después de +56';
+      fonoHint.classList.remove('is-complete');
+      return;
+    }
+    if (d.length === 9) {
+      fonoHint.textContent = '✓ Número completo';
+      fonoHint.classList.add('is-complete');
+    } else {
+      var faltan = 9 - d.length;
+      fonoHint.textContent = 'Faltan ' + faltan + (faltan === 1 ? ' dígito' : ' dígitos');
+      fonoHint.classList.remove('is-complete');
+    }
   }
 
   function actualizarSplit(){
@@ -179,19 +213,26 @@
     siteUrlWrap.hidden = !esUrl;
 
     if (esUrl && !siteUrl.value.trim()) siteUrl.value = 'https://';
-    if (!esNuevo) limpiarError('sfErrTipo', tipoSitio);
+    if (!esNuevo) limpiarError('sfErrTipo', null);
     if (!esUrl) limpiarError('sfErrSiteUrl', siteUrl);
   }
 
   fono.addEventListener('input', function(){
+    limpiarEntradaFono();
     limpiarError('sfErrFono', fono);
+    actualizarFonoHint();
     actualizarSplit();
   });
-  fono.addEventListener('change', actualizarSplit);
+  fono.addEventListener('change', function(){
+    actualizarFonoHint();
+    actualizarSplit();
+  });
 
   nombre.addEventListener('input', function(){ limpiarError('sfErrNombre', nombre); });
   mail.addEventListener('input', function(){ limpiarError('sfErrMail', mail); });
-  tipoSitio.addEventListener('change', function(){ limpiarError('sfErrTipo', tipoSitio); });
+  radiosTipo.forEach(function(r){
+    r.addEventListener('change', function(){ limpiarError('sfErrTipo', null); });
+  });
   privacidad.addEventListener('change', function(){ limpiarError('sfErrPrivacidad', privacidad); });
 
   siteUrl.addEventListener('input', function(){ limpiarError('sfErrSiteUrl', siteUrl); });
@@ -222,7 +263,7 @@
     limpiarError('sfErrFono', fono);
     limpiarError('sfErrMail', mail);
     limpiarError('sfErrGoal', null);
-    limpiarError('sfErrTipo', tipoSitio);
+    limpiarError('sfErrTipo', null);
     limpiarError('sfErrSiteUrl', siteUrl);
     limpiarError('sfErrPrivacidad', privacidad);
 
@@ -252,9 +293,9 @@
       ok = false;
     }
 
-    if (objetivo === 'Sitio web nuevo' && !tipoSitio.value) {
-      marcarError('sfErrTipo', tipoSitio);
-      if (!primero) primero = tipoSitio;
+    if (objetivo === 'Sitio web nuevo' && !tipoElegido()) {
+      marcarError('sfErrTipo', null);
+      if (!primero) primero = radiosTipo[0];
       ok = false;
     }
 
@@ -287,12 +328,13 @@
     var objetivo = objetivoElegido();
     var esNuevo = objetivo === 'Sitio web nuevo';
     var esUrl = objetivo === 'Rediseño de sitio web' || objetivo === 'Mantención web';
+    var tel = telefonoDigitos();
     return {
       nombre: nombre.value.trim(),
-      fono: fono.value.trim(),
+      fono: tel ? '+56 ' + tel : '',
       mail: mail.value.trim(),
       objetivo: objetivo,
-      tipo: esNuevo ? tipoSitio.value : '',
+      tipo: esNuevo ? tipoElegido() : '',
       url: esUrl ? normalizarUrl(siteUrl.value) : '',
       mensaje: mensaje.value.trim()
     };
@@ -426,7 +468,7 @@
     ['sfErrNombre','sfErrFono','sfErrMail','sfErrGoal','sfErrTipo','sfErrSiteUrl','sfErrPrivacidad'].forEach(function(id){
       var el = $(id); if (el) el.hidden = true;
     });
-    [nombre, fono, mail, tipoSitio, siteUrl, privacidad].forEach(function(el){
+    [nombre, fono, mail, siteUrl, privacidad].forEach(function(el){
       el.removeAttribute('aria-invalid');
       el.classList.remove('cot-field-err');
     });
@@ -435,9 +477,10 @@
   });
 
   actualizarSplit();
+  actualizarFonoHint();
   actualizarCondicionales();
 
   waLink.addEventListener('click', function(){
-    track('cotizador_simple_whatsapp', { goal: objetivoElegido(), tipo_sitio: tipoSitio.value || 'no aplica' });
+    track('cotizador_simple_whatsapp', { goal: objetivoElegido(), tipo_sitio: tipoElegido() || 'no aplica' });
   });
 })();

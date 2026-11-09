@@ -85,11 +85,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
               </div>
               <div>
                 <label class="sf-label" for="sfFono">Teléfono o WhatsApp <span class="sf-opt">(opcional)</span></label>
-                <div class="sf-input-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.9.3 1.9.6 2.9.7a2 2 0 011.7 2z"/></svg>
-                  <input id="sfFono" name="telefono" type="tel" inputmode="tel" maxlength="18" class="cot-input" placeholder="+56 9 1234 5678" autocomplete="tel" aria-describedby="sfErrFono" />
+                <div class="cot-fono">
+                  <span class="cot-prefix">+56</span>
+                  <input id="sfFono" name="telefono" type="tel" inputmode="tel" maxlength="16" class="cot-input" placeholder="9 1234 5678" autocomplete="tel-national" aria-describedby="sfFonoHint sfErrFono" />
                 </div>
-                <p id="sfErrFono" class="cot-err" hidden>Escribe un teléfono válido (8 a 12 dígitos).</p>
+                <p id="sfFonoHint" class="sf-counter">9 dígitos después de +56</p>
+                <p id="sfErrFono" class="cot-err" hidden>Escribe los 9 dígitos después de +56.</p>
               </div>
               <div class="sm:col-span-2">
                 <label class="sf-label" for="sfMail">Correo electrónico <span class="sf-req">*</span></label>
@@ -130,16 +131,68 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             </fieldset>
 
             <div id="sfTipoWrap" class="mt-6" hidden>
-              <label class="sf-label" for="sfTipoSitio">¿Qué tipo de sitio necesitas? <span class="sf-req">*</span></label>
-              <select id="sfTipoSitio" name="tipo_sitio" class="cot-select" aria-describedby="sfErrTipo">
-                <option value="" selected>Selecciona una opción</option>
-                <option value="One Page">One Page (una página)</option>
-                <option value="Sitio informativo">Sitio informativo (varias secciones)</option>
-                <option value="Tienda online">Tienda online</option>
-                <option value="Reservas / horas">Reservas / horas</option>
-                <option value="A medida">A medida</option>
-                <option value="No estoy seguro">No estoy seguro</option>
-              </select>
+              <fieldset aria-describedby="sfErrTipo">
+                <legend class="sf-label">¿Qué tipo de sitio necesitas? <span class="sf-req">*</span></legend>
+                <p class="sf-help sf-help--tight">Elige la opción que más se parezca. Si no estás seguro, marca la última.</p>
+                <div class="sf-types">
+                  <label class="sf-type">
+                    <input class="sr-only" type="radio" name="sfTipoSitio" value="One Page o micrositio" />
+                    <span class="sf-type__inner">
+                      <span class="sf-type__name">One Page o micrositio</span>
+                      <span class="sf-type__desc">Tarjeta digital o Linktree</span>
+                    </span>
+                  </label>
+                  <label class="sf-type">
+                    <input class="sr-only" type="radio" name="sfTipoSitio" value="Sitio informativo o corporativo" />
+                    <span class="sf-type__inner">
+                      <span class="sf-type__name">Sitio informativo o corporativo</span>
+                      <span class="sf-type__desc">Presenta tu empresa y servicios</span>
+                    </span>
+                  </label>
+                  <label class="sf-type">
+                    <input class="sr-only" type="radio" name="sfTipoSitio" value="Turismo, reservas y horas" />
+                    <span class="sf-type__inner">
+                      <span class="sf-type__name">Turismo, reservas y horas</span>
+                      <span class="sf-type__desc">Tours, cupos y agenda</span>
+                    </span>
+                  </label>
+                  <label class="sf-type">
+                    <input class="sr-only" type="radio" name="sfTipoSitio" value="Clínica o dentista" />
+                    <span class="sf-type__inner">
+                      <span class="sf-type__name">Clínica o dentista</span>
+                      <span class="sf-type__desc">Horas, tratamientos y especialidades</span>
+                    </span>
+                  </label>
+                  <label class="sf-type">
+                    <input class="sr-only" type="radio" name="sfTipoSitio" value="Inmobiliaria" />
+                    <span class="sf-type__inner">
+                      <span class="sf-type__name">Inmobiliaria</span>
+                      <span class="sf-type__desc">Propiedades, fichas y contacto</span>
+                    </span>
+                  </label>
+                  <label class="sf-type">
+                    <input class="sr-only" type="radio" name="sfTipoSitio" value="Tienda online" />
+                    <span class="sf-type__inner">
+                      <span class="sf-type__name">Tienda online</span>
+                      <span class="sf-type__desc">Catálogo, carrito y pagos</span>
+                    </span>
+                  </label>
+                  <label class="sf-type">
+                    <input class="sr-only" type="radio" name="sfTipoSitio" value="A medida" />
+                    <span class="sf-type__inner">
+                      <span class="sf-type__name">A medida</span>
+                      <span class="sf-type__desc">Proyecto especial</span>
+                    </span>
+                  </label>
+                  <label class="sf-type">
+                    <input class="sr-only" type="radio" name="sfTipoSitio" value="No estoy seguro" />
+                    <span class="sf-type__inner">
+                      <span class="sf-type__name">No estoy seguro</span>
+                      <span class="sf-type__desc">Te ayudamos a elegir</span>
+                    </span>
+                  </label>
+                </div>
+              </fieldset>
               <p id="sfErrTipo" class="cot-err" hidden>Elige el tipo de sitio o “No estoy seguro”.</p>
             </div>
 
