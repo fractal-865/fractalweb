@@ -792,6 +792,9 @@
     <!-- reiniciar -->
     <div class="text-center mt-8">
       <button id="resetBtn" class="text-xs text-slate-500 hover:text-fh-cyan transition underline underline-offset-4">↺ Reiniciar checklist</button>
+      <div class="mt-3">
+        <button type="button" id="migCookiePrefs" class="text-[11px] text-slate-500 hover:text-fh-cyan transition underline underline-offset-4">Preferencias de cookies</button>
+      </div>
     </div>
 
     <!-- panel de éxito -->
@@ -1798,6 +1801,114 @@
   updateSchedule();
   updateReadyLink();
   updateProgress();
+})();
+</script>
+<style>
+  #migCookieBanner{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9999;width:calc(100% - 24px);max-width:960px;background:#0B1220;border:1px solid rgba(0,210,255,.35);border-radius:16px;padding:18px 20px;box-shadow:0 24px 60px rgba(0,0,0,.55);color:#E6F0F7;font-family:Poppins,system-ui,sans-serif;font-size:14px;line-height:1.55}
+  #migCookieBanner[hidden]{display:none}
+  #migCookieBanner p{margin:0 0 12px}
+  #migCookieBanner b{color:#00D2FF}
+  .mig-cb-actions{display:flex;flex-wrap:wrap;gap:8px}
+  .mig-cb-btn{border:1px solid rgba(0,210,255,.45);background:transparent;color:#E6F0F7;border-radius:999px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer;min-height:40px}
+  .mig-cb-btn:hover{border-color:#00D2FF;color:#00D2FF}
+  .mig-cb-btn--primary{background:#00D2FF;border-color:#00D2FF;color:#0B1220}
+  .mig-cb-btn--primary:hover{background:#7DE9FF;color:#0B1220}
+  #migCbPanel{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);display:grid;gap:8px}
+  #migCbPanel[hidden]{display:none}
+  #migCbPanel label{display:flex;align-items:center;gap:8px;font-size:13px;color:#CBD5E1}
+  #migCbPanel input{accent-color:#00D2FF;width:16px;height:16px}
+  @media(max-width:640px){#migCookieBanner{bottom:0;width:100%;border-radius:16px 16px 0 0;padding:16px}.mig-cb-btn{flex:1 1 auto;justify-content:center}}
+</style>
+<div id="migCookieBanner" role="dialog" aria-label="Preferencias de cookies" hidden>
+  <p><b>Cookies.</b> Usamos cookies propias y de terceros: funcionales (siempre activas), analíticas (medición anónima) y marketing (chat de atención). Puedes aceptar todas o solo las funcionales.</p>
+  <div class="mig-cb-actions">
+    <button type="button" class="mig-cb-btn mig-cb-btn--primary" id="migCbAll">Aceptar todo</button>
+    <button type="button" class="mig-cb-btn" id="migCbOnly">Solo funcionales</button>
+    <button type="button" class="mig-cb-btn" id="migCbCfg" aria-expanded="false" aria-controls="migCbPanel">Configurar</button>
+  </div>
+  <div id="migCbPanel" hidden>
+    <label><input type="checkbox" checked disabled> Funcionales (siempre activas)</label>
+    <label><input type="checkbox" id="migCbAnalytics"> Analíticas</label>
+    <label><input type="checkbox" id="migCbMarketing"> Marketing y chat</label>
+    <div><button type="button" class="mig-cb-btn mig-cb-btn--primary" id="migCbSave">Guardar preferencias</button></div>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY = 'fh-cookie-consent';
+  var banner = document.getElementById('migCookieBanner');
+  var panel = document.getElementById('migCbPanel');
+  var cfg = document.getElementById('migCbCfg');
+  var cbAnalytics = document.getElementById('migCbAnalytics');
+  var cbMarketing = document.getElementById('migCbMarketing');
+  function get(){ try { return JSON.parse(localStorage.getItem(KEY)); } catch(e){ return null; } }
+  function set(c){ try { localStorage.setItem(KEY, JSON.stringify(c)); } catch(e){} }
+  function loadAnalytics(){
+    if (window.__fhGA) return; window.__fhGA = true;
+    var s = document.createElement('script'); s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-1MBLJ8PHGD';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', 'G-1MBLJ8PHGD');
+  }
+  function loadMarketing(){
+    if (window.__fhBP) return; window.__fhBP = true;
+    var a = document.createElement('script'); a.async = false;
+    a.src = 'https://cdn.botpress.cloud/webchat/v5.0/inject.js';
+    var b = document.createElement('script'); b.async = false;
+    b.src = 'https://files.bpcontent.cloud/2026/08/28/13/20260828134040-5CULTYOO.js';
+    document.head.appendChild(a); document.head.appendChild(b);
+  }
+  var GESTOS = ['pointerdown', 'keydown', 'touchstart', 'wheel', 'scroll'];
+  function scheduleMarketing(){
+    if (window.__fhBPq) return; window.__fhBPq = true;
+    var lanzado = false;
+    var lanzar = function(){
+      if (lanzado) return; lanzado = true;
+      GESTOS.forEach(function(e){ window.removeEventListener(e, lanzar); });
+      loadMarketing();
+    };
+    GESTOS.forEach(function(e){ window.addEventListener(e, lanzar, { passive: true }); });
+    setTimeout(lanzar, 30000);
+  }
+  function apply(c, inmediato){
+    if (c.analytics) loadAnalytics();
+    if (c.marketing) { if (inmediato) loadMarketing(); else scheduleMarketing(); }
+  }
+  function show(){ banner.hidden = false; }
+  function hide(){ banner.hidden = true; }
+  function save(c){ set(c); apply(c, true); hide(); }
+  var saved = get();
+  if (saved) { apply(saved); } else { show(); }
+  document.getElementById('migCbAll').addEventListener('click', function(){
+    save({ functional: true, analytics: true, marketing: true });
+  });
+  document.getElementById('migCbOnly').addEventListener('click', function(){
+    save({ functional: true, analytics: false, marketing: false });
+  });
+  document.getElementById('migCbSave').addEventListener('click', function(){
+    save({ functional: true, analytics: !!(cbAnalytics && cbAnalytics.checked), marketing: !!(cbMarketing && cbMarketing.checked) });
+  });
+  cfg.addEventListener('click', function(){
+    var abrir = panel.hidden;
+    if (abrir) {
+      var c = get() || {};
+      cbAnalytics.checked = !!c.analytics;
+      cbMarketing.checked = !!c.marketing;
+    }
+    panel.hidden = !abrir;
+    cfg.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+  });
+  document.getElementById('migCookiePrefs').addEventListener('click', function(){
+    var c = get() || {};
+    cbAnalytics.checked = !!c.analytics;
+    cbMarketing.checked = !!c.marketing;
+    panel.hidden = false;
+    cfg.setAttribute('aria-expanded', 'true');
+    show();
+  });
 })();
 </script>
 </body>
