@@ -6236,6 +6236,183 @@
           "placement": "after-introduction-before-first-h2"
         }
       ]
+    },
+    {
+      "id": 30,
+      "status": "draft",
+      "publicationOrder": 0,
+      "language": "es-CL",
+      "timezone": "America/Punta_Arenas",
+      "title": "Falla crítica en PHP: qué pasó y cómo está protegido tu sitio",
+      "slug": "falla-critica-php-2026-chile-proteger-sitio-web",
+      "path": "/noticias/falla-critica-php-2026-chile-proteger-sitio-web",
+      "canonical": "https://fractalhost.cl/noticias/falla-critica-php-2026-chile-proteger-sitio-web",
+      "category": "Diseño web y UX",
+      "searchIntent": "informational",
+      "primaryKeyword": "falla de seguridad PHP",
+      "secondaryKeywords": [
+        "vulnerabilidad PHP 2026 chile",
+        "actualizar PHP",
+        "seguridad sitio web WordPress",
+        "hosting seguro Chile",
+        "sitio web hackeado"
+      ],
+      "seoTitle": "Falla crítica en PHP 2026 en Chile: tu sitio en Fractal Host ya está protegido",
+      "metaDescription": "El 21 de octubre se publicó una actualización de emergencia para dos fallas críticas de PHP. Los servidores de Fractal Host ya están protegidos. Te contamos qué pasó.",
+      "excerpt": "El 21 de octubre de 2026 se publicó una actualización de emergencia para dos fallas críticas de PHP. Los servidores de Fractal Host ya están protegidos. Esto es lo que pasó.",
+      "author": {
+        "type": "Organization",
+        "name": "Fractal Host",
+        "url": "https://fractalhost.cl/"
+      },
+      "datePublished": null,
+      "dateModified": null,
+      "preparedAt": "2026-11-09",
+      "robotsDraft": "noindex,nofollow",
+      "robotsPublished": "index,follow,max-image-preview:large",
+      "cover": {
+        "source": "public/imagenes/noticias/falla-critica-php-2026-chile-proteger-sitio-web.avif",
+        "url": "https://fractalhost.cl/imagenes/noticias/falla-critica-php-2026-chile-proteger-sitio-web.avif",
+        "path": "/imagenes/noticias/falla-critica-php-2026-chile-proteger-sitio-web.avif",
+        "alt": "Portada: Falla crítica en PHP 2026 y cómo Fractal Host protegió los servidores.",
+        "width": 1672,
+        "height": 941,
+        "mimeType": "image/avif",
+        "originalFile": "Falla-critica-php-chile-2026.png"
+      },
+      "openGraph": {
+        "type": "article",
+        "locale": "es_CL",
+        "siteName": "Fractal Host",
+        "title": "Falla crítica en PHP 2026 en Chile: tu sitio en Fractal Host ya está protegido",
+        "description": "El 21 de octubre se publicó una actualización de emergencia para dos fallas críticas de PHP. Los servidores de Fractal Host ya están protegidos. Te contamos qué pasó.",
+        "url": "https://fractalhost.cl/noticias/falla-critica-php-2026-chile-proteger-sitio-web",
+        "image": "https://fractalhost.cl/imagenes/noticias/og/falla-critica-php-2026-chile-proteger-sitio-web.jpg",
+        "imageAlt": "Portada: Falla crítica en PHP 2026 y cómo Fractal Host protegió los servidores.",
+        "imageWidth": 1200,
+        "imageHeight": 675
+      },
+      "twitter": {
+        "card": "summary_large_image",
+        "title": "Falla crítica en PHP 2026 en Chile: tu sitio en Fractal Host ya está protegido",
+        "description": "El 21 de octubre se publicó una actualización de emergencia para dos fallas críticas de PHP. Los servidores de Fractal Host ya están protegidos. Te contamos qué pasó.",
+        "image": "https://fractalhost.cl/imagenes/noticias/og/falla-critica-php-2026-chile-proteger-sitio-web.jpg",
+        "imageAlt": "Portada: Falla crítica en PHP 2026 y cómo Fractal Host protegió los servidores."
+      },
+      "headings": [
+        {
+          "level": 2,
+          "text": "Qué hicimos en Fractal Host"
+        },
+        {
+          "level": 2,
+          "text": "¿Qué pasa si mi sitio está en otro proveedor?"
+        },
+        {
+          "level": 2,
+          "text": "Si tu sitio lo creamos nosotros"
+        },
+        {
+          "level": 2,
+          "text": "Una buena práctica que siempre vale"
+        },
+        {
+          "level": 2,
+          "text": "¿Tienes dudas sobre la seguridad de tu sitio?"
+        }
+      ],
+      "faq": [
+        {
+          "question": "¿Tengo que hacer algo si mi sitio está alojado en Fractal Host?",
+          "answer": "No. Los servidores ya están actualizados y protegidos. Tu sitio sigue funcionando con la misma versión de PHP y la misma configuración."
+        },
+        {
+          "question": "¿Qué pasa si mi sitio está en otro proveedor?",
+          "answer": "Pregunta qué versión de PHP usa tu servidor y si ya aplicó la corrección. Si no lo sabes, escríbenos y lo revisamos contigo."
+        },
+        {
+          "question": "¿Qué hago si mi sitio ya fue hackeado?",
+          "answer": "Escríbenos. Revisamos el caso, desinfectamos el sitio y lo dejamos protegido. Si aparece marcado como peligroso, también gestionamos la revisión."
+        }
+      ],
+      "related": [
+        {
+          "id": 22,
+          "path": "/noticias/sitio-web-hackeado-punta-arenas",
+          "label": "Sitio web hackeado en Punta Arenas: qué hacer"
+        },
+        {
+          "id": 10,
+          "path": "/noticias/hosting-para-wordpress",
+          "label": "Hosting para WordPress: qué necesita tu sitio"
+        },
+        {
+          "id": 3,
+          "path": "/noticias/mantencion-de-sitios-web-en-punta-arenas",
+          "label": "Mantención de sitios web en Punta Arenas: qué incluye"
+        }
+      ],
+      "sourceIds": [
+        "seguridad"
+      ],
+      "contentFile": "articulos/falla-critica-php-2026-chile-proteger-sitio-web.md",
+      "seoFile": "seo/falla-critica-php-2026-chile-proteger-sitio-web.json",
+      "structuredData": {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Falla crítica en PHP: qué pasó y cómo está protegido tu sitio",
+        "description": "El 21 de octubre se publicó una actualización de emergencia para dos fallas críticas de PHP. Los servidores de Fractal Host ya están protegidos. Te contamos qué pasó.",
+        "inLanguage": "es-CL",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://fractalhost.cl/noticias/falla-critica-php-2026-chile-proteger-sitio-web"
+        },
+        "url": "https://fractalhost.cl/noticias/falla-critica-php-2026-chile-proteger-sitio-web",
+        "image": [
+          {
+            "@type": "ImageObject",
+            "url": "https://fractalhost.cl/imagenes/noticias/og/falla-critica-php-2026-chile-proteger-sitio-web.jpg",
+            "width": 1200,
+            "height": 675
+          },
+          {
+            "@type": "ImageObject",
+            "url": "https://fractalhost.cl/imagenes/noticias/internas/og/falla-critica-php-2026-chile-proteger-sitio-web-explicacion.jpg",
+            "width": 1200,
+            "height": 675,
+            "caption": "Primero se detecta la falla, luego se actualiza PHP y finalmente se verifica cada servidor."
+          }
+        ],
+        "author": {
+          "@type": "Organization",
+          "name": "Fractal Host",
+          "url": "https://fractalhost.cl/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://fractalhost.cl/#organization",
+          "name": "Fractal Host",
+          "url": "https://fractalhost.cl/"
+        },
+        "articleSection": "Diseño web y UX"
+      },
+      "wordCount": 470,
+      "markdown": "# Falla crítica en PHP: qué pasó y cómo está protegido tu sitio\n\nEl 21 de octubre de 2026 se publicó una actualización de seguridad de emergencia para dos vulnerabilidades críticas de PHP, el lenguaje que hace funcionar a la mayoría de los sitios de internet, incluido WordPress. Afectaban a prácticamente todas las versiones en uso y, en un servidor sin actualizar, podían permitir que un atacante ejecutara código sin necesitar ninguna contraseña.\n\nEn simple: era una puerta abierta. Y tras el anuncio, se registraron millones de intentos de aprovecharla en todo el mundo.\n\n![Esquema de protección del servidor: detectar la falla, actualizar PHP y verificar la corrección.](/imagenes/noticias/internas/falla-critica-php-2026-chile-proteger-sitio-web-explicacion.avif)\n\n*Primero se detecta la falla, luego se actualiza PHP y finalmente se verifica cada servidor.*\n\n## Qué hicimos en Fractal Host\n\nLos servidores donde está alojado tu sitio ya están actualizados y protegidos. Usamos PHP 8.5 en su versión corregida, y el trabajo no se limitó a instalar el parche:\n\n- Se aplicaron medidas preventivas mientras salían las correcciones oficiales.\n- Se activaron reglas en el firewall de aplicaciones web para bloquear intentos de explotación.\n- Se instalaron las versiones corregidas de PHP, incluidas las más antiguas, y se actualizó el panel de control.\n- Se reiniciaron los procesos de PHP para que todos los sitios corran ya con el código corregido.\n- Se verificó servidor por servidor que la corrección estuviera en cada paquete.\n\nSi tu sitio está con nosotros, no tienes que hacer nada. Sigue funcionando con normalidad, con la misma versión de PHP y la misma configuración.\n\nEsa es la diferencia de hablar con quien administra tu hosting: cuando aparece una falla así, se resuelve rápido y se te explica en simple.\n\n## ¿Qué pasa si mi sitio está en otro proveedor?\n\nPregúntale a tu proveedor qué versión de PHP usa tu servidor y si ya aplicó la corrección. Los servidores que no se actualizaron son el blanco de los ataques que siguieron al anuncio, aunque el sitio en sí esté impecable.\n\nSi no sabes cómo averiguarlo, escríbenos y lo revisamos contigo. Si tu sitio ya fue hackeado o aparece marcado como peligroso, podemos desinfectarlo y dejarlo protegido. Y si prefieres cambiarte, migramos tu sitio y tus correos sin costo y sin cortes de servicio.\n\n## Si tu sitio lo creamos nosotros\n\nSi desarrollamos tu sitio y lo mantienes alojado con nosotros, cualquier problema de seguridad lo solucionamos sin costo adicional. Si tu sitio se cae o se comporta raro, también lo revisamos.\n\n## Una buena práctica que siempre vale\n\nUn servidor protegido no basta si WordPress, los plugins o los temas están desactualizados. Son otra puerta de entrada. Mantenerlos al día, y usar una versión de PHP con soporte vigente, es lo que más reduce el riesgo.\n\n## ¿Tienes dudas sobre la seguridad de tu sitio?\n\nAgenda una videollamada de 15 minutos y revisamos tu caso, sin que necesites entender de tecnología.\n\n- Videollamada: [Agendar una videollamada](https://calendar.app.google/W9CqbvXdKMzcAWHN8)\n- WhatsApp: [+56 9 5413 2014](https://wa.me/56954132014)\n- Correo: [hola@fractalhost.cl](mailto:hola@fractalhost.cl)\n",
+      "internalImages": [
+        {
+          "role": "explanatory",
+          "title": "Detectar, actualizar y verificar",
+          "source": "src/assets/noticias/internas/falla-critica-php-2026-chile-proteger-sitio-web-explicacion.avif",
+          "path": "/imagenes/noticias/internas/falla-critica-php-2026-chile-proteger-sitio-web-explicacion.avif",
+          "url": "https://fractalhost.cl/imagenes/noticias/internas/falla-critica-php-2026-chile-proteger-sitio-web-explicacion.avif",
+          "alt": "Esquema de protección del servidor: detectar la falla, actualizar PHP y verificar la corrección.",
+          "caption": "Primero se detecta la falla, luego se actualiza PHP y finalmente se verifica cada servidor.",
+          "width": 1672,
+          "height": 941,
+          "mimeType": "image/avif",
+          "placement": "after-introduction-before-first-h2"
+        }
+      ]
     }
   ]
 }

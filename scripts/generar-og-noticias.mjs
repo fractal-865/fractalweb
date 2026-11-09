@@ -21,19 +21,30 @@ const render = async (input, output) => {
     .toFile(output);
 };
 
+const firstExisting = (base, name) => {
+  for (const ext of ['avif', 'png', 'jpg', 'jpeg', 'webp']) {
+    const candidate = path.join(base, `${name}.${ext}`);
+    if (fs.existsSync(candidate)) return candidate;
+  }
+  return null;
+};
+
 let covers = 0;
 let internals = 0;
 for (const article of data.articles) {
-  const coverInput = path.join(root, 'src/assets/noticias/portadas', `${article.slug}.png`);
+  const coverInput = firstExisting(path.join(root, 'src/assets/noticias/portadas'), article.slug);
   const coverOutput = path.join(outCovers, `${article.slug}.jpg`);
-  if (fs.existsSync(coverInput)) {
+  if (coverInput) {
     await render(coverInput, coverOutput);
     covers += 1;
   }
 
-  const internalInput = path.join(root, 'src/assets/noticias/internas', `${article.slug}-explicacion.png`);
+  const internalInput = firstExisting(
+    path.join(root, 'src/assets/noticias/internas'),
+    `${article.slug}-explicacion`
+  );
   const internalOutput = path.join(outInternals, `${article.slug}-explicacion.jpg`);
-  if (fs.existsSync(internalInput)) {
+  if (internalInput) {
     await render(internalInput, internalOutput);
     internals += 1;
   }

@@ -55,4 +55,5 @@ export const estadoNoticias: Record<string, EstadoNoticia> = {
   'hay-que-pagar-por-una-pagina-web': { status: 'published', datePublished: '2026-11-09T08:47:00-03:00' },
   'crear-pagina-web-gratis': { status: 'published', datePublished: '2026-11-09T08:47:00-03:00' },
   'hosting-gratis-para-tu-negocio': { status: 'published', datePublished: '2026-11-09T08:47:00-03:00' },
+  'falla-critica-php-2026-chile-proteger-sitio-web': { status: 'published', datePublished: '2026-11-09T12:10:00-03:00', dateModified: '2026-11-09T12:10:00-03:00' },
 };
