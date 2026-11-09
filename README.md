@@ -74,30 +74,26 @@ La sección vive en `/noticias/` y en `/noticias/<slug>/`. Los 29 artículos est
 
 - `src/lib/noticias.ts`: normalización de rutas, estado editorial, fechas, categorías, destacadas y relacionadas.
 - `src/lib/noticias-markdown.ts`: render del Markdown, eliminación del H1 y de la imagen interna duplicada, extracción de FAQ/relacionadas, IDs de encabezados y reescritura de enlaces.
-- `src/data/noticias-estado.ts`: estado y fechas reales por artículo. Todos comienzan en borrador.
+- `src/data/noticias-estado.ts`: estado y fechas reales por artículo. Los 29 están publicados con fecha 9 de noviembre de 2026.
 - `src/data/noticias-config.ts`: orden del carrusel (`NOTICIAS_DESTACADAS_IDS`) y categorías.
 - `src/assets/noticias/portadas`: 29 portadas fuente.
 - `src/assets/noticias/internas`: 29 infografías fuente.
 - `public/imagenes/noticias/og`: portadas OG de 1200×675.
 - `public/imagenes/noticias/internas/og`: infografías OG de 1200×675.
 
-### Vista previa y publicación
+### Estado actual y publicación
+
+Las 29 noticias están publicadas e indexables. La fecha de publicación es la real del 9 de noviembre de 2026.
 
 En `src/config.ts`:
 
 ```ts
-export const NOTICIAS_MODO_PREVIA = true;
+export const NOTICIAS_MODO_PREVIA = false;
 ```
 
-Con `true`, las 29 páginas se generan con `noindex`, etiqueta “Borrador editorial” y aparecen en `/noticias/` para revisión. No se incluyen en el sitemap.
+Para despublicar un artículo, cambie su entrada en `src/data/noticias-estado.ts` a `status: 'draft'` o elimínela. Dejará de generarse como ruta pública y saldrá del sitemap.
 
-Para publicar un artículo:
-
-1. Agregue su slug en `src/data/noticias-estado.ts` con `status: 'published'` y una fecha real ISO 8601 con zona horaria.
-2. Cambie `NOTICIAS_MODO_PREVIA` a `false`.
-3. Compile y despliegue.
-
-Con `false` solo se generan los artículos publicados; los borradores dejan de existir como rutas públicas y no se enlazan.
+Para revisar borradores antes de publicarlos, ponga `NOTICIAS_MODO_PREVIA = true`: las noticias visibles se generan con `noindex` y etiqueta “Borrador editorial”, sin entrar al sitemap. Vuelva a `false` al terminar.
 
 ### Imágenes y OG
 
@@ -109,8 +105,8 @@ npm run og:noticias
 
 ### Pendientes editoriales
 
-- `ley-21719-sitio-web`: revisar el contenido legal. Si se publica desde el 1 de diciembre de 2026, aplicar el título de actualización del paquete y el tiempo presente.
-- `dominio-cl-precio-y-renovacion`: confirmar el precio comercial antes de publicar. La tarifa directa de NIC y la gestión de Fractal Host son cosas distintas.
+- `ley-21719-sitio-web`: revisar el contenido legal. Se publicó antes del 1 de diciembre de 2026; si se actualiza después de esa fecha, aplicar el título de actualización del paquete y el tiempo presente.
+- `dominio-cl-precio-y-renovacion`: confirmar el precio comercial. La tarifa directa de NIC y la gestión de Fractal Host son cosas distintas.
 
 ### Voz
 

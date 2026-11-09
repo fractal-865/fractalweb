@@ -6,6 +6,8 @@ import { paginasServicios } from '../data/paginas-servicios';
 import { BORRADOR } from '../config';
 import { noticiasVisibles } from '../lib/noticias';
 import { link } from '../lib/url';
+
+const hayBorradores = noticiasVisibles.some((noticia) => !noticia.isPublished);
 ---
 
 <PageLayout
@@ -87,7 +89,7 @@ import { link } from '../lib/url';
       <div class="section-head">
         <span class="kicker">Noticias</span>
         <h2 class="section-title">Noticias y guías</h2>
-        <p class="section-lead">{noticiasVisibles.length} artículos importados. Están en borrador, con `noindex`, para revisarlos antes de publicar. El índice interno está en <code>/noticias/</code>.</p>
+        <p class="section-lead">{noticiasVisibles.length} artículos. {hayBorradores ? 'Hay borradores en revisión, con `noindex`.' : 'Todos están publicados, indexables y en el sitemap.'} El índice interno está en <code>/noticias/</code>.</p>
       </div>
       <div class="hub-grid">
         <a href={link('/noticias/')} class="hub-card">
@@ -105,7 +107,7 @@ import { link } from '../lib/url';
           </a>
         ))}
       </div>
-      <p class="mt-5 text-[.86rem] text-mut">Para publicar, complete el estado y la fecha real en <code>src/data/noticias-estado.ts</code> y cambie <code>NOTICIAS_MODO_PREVIA</code> a <code>false</code> en <code>src/config.ts</code>.</p>
+      <p class="mt-5 text-[.86rem] text-mut">Para publicar o despublicar una noticia, complete su estado y fecha real en <code>src/data/noticias-estado.ts</code>. Use <code>NOTICIAS_MODO_PREVIA</code> en <code>src/config.ts</code> solo para revisar borradores antes de publicarlos.</p>
     </div>
   </section>
 
