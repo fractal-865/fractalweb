@@ -4,13 +4,15 @@ import Icon from './Icon.astro';
 interface Props {
   url: string;
   title: string;
+  image?: string;
 }
 
-const { url, title } = Astro.props;
+const { url, title, image = '' } = Astro.props;
 const whatsapp = `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`;
+const facebook = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
 ---
 
-<div class="article-share" data-share data-url={url} data-title={title}>
+<div class="article-share" data-share data-url={url} data-title={title} data-image={image}>
   <span class="article-share__label">Compartir</span>
   <a
     href={whatsapp}
@@ -22,6 +24,20 @@ const whatsapp = `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`;
     <Icon name="whatsapp" cls="w-4 h-4" />
     <span>WhatsApp</span>
   </a>
+  <a
+    href={facebook}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="article-share__btn"
+    aria-label="Compartir en Facebook"
+  >
+    <Icon name="facebook" cls="w-4 h-4" />
+    <span>Facebook</span>
+  </a>
+  <button type="button" class="article-share__btn" data-share-instagram aria-label="Compartir en Instagram">
+    <Icon name="instagram" cls="w-4 h-4" />
+    <span>Instagram</span>
+  </button>
   <button type="button" class="article-share__btn" data-share-copy aria-label="Copiar enlace del artículo">
     <Icon name="copy" cls="w-4 h-4" />
     <span>Copiar enlace</span>
@@ -38,9 +54,12 @@ const whatsapp = `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`;
   if (root) {
     const url = root.dataset.url || window.location.href;
     const title = root.dataset.title || document.title;
+    const image = root.dataset.image || '';
     const copyButton = root.querySelector<HTMLButtonElement>('[data-share-copy]');
+    const instagramButton = root.querySelector<HTMLButtonElement>('[data-share-instagram]');
     const nativeButton = root.querySelector<HTMLButtonElement>('[data-share-native]');
     const status = root.querySelector<HTMLElement>('[data-share-status]');
+    let imageFile: File | null = null;
 
     const announce = (message: string) => {
       if (!status) return;
@@ -67,7 +86,7 @@ const whatsapp = `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`;
       area.remove();
     };
 
-    copyButton?.addEventListener('click', async () => {
+    const copyLink = async () => {
       if (navigator.clipboard?.writeText) {
         try {
           await navigator.clipboard.writeText(url);
@@ -78,6 +97,49 @@ const whatsapp = `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`;
         }
       }
       copyFallback();
+    };
+
+    copyButton?.addEventListener('click', async () => {
+      await copyLink();
+    });
+
+    const prepareImage = async () => {
+      if (!image || imageFile) return;
+      try {
+        const response = await fetch(image);
+        if (!response.ok) return;
+        const blob = await response.blob();
+        imageFile = new File([blob], 'noticia-fractal-host.jpg', {
+          type: blob.type || 'image/jpeg',
+        });
+      } catch {
+        // Si la imagen no se puede descargar, se usa el respaldo de enlace.
+      }
+    };
+
+    if (image) prepareImage();
+
+    instagramButton?.addEventListener('click', async () => {
+      if (!imageFile) await prepareImage();
+
+      if (
+        imageFile &&
+        typeof navigator.share === 'function' &&
+        typeof navigator.canShare === 'function' &&
+        navigator.canShare({ files: [imageFile] })
+      ) {
+        try {
+          await navigator.share({ files: [imageFile], title, text: title, url });
+          announce('Imagen lista para compartir.');
+        } catch {
+          // El usuario canceló el menú de compartir.
+        }
+        return;
+      }
+
+      await copyLink();
+      window.open('https://www.instagram.com/', '_blank', 'noopener');
+      announce('Enlace copiado. Pégalo en tu historia o publicación de Instagram.');
     });
 
     if (nativeButton && typeof navigator.share === 'function') {
