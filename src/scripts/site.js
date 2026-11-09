@@ -97,7 +97,7 @@
     if (host && host.shadowRoot && !host.shadowRoot.querySelector('#fhFabFix')){
       var st = document.createElement('style');
       st.id = 'fhFabFix';
-      st.textContent = '.bpFabWrapper { bottom: calc(24px + var(--fp-off, 0px) + env(safe-area-inset-bottom, 0px)) !important; transition: bottom .35s ease !important; }';
+      st.textContent = '.bpFabWrapper { bottom: calc(24px + var(--fp-off, 0px) + env(safe-area-inset-bottom, 0px)) !important; transition: bottom .35s ease !important; } .bpFab { background-color: #0B1220 !important; } .bpFabImage { background-color: #0B1220 !important; }';
       host.shadowRoot.appendChild(st);
     }
     /* Efecto de llamar la atención ahora va en el botón de Botpress (estilo especial: va inyectado al shadow root) */
@@ -107,7 +107,20 @@
       st2.textContent = '@keyframes fhRing { 0%{transform:scale(1);opacity:1} 100%{transform:scale(1.55);opacity:0} } .bpFab { position:relative !important; overflow:visible !important; } .bpFab::after { content:""; position:absolute; inset:0; border-radius:50%; border:2px solid rgba(0,229,255,.6); animation: fhRing 2s ease-out infinite; pointer-events:none; }';
       host.shadowRoot.appendChild(st2);
     }
-    if (intentos > 60) clearInterval(timer);
+    /* Reemplaza el ícono de Botpress (fondo blanco) por el isotipo transparente
+       de Fractal Host sobre el fondo oscuro del FAB. */
+    if (host && host.shadowRoot) {
+      var fabImg = host.shadowRoot.querySelector('img.bpFabImage');
+      if (fabImg && !fabImg.dataset.fhBrand) {
+        var iconLink = document.querySelector('link[rel="icon"][type="image/png"]');
+        var iconHref = iconLink ? iconLink.getAttribute('href') : '';
+        var basePath = iconHref ? iconHref.replace(/\/favicon-96x96\.png$/, '') : '';
+        fabImg.src = basePath + '/web-app-manifest-512x512.png';
+        fabImg.alt = 'Abrir chat de Fractal Host';
+        fabImg.dataset.fhBrand = '1';
+      }
+    }
+    if (intentos > 180) clearInterval(timer);
   }, 500);
 })();
 
