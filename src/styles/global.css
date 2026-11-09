@@ -73,7 +73,14 @@ body.modal-open { overflow: hidden; }
    altura real del banner; bottom=0 está en la base del viewport,
    safe-area ya está en bottom:max(1.25rem,env(...)). */
 body.cookies-open .wa-ring { bottom: calc(var(--cb-off, 110px) + 1.25rem); }
-.wa-ring { transition: bottom .35s ease, scale .3s ease; }
+.wa-ring { transition: bottom .35s ease, scale .3s ease, opacity .25s ease, visibility .25s ease, transform .25s ease; }
+.wa-ring.hero-float-oculto,
+.wa-ring.noticias-float-oculto {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(12px) scale(.9);
+}
 
 /* Burbuja de chat Botpress (fab): que suba junto con la caja de cookies */
 #fab-root { --fp-off: 0px; }
@@ -196,6 +203,55 @@ html.dark body { background-image:
 .inner-depth { box-shadow: inset 0 40px 90px rgba(0,0,0,.55), inset 0 -50px 110px rgba(0,0,0,.6); }
 .slide { position:absolute; inset:0; width:100%; opacity:0; visibility:hidden; transform:translateY(26px) scale(.985); transition: opacity .8s ease, transform .8s ease, visibility .8s ease; pointer-events:none; display:flex; align-items:center; justify-content:center; text-align:center; }
 .slide.is-active { position:relative; opacity:1; visibility:visible; transform:none; pointer-events:auto; }
+/* Hero: texto a la izquierda y pieza gráfica a la derecha, centradas en ambos ejes.
+   En móvil el texto va primero y la imagen debajo, sin recortes ni marcos. */
+.hero-slide {
+  display:grid;
+  grid-template-columns:1fr;
+  align-items:center;
+  gap:1.5rem;
+  width:100%;
+  text-align:left;
+}
+.hero-slide__copy { max-width:680px; }
+.hero-slide__media {
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:0;
+}
+.hero-slide__media::before {
+  content:"";
+  position:absolute;
+  inset:8%;
+  border-radius:50%;
+  background:radial-gradient(closest-side, rgba(0,229,255,.16), rgba(4,7,13,0) 74%);
+  filter:blur(26px);
+  pointer-events:none;
+}
+.hero-slide__media img {
+  position:relative;
+  z-index:1;
+  width:auto;
+  max-width:100%;
+  max-height:clamp(240px, 84vw, 340px);
+  object-fit:contain;
+  filter:drop-shadow(0 26px 50px rgba(0,0,0,.5));
+}
+.hero-slide__copy .kicker { max-width:100%; }
+.hero-slide__copy .kicker::after { display:none; }
+@media (max-width: 639px) {
+  .hero-slide__copy .kicker { letter-spacing:.16em; }
+}
+@media (min-width: 1024px) {
+  .hero-slide {
+    grid-template-columns:minmax(0, 1.04fr) minmax(0, .96fr);
+    gap:clamp(1.5rem, 3vw, 3.25rem);
+    padding-inline:2.75rem;
+  }
+  .hero-slide__media img { max-height:clamp(340px, 31vw, 440px); }
+}
 /* [P2-C] Control visible del carrusel: pausa/play y indicadores de lámina (WCAG 2.2.2) */
 #slideToggle .ico-play { display:none; }
 #slideToggle.is-paused .ico-pause { display:none; }
@@ -204,28 +260,23 @@ html.dark body { background-image:
 .hero-dot::before { content:""; width:.65rem; height:.65rem; border-radius:9999px; background:rgba(255,255,255,.4); transition:background-color .25s ease, transform .25s ease, box-shadow .25s ease; }
 .hero-dot:hover::before { background:rgba(255,255,255,.8); transform:scale(1.12); }
 .hero-dot[aria-current="true"]::before { background:var(--color-yel); transform:scale(1.18); box-shadow:0 0 10px rgba(255,230,0,.55); }
-/* [P2-B] Controles del hero agrupados en una capa (no interceptan el texto
-   ni los CTA: pasan-el-clic). En ≥1024px conservan la posición lateral; por
-   debajo los rails se cruzaban con el párrafo (`.wrap` w-[92%] ⇒ el bloque de
-   760px queda con <56px de aire en pantallas angostas) y pasan a una fila
-   inferior bajo el slider: el texto usa el ancho completo y nada flota
-   encima. La pausa sigue visible en todos los anchos (WCAG 2.2.2). */
-#heroControls { position:absolute; inset:0; z-index:20; pointer-events:none; }
-#heroControls > * { pointer-events:auto; }
-@media (max-width: 1023.98px) {
-  #heroControls {
-    inset: auto 0 -2.5rem; height: 2.5rem; padding: 0 .75rem;
-    display: flex; align-items: center; justify-content: center; gap: .5rem;
-  }
-  /* Tailwind emite `translate: var(--tw-translate-x) var(--tw-translate-y)`;
-     pisar las variables (ID > clase) resetea el vertical de los costados.
-     `translate: 0 0` queda además por si el minificador conserva shorthand. */
-  #slidePrev, #slideNext, #slideToggle, #heroDots {
-    position: static; transform: none; translate: 0 0;
-    --tw-translate-x: 0; --tw-translate-y: 0;
-  }
-  #slidePrev { order: 1; } #slideToggle { order: 2; } #heroDots { order: 3; } #slideNext { order: 4; }
+/* [P2-B] Controles del hero agrupados en una capa única. Van bajo las láminas
+   en todos los anchos para no pisar el texto ni la imagen: flechas, pausa e
+   indicadores quedan centrados en una fila. La pausa sigue visible siempre
+   (WCAG 2.2.2). */
+#heroControls {
+  position:absolute; inset:auto 0 -2.75rem; height:2.75rem; z-index:20;
+  padding:0 .75rem; display:flex; align-items:center; justify-content:center;
+  gap:.6rem; pointer-events:none;
 }
+#heroControls > * { pointer-events:auto; }
+/* Tailwind emite `translate: var(--tw-translate-x) var(--tw-translate-y)`;
+   pisar las variables (ID > clase) resetea los offsets de los costados. */
+#slidePrev, #slideNext, #slideToggle, #heroDots {
+  position:static; transform:none; translate: 0 0;
+  --tw-translate-x: 0; --tw-translate-y: 0;
+}
+#slidePrev { order: 1; } #slideToggle { order: 2; } #heroDots { order: 3; } #slideNext { order: 4; }
 /* Menú móvil cerrado: fuera del orden de tabulación (visibility:hidden quita los enlaces del focus) */
 #mobileMenu { visibility:hidden; transition: transform .3s ease, visibility .3s ease; }
 #mobileMenu.mm-open { visibility:visible; }

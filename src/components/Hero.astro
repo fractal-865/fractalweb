@@ -1,8 +1,14 @@
 ---
+import { Picture } from 'astro:assets';
+import hostingImg from '../assets/hero/hosting.png';
+import sitiosWebImg from '../assets/hero/sitios-web.png';
+import soporteImg from '../assets/hero/soporte.png';
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const imageSizes = '(max-width: 1023px) 88vw, 46vw';
 ---
 
-<section id="inicio" class="on-dark relative pt-[140px] pb-[90px] text-center text-white bg-deep noise gridlines inner-depth overflow-hidden">
+<section id="inicio" class="on-dark relative pt-[140px] pb-[90px] text-white bg-deep noise gridlines inner-depth overflow-hidden">
   <div data-px="0.22" class="absolute inset-0 z-0">
     <img
       src={`${base}/fondo-fractal-hosting.avif`}
@@ -23,37 +29,88 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   <div id="heroSlider" class="relative z-10 wrap min-h-[500px] flex items-center justify-center">
     <div class="slide is-active" data-slide="0" role="group" aria-roledescription="lámina" aria-label="Servicio de hosting en Punta Arenas">
-      <div class="w-full text-center">
-        <span class="kicker on-dark">Servicio de hosting en Punta Arenas</span>
-        <h1 class="font-display font-extrabold uppercase tracking-[.02em] text-[clamp(1.7rem,3.8vw,2.8rem)] leading-tight mt-4 drop-shadow-[0_6px_30px_rgba(0,0,0,.6)]">Hosting en <span class="text-yel drop-shadow-[0_0_22px_rgba(255,230,0,.35)]">Punta Arenas</span> y la Patagonia</h1>
-        <p class="mt-4 mb-3 mx-auto max-w-[760px] text-[#DCE6F0] text-[1.08rem]">Te damos el espacio en servidor que necesitas para publicar tu <strong>página web</strong> y tener tus <strong>correos electrónicos corporativos</strong> (como contacto@tuempresa.cl), respaldado con infraestructura en el Cono Sur para máxima velocidad.</p>
-        <p class="mb-8 inline-flex items-center justify-center gap-2 text-[.95rem] font-semibold text-[#CFE9F2]"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" class="w-5 h-5 stroke-cyt shrink-0" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h2.6l2.3 11.2a1.7 1.7 0 001.7 1.4h8.4a1.7 1.7 0 001.7-1.3l1.4-6.3H6"/></svg>Pagas en línea y empiezas hoy.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="#hosting-global" class="inline-flex bg-yel hover:bg-yelhov text-ink font-display font-bold text-[.98rem] px-10 py-3.5 rounded-md shadow-[0_6px_20px_rgba(255,230,0,.28)] hover:-translate-y-1 transition-all">Ver planes de hosting</a>
+      <div class="hero-slide">
+        <div class="hero-slide__copy">
+          <span class="kicker on-dark">Servicio de hosting en Punta Arenas</span>
+          <h1 class="font-display font-extrabold uppercase tracking-[.02em] text-[clamp(1.7rem,3.8vw,2.8rem)] leading-tight mt-4 drop-shadow-[0_6px_30px_rgba(0,0,0,.6)]">Hosting en <span class="text-yel drop-shadow-[0_0_22px_rgba(255,230,0,.35)]">Punta Arenas</span> y la Patagonia</h1>
+          <p class="mt-4 mb-3 max-w-[620px] text-[#DCE6F0] text-[1.08rem]">Te damos el espacio en servidor que necesitas para publicar tu <strong>página web</strong> y tener tus <strong>correos electrónicos corporativos</strong> (como contacto@tuempresa.cl), respaldado con infraestructura en el Cono Sur para máxima velocidad.</p>
+          <p class="mb-8 inline-flex items-center gap-2 text-[.95rem] font-semibold text-[#CFE9F2]"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" class="w-5 h-5 stroke-cyt shrink-0" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h2.6l2.3 11.2a1.7 1.7 0 001.7 1.4h8.4a1.7 1.7 0 001.7-1.3l1.4-6.3H6"/></svg>Pagas en línea y empiezas hoy.</p>
+          <div class="flex flex-wrap gap-3">
+            <a href="#hosting-global" class="inline-flex bg-yel hover:bg-yelhov text-ink font-display font-bold text-[.98rem] px-10 py-3.5 rounded-md shadow-[0_6px_20px_rgba(255,230,0,.28)] hover:-translate-y-1 transition-all">Ver planes de hosting</a>
+          </div>
+          <div class="mt-7">
+            <p class="font-display font-extrabold text-yel text-[clamp(1.55rem,3.2vw,2.2rem)] leading-none drop-shadow-[0_0_26px_rgba(255,230,0,.4)]">Hosting desde $39.990<span class="text-[1.05rem] font-bold text-white">/año</span></p>
+          </div>
         </div>
-        <div class="mt-7">
-          <p class="font-display font-extrabold text-yel text-[clamp(1.55rem,3.2vw,2.2rem)] leading-none drop-shadow-[0_0_26px_rgba(255,230,0,.4)]">Hosting desde $39.990<span class="text-[1.05rem] font-bold text-white">/año</span></p>
+
+        <div class="hero-slide__media">
+          <Picture
+            src={hostingImg}
+            alt="Rack de servidores con nube, sobre de correo y una ventana de sitio web: hosting y correo corporativo de Fractal Host"
+            formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            widths={[420, 640, 900, 1312]}
+            sizes={imageSizes}
+            quality={88}
+            loading="eager"
+            fetchpriority="high"
+            decoding="sync"
+          />
         </div>
       </div>
     </div>
+
     <div class="slide" data-slide="1" role="group" aria-roledescription="lámina" aria-label="Creación de sitios web en Punta Arenas">
-      <div class="w-full max-w-[900px] mx-auto text-center">
-        <span class="kicker on-dark">Creación de sitios web en Punta Arenas</span>
-        <p class="font-display font-extrabold uppercase tracking-[.02em] text-[clamp(1.7rem,3.8vw,2.8rem)] leading-tight mt-4 drop-shadow-[0_6px_30px_rgba(0,0,0,.6)]">Tu sitio web listo desde <span class="text-yel drop-shadow-[0_0_22px_rgba(255,230,0,.35)]">24 horas</span></p>
-        <p class="mt-4 mb-8 mx-auto max-w-[760px] text-[#DCE6F0] text-[1.08rem]">Micrositio en 24 h · One Page 3 a 7 días · Sitio de empresa 1 a 3 semanas · Tienda en línea 15 a 45 días. Con dominio .cl y primer año de hosting incluidos.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/cotizador`} class="inline-flex bg-yel hover:bg-yelhov text-ink font-display font-bold text-[.98rem] px-10 py-3.5 rounded-md shadow-[0_6px_20px_rgba(255,230,0,.28)] hover:-translate-y-1 transition-all">Cotizar mi sitio</a>
-          <a href="#sitios-web" class="inline-flex border-2 border-white/40 hover:border-cy hover:text-cyt text-white font-display font-bold text-[.98rem] px-8 py-3.5 rounded-md transition-colors">Ver cómo trabajamos</a>
+      <div class="hero-slide">
+        <div class="hero-slide__copy">
+          <span class="kicker on-dark">Creación de sitios web en Punta Arenas</span>
+          <p class="font-display font-extrabold uppercase tracking-[.02em] text-[clamp(1.7rem,3.8vw,2.8rem)] leading-tight mt-4 drop-shadow-[0_6px_30px_rgba(0,0,0,.6)]">Tu sitio web listo desde <span class="text-yel drop-shadow-[0_0_22px_rgba(255,230,0,.35)]">24 horas</span></p>
+          <p class="mt-4 mb-8 max-w-[620px] text-[#DCE6F0] text-[1.08rem]">Micrositio en 24 h · One Page 3 a 7 días · Sitio de empresa 1 a 3 semanas · Tienda en línea 15 a 45 días. Con dominio .cl y primer año de hosting incluidos.</p>
+          <div class="flex flex-wrap gap-3">
+            <a href={`${base}/cotizador`} class="inline-flex bg-yel hover:bg-yelhov text-ink font-display font-bold text-[.98rem] px-10 py-3.5 rounded-md shadow-[0_6px_20px_rgba(255,230,0,.28)] hover:-translate-y-1 transition-all">Cotizar mi sitio</a>
+            <a href="#sitios-web" class="inline-flex border-2 border-white/40 hover:border-cy hover:text-cyt text-white font-display font-bold text-[.98rem] px-8 py-3.5 rounded-md transition-colors">Ver cómo trabajamos</a>
+          </div>
+        </div>
+
+        <div class="hero-slide__media">
+          <Picture
+            src={sitiosWebImg}
+            alt="Monitor y teléfono mostrando un sitio web profesional de Fractal Host, con diseño adaptable"
+            formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            widths={[480, 720, 960, 1536]}
+            sizes={imageSizes}
+            quality={88}
+            loading="eager"
+            decoding="async"
+          />
         </div>
       </div>
     </div>
+
     <div class="slide" data-slide="2" role="group" aria-roledescription="lámina" aria-label="Mantención, seguridad y soluciones digitales">
-      <div class="w-full max-w-[900px] mx-auto text-center">
-        <span class="kicker on-dark">Mantención, seguridad y soluciones digitales</span>
-        <p class="font-display font-extrabold uppercase tracking-[.02em] text-[clamp(1.7rem,3.8vw,2.8rem)] leading-tight mt-4 drop-shadow-[0_6px_30px_rgba(0,0,0,.6)]">Tu <span class="text-yel drop-shadow-[0_0_22px_rgba(255,230,0,.35)]">aliado digital</span> en la Patagonia: más que hosting</p>
-        <p class="mt-4 mb-8 mx-auto max-w-[760px] text-[#DCE6F0] text-[1.08rem]">Te acompañamos con mantención continua, seguridad informática contra ciberataques, adaptación a la Ley 21.719 y soporte directo. Siempre termina atendiéndote una persona.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="#mantencion" class="inline-flex bg-yel hover:bg-yelhov text-ink font-display font-bold text-[.98rem] px-10 py-3.5 rounded-md shadow-[0_6px_20px_rgba(255,230,0,.28)] hover:-translate-y-1 transition-all">Ver mantención y seguridad</a>
+      <div class="hero-slide">
+        <div class="hero-slide__copy">
+          <span class="kicker on-dark">Mantención, seguridad y soluciones digitales</span>
+          <p class="font-display font-extrabold uppercase tracking-[.02em] text-[clamp(1.7rem,3.8vw,2.8rem)] leading-tight mt-4 drop-shadow-[0_6px_30px_rgba(0,0,0,.6)]">Tu <span class="text-yel drop-shadow-[0_0_22px_rgba(255,230,0,.35)]">aliado digital</span> en la Patagonia: más que hosting</p>
+          <p class="mt-4 mb-8 max-w-[620px] text-[#DCE6F0] text-[1.08rem]">Te acompañamos con mantención continua, seguridad informática contra ciberataques, adaptación a la Ley 21.719 y soporte directo. Siempre termina atendiéndote una persona.</p>
+          <div class="flex flex-wrap gap-3">
+            <a href="#mantencion" class="inline-flex bg-yel hover:bg-yelhov text-ink font-display font-bold text-[.98rem] px-10 py-3.5 rounded-md shadow-[0_6px_20px_rgba(255,230,0,.28)] hover:-translate-y-1 transition-all">Ver mantención y seguridad</a>
+          </div>
+        </div>
+
+        <div class="hero-slide__media">
+          <Picture
+            src={soporteImg}
+            alt="Escudo con marca de verificación, engranaje de herramientas y persona con audífonos: seguridad, mantención y soporte de Fractal Host"
+            formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            widths={[480, 720, 960, 1536]}
+            sizes={imageSizes}
+            quality={88}
+            loading="eager"
+            decoding="async"
+          />
         </div>
       </div>
     </div>
@@ -77,3 +134,22 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </div>
   <div id="heroProgress" class="absolute inset-x-0 top-[117px] z-[3] h-[3px] bg-white/20 overflow-hidden" aria-hidden="true"><span id="heroProgressFill" class="block h-full bg-cy transition-all duration-500" style="width:33.34%"></span></div>
 </section>
+
+<script>
+  // El botón flotante de WhatsApp tapa el texto y la imagen del hero en
+  // pantallas bajas. Se oculta mientras el hero está a la vista y reaparece
+  // al salir de la sección.
+  const hero = document.getElementById('inicio');
+  const whatsapp = document.querySelector<HTMLElement>('.wa-ring');
+  if (hero && whatsapp && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          whatsapp.classList.toggle('hero-float-oculto', entry.isIntersecting);
+        });
+      },
+      { threshold: 0.08 }
+    );
+    observer.observe(hero);
+  }
+</script>
