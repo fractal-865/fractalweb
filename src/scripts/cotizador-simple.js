@@ -87,17 +87,25 @@
   var mail = $('sfMail');
   var mensaje = $('sfMensaje');
   var website = $('sfWebsite');
-  var webUrl = $('sfWebUrl');
-  var webUrlWrap = $('sfWebUrlWrap');
+  var tipoWrap = $('sfTipoWrap');
+  var tipoSitio = $('sfTipoSitio');
+  var siteUrlWrap = $('sfSiteUrlWrap');
+  var siteUrl = $('sfSiteUrl');
+  var privacidad = $('sfPrivacidad');
+  var actions = $('sfActions');
+  var waSubmit = $('sfWhatsAppSubmit');
   var submit = $('sfSubmit');
   var success = $('sfSuccess');
   var successTitle = $('sfSuccessTitle');
   var successText = $('sfSuccessText');
   var codeEl = $('sfCode');
   var waLink = $('sfWhatsapp');
+  var waLabel = $('sfWhatsappLabel');
   var again = $('sfAgain');
   var estado = $('sfEstado');
   var empezado = false;
+
+  var radiosObjetivo = Array.prototype.slice.call(form.querySelectorAll('input[name="sfGoal"]'));
 
   function limpiarError(id, campo){
     var el = $(id);
@@ -118,39 +126,84 @@
     if (mensajeTexto) estado.textContent = mensajeTexto;
   }
 
-  function normalizarFono(valor){
-    var d = String(valor || '').replace(/\D/g, '');
-    if (d.indexOf('569') === 0) d = d.slice(3);
-    else if (d.indexOf('56') === 0) d = d.slice(2);
-    if (d.charAt(0) === '9' && d.length > 8) d = d.slice(1);
-    return d.slice(0, 8);
+  function objetivoElegido(){
+    var el = form.querySelector('input[name="sfGoal"]:checked');
+    return el ? el.value : '';
   }
 
-  function formatearFono(){
-    var d = normalizarFono(fono.value);
-    fono.value = d.length > 4 ? d.slice(0, 4) + ' ' + d.slice(4) : d;
+  function telefonoDigitos(){
+    return String(fono.value || '').replace(/\D/g, '');
+  }
+
+  function telefonoValido(){
+    var d = telefonoDigitos();
+    return d.length >= 8 && d.length <= 12;
+  }
+
+  function telefonoOpcionalValido(){
+    var d = telefonoDigitos();
+    return d.length === 0 || (d.length >= 8 && d.length <= 12);
+  }
+
+  function actualizarSplit(){
+    var activo = telefonoValido();
+    actions.classList.toggle('is-split', activo);
+    waSubmit.tabIndex = activo ? 0 : -1;
+    waSubmit.setAttribute('aria-hidden', activo ? 'false' : 'true');
+  }
+
+  function normalizarUrl(valor){
+    var v = String(valor || '').trim();
+    if (!v) return '';
+    if (!/^https?:\/\//i.test(v)) v = 'https://' + v;
+    return v;
+  }
+
+  function urlValida(valor){
+    var v = normalizarUrl(valor);
+    if (!v) return false;
+    try {
+      var u = new URL(v);
+      return /\.[a-z]{2,}/i.test(u.hostname);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function actualizarCondicionales(){
+    var objetivo = objetivoElegido();
+    var esNuevo = objetivo === 'Sitio web nuevo';
+    var esUrl = objetivo === 'Rediseño de sitio web' || objetivo === 'Mantención web';
+
+    tipoWrap.hidden = !esNuevo;
+    siteUrlWrap.hidden = !esUrl;
+
+    if (esUrl && !siteUrl.value.trim()) siteUrl.value = 'https://';
+    if (!esNuevo) limpiarError('sfErrTipo', tipoSitio);
+    if (!esUrl) limpiarError('sfErrSiteUrl', siteUrl);
   }
 
   fono.addEventListener('input', function(){
-    formatearFono();
     limpiarError('sfErrFono', fono);
+    actualizarSplit();
   });
+  fono.addEventListener('change', actualizarSplit);
 
   nombre.addEventListener('input', function(){ limpiarError('sfErrNombre', nombre); });
   mail.addEventListener('input', function(){ limpiarError('sfErrMail', mail); });
+  tipoSitio.addEventListener('change', function(){ limpiarError('sfErrTipo', tipoSitio); });
+  privacidad.addEventListener('change', function(){ limpiarError('sfErrPrivacidad', privacidad); });
 
-  var radiosObjetivo = Array.prototype.slice.call(form.querySelectorAll('input[name="sfGoal"]'));
-  var radiosWeb = Array.prototype.slice.call(form.querySelectorAll('input[name="sfWeb"]'));
-
-  radiosObjetivo.forEach(function(r){
-    r.addEventListener('change', function(){ limpiarError('sfErrGoal', null); });
+  siteUrl.addEventListener('input', function(){ limpiarError('sfErrSiteUrl', siteUrl); });
+  siteUrl.addEventListener('blur', function(){
+    var v = siteUrl.value.trim();
+    if (v && !/^https?:\/\//i.test(v)) siteUrl.value = 'https://' + v;
   });
 
-  radiosWeb.forEach(function(r){
+  radiosObjetivo.forEach(function(r){
     r.addEventListener('change', function(){
-      limpiarError('sfErrWeb', null);
-      webUrlWrap.hidden = r.value !== 'si';
-      if (r.value !== 'si') webUrl.value = '';
+      limpiarError('sfErrGoal', null);
+      actualizarCondicionales();
     });
   });
 
@@ -162,16 +215,6 @@
   form.addEventListener('input', unaVez, { once: true });
   form.addEventListener('change', unaVez, { once: true });
 
-  function objetivoElegido(){
-    var el = form.querySelector('input[name="sfGoal"]:checked');
-    return el ? el.value : '';
-  }
-
-  function webElegida(){
-    var el = form.querySelector('input[name="sfWeb"]:checked');
-    return el ? el.value : '';
-  }
-
   function validar(){
     var ok = true;
     var primero = null;
@@ -179,7 +222,11 @@
     limpiarError('sfErrFono', fono);
     limpiarError('sfErrMail', mail);
     limpiarError('sfErrGoal', null);
-    limpiarError('sfErrWeb', null);
+    limpiarError('sfErrTipo', tipoSitio);
+    limpiarError('sfErrSiteUrl', siteUrl);
+    limpiarError('sfErrPrivacidad', privacidad);
+
+    var objetivo = objetivoElegido();
 
     if (nombre.value.trim().length < 2) {
       marcarError('sfErrNombre', nombre);
@@ -187,7 +234,7 @@
       ok = false;
     }
 
-    if (normalizarFono(fono.value).length !== 8) {
+    if (fono.value.trim() && !telefonoOpcionalValido()) {
       marcarError('sfErrFono', fono);
       if (!primero) primero = fono;
       ok = false;
@@ -199,15 +246,27 @@
       ok = false;
     }
 
-    if (!objetivoElegido()) {
+    if (!objetivo) {
       marcarError('sfErrGoal', null);
       if (!primero) primero = radiosObjetivo[0];
       ok = false;
     }
 
-    if (!webElegida()) {
-      marcarError('sfErrWeb', null);
-      if (!primero) primero = radiosWeb[0];
+    if (objetivo === 'Sitio web nuevo' && !tipoSitio.value) {
+      marcarError('sfErrTipo', tipoSitio);
+      if (!primero) primero = tipoSitio;
+      ok = false;
+    }
+
+    if ((objetivo === 'Rediseño de sitio web' || objetivo === 'Mantención web') && !urlValida(siteUrl.value)) {
+      marcarError('sfErrSiteUrl', siteUrl);
+      if (!primero) primero = siteUrl;
+      ok = false;
+    }
+
+    if (!privacidad.checked) {
+      marcarError('sfErrPrivacidad', privacidad);
+      if (!primero) primero = privacidad;
       ok = false;
     }
 
@@ -225,55 +284,63 @@
   }
 
   function datos(){
-    var nombreTxt = nombre.value.trim();
-    var fonoTxt = normalizarFono(fono.value);
-    var mailTxt = mail.value.trim();
     var objetivo = objetivoElegido();
-    var web = webElegida();
-    var url = webUrl.value.trim();
-    var mensajeTxt = mensaje.value.trim();
-    var webTxt = web === 'si'
-      ? (url ? 'Sí, ' + url : 'Sí, pero no indicó la dirección')
-      : 'No tiene sitio web';
+    var esNuevo = objetivo === 'Sitio web nuevo';
+    var esUrl = objetivo === 'Rediseño de sitio web' || objetivo === 'Mantención web';
     return {
-      nombre: nombreTxt,
-      fono: fonoTxt,
-      mail: mailTxt,
+      nombre: nombre.value.trim(),
+      fono: fono.value.trim(),
+      mail: mail.value.trim(),
       objetivo: objetivo,
-      web: web,
-      webTxt: webTxt,
-      mensaje: mensajeTxt
+      tipo: esNuevo ? tipoSitio.value : '',
+      url: esUrl ? normalizarUrl(siteUrl.value) : '',
+      mensaje: mensaje.value.trim()
     };
   }
 
   function resumenWhatsApp(d, codigo){
     var lineas = [
-      'Hola Fractal Host, soy ' + d.nombre + '. Envié el formulario simple del cotizador.',
+      'Hola Fractal Host, soy ' + d.nombre + '. Quiero cotizar por WhatsApp.',
       '• Código: ' + codigo,
-      '• Necesito: ' + d.objetivo,
-      '• Sitio web: ' + d.webTxt
+      '• Necesito: ' + d.objetivo
     ];
+    if (d.tipo) lineas.push('• Tipo de sitio: ' + d.tipo);
+    if (d.url) lineas.push('• Sitio actual: ' + d.url);
     if (d.mensaje) lineas.push('• Mensaje: ' + d.mensaje);
-    lineas.push('• Mi contacto: +56 9 ' + d.fono + ' / ' + d.mail);
+    lineas.push('• Mi contacto: ' + (d.fono || 'sin teléfono') + ' / ' + d.mail);
     lineas.push('Quedo atento(a) a la cotización. Gracias.');
     return lineas.join('\n');
   }
 
-  function mostrarExito(d, codigo, enviado){
+  function mostrarExito(d, codigo, canal, enviado){
     var primerNombre = d.nombre.split(' ')[0] || '';
-    successTitle.textContent = primerNombre ? '¡Recibido, ' + primerNombre + '!' : '¡Recibido!';
-    successText.innerHTML = enviado
-      ? 'Recibimos tu solicitud. Te escribimos a <b>' + d.mail + '</b> en menos de 24 h hábiles.'
-      : 'Tu solicitud quedó lista. Envíala por WhatsApp para que la recibamos ahora y te respondamos en menos de 24 h hábiles.';
+    successTitle.textContent = primerNombre ? '¡Listo, ' + primerNombre + '!' : '¡Listo!';
+
+    if (canal === 'whatsapp') {
+      successText.innerHTML = 'Abrimos WhatsApp con tu solicitud. Envía el mensaje para que la recibamos y te respondamos en menos de 24 h hábiles.';
+      if (waLabel) waLabel.textContent = 'Abrir WhatsApp';
+    } else {
+      successText.innerHTML = enviado
+        ? 'Recibimos tu solicitud. Te escribimos a <b>' + d.mail + '</b> en menos de 24 h hábiles.'
+        : 'Tu solicitud quedó lista. Envíala por WhatsApp para que la recibamos ahora y te respondamos en menos de 24 h hábiles.';
+      if (waLabel) waLabel.textContent = 'Enviar por WhatsApp';
+    }
+
     codeEl.textContent = codigo;
     waLink.href = 'https://wa.me/56954132014?text=' + encodeURIComponent(resumenWhatsApp(d, codigo));
     form.hidden = true;
     success.hidden = false;
     estado.textContent = '';
+
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     success.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
     successTitle.focus({ preventScroll: true });
-    track('generate_lead', { form: 'simple', goal: d.objetivo, metodo: enviado ? 'email' : 'whatsapp' });
+    track('generate_lead', { form: 'simple', goal: d.objetivo, canal: canal, tipo_sitio: d.tipo || 'no aplica' });
+  }
+
+  function bloquearBotones(bloqueado){
+    submit.disabled = bloqueado;
+    waSubmit.disabled = bloqueado;
   }
 
   form.addEventListener('submit', async function(e){
@@ -282,8 +349,8 @@
 
     var d = datos();
     var honeypot = website.value.trim();
-    var textoBoton = submit.innerHTML;
-    submit.disabled = true;
+    var htmlBoton = submit.innerHTML;
+    bloquearBotones(true);
     submit.textContent = 'Enviando…';
     estado.textContent = 'Enviando tu solicitud.';
 
@@ -293,22 +360,25 @@
     if (!honeypot) {
       var fd = new FormData();
       fd.append('nombre', d.nombre);
-      fd.append('telefono', '+56 9 ' + d.fono);
+      fd.append('telefono', d.fono || 'No indicado');
       fd.append('correo', d.mail);
       fd.append('persona', 'No especificado');
-      fd.append('tipo', d.objetivo);
+      fd.append('tipo', d.tipo || d.objetivo);
       fd.append('variante', 'Formulario simple');
-      fd.append('extra', d.webTxt);
+      fd.append('extra', 'Necesita: ' + d.objetivo + (d.tipo ? '\nTipo de sitio: ' + d.tipo : '') + (d.url ? '\nSitio actual: ' + d.url : ''));
       fd.append('plazo', 'Por definir');
       fd.append('precio', 'Por definir');
-      fd.append('dominio', d.web === 'si' ? d.webTxt : 'No tiene');
+      fd.append('dominio', d.url || 'No aplica');
       fd.append('contenidos', '');
       fd.append('pago', 'Por definir');
       fd.append('mensaje', d.mensaje);
-      fd.append('detalle', 'Formulario simple\nNecesita: ' + d.objetivo + '\nSitio web: ' + d.webTxt + (d.mensaje ? '\nMensaje: ' + d.mensaje : ''));
+      fd.append('detalle', 'Formulario simple\nNecesita: ' + d.objetivo + (d.tipo ? '\nTipo de sitio: ' + d.tipo : '') + (d.url ? '\nSitio actual: ' + d.url : '') + (d.mensaje ? '\nMensaje: ' + d.mensaje : ''));
       fd.append('hosting', 'Por definir');
       fd.append('fh_website', honeypot);
       fd.append('origen', 'simple');
+      fd.append('canal', 'email');
+      fd.append('tipo_sitio', d.tipo);
+      fd.append('sitio_actual', d.url);
 
       try {
         var resp = await fetch('cotizacion-enviar.php', { method: 'POST', body: fd });
@@ -318,8 +388,6 @@
             var json = JSON.parse(txt);
             if (json && json.codigo) codigo = json.codigo;
             if (json && json.ok) enviado = true;
-          } else {
-            /* El servidor no devolvió JSON: se usa el respaldo por WhatsApp. */
           }
         }
       } catch (err) {
@@ -330,20 +398,35 @@
     }
 
     if (!codigo) codigo = codigoLocal();
-    mostrarExito(d, codigo, enviado);
-    submit.disabled = false;
-    submit.innerHTML = textoBoton;
+    mostrarExito(d, codigo, 'email', enviado);
+    bloquearBotones(false);
+    submit.innerHTML = htmlBoton;
+  });
+
+  waSubmit.addEventListener('click', function(){
+    if (!validar()) return;
+
+    var d = datos();
+    var codigo = codigoLocal();
+    mostrarExito(d, codigo, 'whatsapp', true);
+    var waUrl = waLink.href;
+
+    track('cotizador_simple_whatsapp', { goal: d.objetivo, tipo_sitio: d.tipo || 'no aplica' });
+    window.open(waUrl, '_blank', 'noopener');
   });
 
   again.addEventListener('click', function(){
     form.reset();
     form.hidden = false;
     success.hidden = true;
-    webUrlWrap.hidden = true;
-    ['sfErrNombre','sfErrFono','sfErrMail','sfErrGoal','sfErrWeb'].forEach(function(id){
+    tipoWrap.hidden = true;
+    siteUrlWrap.hidden = true;
+    siteUrl.value = 'https://';
+    actualizarSplit();
+    ['sfErrNombre','sfErrFono','sfErrMail','sfErrGoal','sfErrTipo','sfErrSiteUrl','sfErrPrivacidad'].forEach(function(id){
       var el = $(id); if (el) el.hidden = true;
     });
-    [nombre, fono, mail].forEach(function(el){
+    [nombre, fono, mail, tipoSitio, siteUrl, privacidad].forEach(function(el){
       el.removeAttribute('aria-invalid');
       el.classList.remove('cot-field-err');
     });
@@ -351,7 +434,10 @@
     nombre.focus();
   });
 
+  actualizarSplit();
+  actualizarCondicionales();
+
   waLink.addEventListener('click', function(){
-    track('cotizador_simple_whatsapp', { goal: objetivoElegido() });
+    track('cotizador_simple_whatsapp', { goal: objetivoElegido(), tipo_sitio: tipoSitio.value || 'no aplica' });
   });
 })();
