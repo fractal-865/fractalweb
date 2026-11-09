@@ -14,7 +14,6 @@ export type CategoriaNoticia = {
 
 export const CATEGORIAS_NOTICIAS: CategoriaNoticia[] = [
   { name: 'Sitios web', slug: 'sitios-web' },
-  { name: 'Diseño web y UX', slug: 'diseno-web-y-ux' },
   { name: 'Mantención', slug: 'mantencion' },
   { name: 'Hosting', slug: 'hosting' },
   { name: 'Ciudades', slug: 'ciudades' },

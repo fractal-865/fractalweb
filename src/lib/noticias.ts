@@ -332,12 +332,6 @@ export const getCtaForNoticia = (noticia: Noticia) => {
       href: '/sitios-web/',
       label: 'Ver tipos de sitio',
     },
-    'Diseño web y UX': {
-      title: '¿Quiere revisar el diseño y la experiencia de su sitio?',
-      text: 'Revisamos claridad, navegación y conversión para que su sitio sea más fácil de usar.',
-      href: '/sitios-web/',
-      label: 'Ver sitios web',
-    },
     'Mantención': {
       title: '¿Su sitio necesita mantención?',
       text: 'Actualizaciones, respaldos, monitoreo y soporte directo para su WordPress.',
