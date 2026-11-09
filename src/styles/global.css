@@ -261,7 +261,7 @@ html.dark body { background-image:
   margin:0;
   font-family:var(--font-display);
   font-weight:800;
-  font-size:clamp(1.45rem, 2vw, 1.9rem);
+  font-size:clamp(1.02rem, 1.4vw, 1.33rem);
   line-height:1.12;
   color:var(--color-yel);
   text-shadow:0 0 26px rgba(255,230,0,.35);
